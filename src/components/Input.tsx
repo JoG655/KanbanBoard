@@ -25,18 +25,13 @@ export function Input({
   ...rest
 }: InputProps) {
   return (
-    <>
-      <label className={labelStyle({ styleStack })}>
-        {childrenInsertion === "Prepend" ? LabelContent(children) : null}
-        <input
-          className={twMerge(
-            inputStyle({ styleVariant, styleSize }),
-            className,
-          )}
-          {...rest}
-        />
-        {childrenInsertion === "Append" ? LabelContent(children) : null}
-      </label>
-    </>
+    <label className={labelStyle({ styleSize, styleStack })}>
+      {childrenInsertion === "Prepend" ? LabelContent(children) : null}
+      <input
+        className={twMerge(inputStyle({ styleVariant, styleSize }), className)}
+        {...rest}
+      />
+      {childrenInsertion === "Append" ? LabelContent(children) : null}
+    </label>
   );
 }

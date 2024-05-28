@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 
-export const inputStyle = cva(
+export const selectStyle = cva(
   [
     "rounded-lg",
     "border-2",
