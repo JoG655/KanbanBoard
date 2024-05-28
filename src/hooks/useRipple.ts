@@ -2,7 +2,7 @@ import { type RefObject, useCallback, useRef } from "react";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../..//tailwind.config";
 
-const DEFAULT_COLOR = resolveConfig(tailwindConfig).theme.colors.secondary[500];
+const DEFAULT_COLOR = resolveConfig(tailwindConfig).theme.colors.focus;
 const DEFAULT_DURATION = 500;
 
 type MinimalEvent = {

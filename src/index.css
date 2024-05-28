@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Scrollbar */
 * {
   scrollbar-width: thin;
   scrollbar-color: theme(colors.scrollbar) transparent;
@@ -38,6 +39,7 @@
 /* Spinner */
 .spinner {
   --spinner-gap: 10ch;
+  --spinner-text-color: theme(colors.primary.800);
   --spinner-text-shadow-blur-radius: 0.4rem;
   --spinner-text-shadow-color: theme(colors.primary.50);
   --spinner-animation-index: 1;
@@ -50,13 +52,19 @@
 
   @apply relative grid place-items-center rounded-full;
 }
+.dark .spinner {
+  --spinner-text-color: theme(colors.primary.50);
+  --spinner-text-shadow-color: theme(colors.primary.800);
+  --spinner-animation-color-even: theme(colors.primary.50);
+}
 .spinner:not(:has(.spinner__text)) {
   --spinner-gap: 0px;
 }
 
 .spinner__text {
-  @apply absolute px-2 text-center text-sm font-black text-primary-800;
+  @apply absolute px-2 text-center text-sm font-black;
 
+  color: var(--spinner-text-color);
   grid-row: 1 / -1;
   grid-column: 1 / -1;
   text-shadow:
@@ -122,12 +130,14 @@
   }
 }
 
+/* Ripple */
 .ripple {
-  --ripple-animation-color: theme(colors.secondary.500);
+  --ripple-animation-color: theme(colors.focus);
   --ripple-animation-duration: 3000ms;
 
   @apply relative;
 }
+
 .ripple__animation {
   --ripple-animation-left: 50%;
   --ripple-animation-top: 50%;

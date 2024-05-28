@@ -1,8 +1,9 @@
 import "./App.css";
 
-import { Button, type ButtonProps } from "./components/Button";
 import { Spinner, type SpinnerProps } from "./components/Spinner";
-import { Moon, Plus, Sun } from "lucide-react";
+import { Button, type ButtonProps } from "./components/Button";
+import { Input, type InputProps } from "./components/Input";
+import { Moon, Plus, Search, Sun } from "lucide-react";
 import { Switch } from "./components/Switch";
 import { useState } from "react";
 
@@ -11,12 +12,19 @@ const spinnerAnimationCounts: SpinnerProps["animationCount"][] = [
   1, 2, 3, 4, 5,
 ];
 
-const buttonVariants: ButtonProps["variant"][] = [
+const buttonStyleVariants: ButtonProps["styleVariant"][] = [
   "primary",
+  "secondary",
   "outline",
   "ghost",
 ];
-const buttonSizes: ButtonProps["size"][] = ["sm", "md", "lg", "xl"];
+const buttonStyleSizes: ButtonProps["styleSize"][] = ["sm", "md", "lg", "xl"];
+
+const inputStyleVariants: InputProps["styleVariant"][] = [
+  "primary",
+  "secondary",
+];
+const inputStyleSizes: InputProps["styleSize"][] = ["sm", "md", "lg", "xl"];
 
 function Bonus() {
   const [isChecked, setIsChecked] = useState(true);
@@ -36,7 +44,7 @@ function Bonus() {
               <div className="mt-8 grid place-items-center gap-12">
                 {spinnerTexts.map((spinnerText) => (
                   <div
-                    className="flex items-center justify-center gap-6"
+                    className="flex items-start justify-center gap-6"
                     key={spinnerText}
                   >
                     <div className="grid gap-2">
@@ -57,22 +65,22 @@ function Bonus() {
                   </div>
                 ))}
 
-                {buttonVariants.map((buttonVariant) => (
+                {buttonStyleVariants.map((buttonStyleVariant) => (
                   <div
-                    className="flex items-center justify-center gap-6"
-                    key={buttonVariant}
+                    className="flex items-start justify-center gap-6"
+                    key={buttonStyleVariant}
                   >
                     <div className="grid gap-2">
                       <h2 className="text-xl font-bold uppercase tracking-wide">
-                        {buttonVariant} Buttons
+                        {buttonStyleVariant} Buttons
                       </h2>
                       <div className="flex flex-wrap items-center justify-center gap-4">
-                        {buttonSizes.map((buttonSize, index) => (
+                        {buttonStyleSizes.map((buttonStyleSize, index) => (
                           <Button
-                            variant={buttonVariant}
-                            size={buttonSize}
-                            disabled={index === buttonSizes.length - 1}
-                            key={buttonSize}
+                            styleVariant={buttonStyleVariant}
+                            styleSize={buttonStyleSize}
+                            disabled={index === buttonStyleSizes.length - 1}
+                            key={buttonStyleSize}
                           >
                             <span>Learn More</span>
                             <span>&rarr;</span>
@@ -82,19 +90,99 @@ function Bonus() {
                     </div>
                     <div className="grid gap-2">
                       <h2 className="text-xl font-bold uppercase tracking-wide">
-                        {buttonVariant} Icon
+                        {buttonStyleVariant} Icon
                       </h2>
                       <div className="flex flex-wrap items-center justify-center gap-4">
-                        {buttonSizes.map((buttonSize, index) => (
+                        {buttonStyleSizes.map((buttonStyleSize, index) => (
                           <Button
-                            variant={buttonVariant}
-                            size={buttonSize}
-                            btnType="icon"
-                            disabled={index === buttonSizes.length - 1}
-                            key={buttonSize}
+                            styleVariant={buttonStyleVariant}
+                            styleSize={buttonStyleSize}
+                            styleType="icon"
+                            disabled={index === buttonStyleSizes.length - 1}
+                            key={buttonStyleSize}
                           >
                             <Plus />
                           </Button>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="grid gap-2">
+                      <h2 className="text-xl font-bold uppercase tracking-wide">
+                        {buttonStyleVariant} Stack
+                      </h2>
+                      <div className="flex flex-wrap items-center justify-center gap-4">
+                        {buttonStyleSizes.map((buttonStyleSize, index) => (
+                          <Button
+                            styleVariant={buttonStyleVariant}
+                            styleSize={buttonStyleSize}
+                            styleStack={true}
+                            disabled={index === buttonStyleSizes.length - 1}
+                            key={buttonStyleSize}
+                          >
+                            <span>Learn More</span>
+                            <span>&rarr;</span>
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {inputStyleVariants.map((inputStyleVariant) => (
+                  <div
+                    className="flex items-start justify-center gap-6"
+                    key={inputStyleVariant}
+                  >
+                    <div className="grid gap-2">
+                      <h2 className="text-xl font-bold uppercase tracking-wide">
+                        {inputStyleVariant} Inputs
+                      </h2>
+                      <div className="flex flex-wrap items-center justify-center gap-4">
+                        {inputStyleSizes.map((inputStyleSize, index) => (
+                          <Input
+                            styleVariant={inputStyleVariant}
+                            styleSize={inputStyleSize}
+                            type="search"
+                            defaultValue={
+                              index === inputStyleSizes.length - 2
+                                ? "Read only text"
+                                : index === inputStyleSizes.length - 1
+                                  ? "Disabled text"
+                                  : ""
+                            }
+                            readOnly={index === inputStyleSizes.length - 2}
+                            disabled={index === inputStyleSizes.length - 1}
+                            key={inputStyleSize}
+                          >
+                            <Search />
+                          </Input>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="grid gap-2">
+                      <h2 className="text-xl font-bold uppercase tracking-wide">
+                        {inputStyleVariant} Stack
+                      </h2>
+                      <div className="flex flex-wrap items-center justify-center gap-4">
+                        {inputStyleSizes.map((inputStyleSize, index) => (
+                          <Input
+                            styleVariant={inputStyleVariant}
+                            styleSize={inputStyleSize}
+                            styleStack={true}
+                            type="search"
+                            defaultValue={
+                              index === inputStyleSizes.length - 2
+                                ? "Read only text"
+                                : index === inputStyleSizes.length - 1
+                                  ? "Disabled text"
+                                  : ""
+                            }
+                            readOnly={index === inputStyleSizes.length - 2}
+                            disabled={index === inputStyleSizes.length - 1}
+                            key={inputStyleSize}
+                          >
+                            <Search />
+                          </Input>
                         ))}
                       </div>
                     </div>
@@ -112,7 +200,6 @@ function Bonus() {
 function App() {
   return (
     <>
-      <nav className="sticky top-0 flex w-full items-center justify-center gap-4 border-b-2 border-primary-700 bg-white p-4 text-lg"></nav>
       <main className="mx-auto flex min-h-dvh max-w-7xl flex-grow flex-col items-center scroll-smooth px-1 py-4 md:px-4 md:py-6">
         <Bonus />
       </main>

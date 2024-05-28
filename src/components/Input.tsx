@@ -1,12 +1,12 @@
 import { type VariantProps } from "class-variance-authority";
-import { inputStyle } from "../styles/inputStyle";
+import { inputStyle, labelStyle } from "../styles/inputStyle";
 import { type ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 export type InputProps = VariantProps<typeof inputStyle> &
+  VariantProps<typeof labelStyle> &
   ComponentPropsWithoutRef<"input"> & {
     childrenInsertion?: "Prepend" | "Append";
-    childrenStack?: boolean;
   };
 
 function LabelContent(children: InputProps["children"]) {
@@ -16,27 +16,21 @@ function LabelContent(children: InputProps["children"]) {
 }
 
 export function Input({
-  variant,
-  size,
+  styleVariant,
+  styleSize,
+  styleStack,
   className,
   children,
   childrenInsertion = "Prepend",
-  childrenStack = false,
   ...rest
 }: InputProps) {
   return (
     <>
-      <label
-        className={twMerge(
-          "flex items-center gap-2 hover:cursor-pointer",
-          childrenStack ? "flex-col" : null,
-        )}
-      >
+      <label className={labelStyle({ styleStack })}>
         {childrenInsertion === "Prepend" ? LabelContent(children) : null}
         <input
           className={twMerge(
-            inputStyle({ variant, size }),
-            !children ? "mr-2" : null,
+            inputStyle({ styleVariant, styleSize }),
             className,
           )}
           {...rest}

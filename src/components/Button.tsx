@@ -6,15 +6,14 @@ import { useRipple } from "../hooks/useRipple";
 
 export type ButtonProps = VariantProps<typeof buttonStyle> & {
   ripple?: boolean;
-  childrenStack?: boolean;
 } & ComponentPropsWithoutRef<"button">;
 
 export function Button({
-  variant,
-  size,
-  btnType,
+  styleVariant,
+  styleSize,
+  styleType,
+  styleStack,
   ripple = true,
-  childrenStack = false,
   className,
   onClick,
   children,
@@ -35,8 +34,7 @@ export function Button({
     <button
       ref={ref}
       className={twMerge(
-        buttonStyle({ variant, size, btnType }),
-        childrenStack ? "flex-col" : null,
+        buttonStyle({ styleVariant, styleSize, styleType, styleStack }),
         className,
       )}
       onClick={handleOnClick}
