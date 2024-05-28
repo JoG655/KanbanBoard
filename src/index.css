@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: theme(colors.scrollbar) transparent;
+}
+
+*::-webkit-scrollbar {
+  @apply w-2;
+}
+
+*::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-scrollbar;
+}
+
+.scrollbar-hidden {
+  scrollbar-color: transparent transparent;
+}
+
+.scrollbar-hidden:hover {
+  scrollbar-color: theme(colors.scrollbar) transparent;
+}
+
+.scrollbar-hidden::-webkit-scrollbar-thumb {
+  @apply bg-transparent;
+}
+
+.scrollbar-hidden:hover::-webkit-scrollbar-thumb {
+  @apply bg-scrollbar;
+}
+
+/* Spinner */
+.spinner {
+  --spinner-gap: 10ch;
+  --spinner-text-shadow-blur-radius: 0.4rem;
+  --spinner-text-shadow-color: theme(colors.primary.50);
+  --spinner-animation-index: 1;
+  --spinner-animation-index-duration-factor: 1;
+  --spinner-animation-duration: 3s;
+  --spinner-animation-size: 0.3rem;
+  --spinner-animation-gap: 0.2rem;
+  --spinner-animation-color-even: theme(colors.primary.500);
+  --spinner-animation-color-odd: theme(colors.secondary.500);
+
+  @apply relative grid place-items-center rounded-full;
+}
+.spinner:not(:has(.spinner__text)) {
+  --spinner-gap: 0px;
+}
+
+.spinner__text {
+  @apply absolute px-2 text-center text-sm font-black text-primary-800;
+
+  grid-row: 1 / -1;
+  grid-column: 1 / -1;
+  text-shadow:
+    0 -1px var(--spinner-text-shadow-blur-radius) var(--spinner-text-shadow-color),
+    0 1px var(--spinner-text-shadow-blur-radius)
+      var(--spinner-text-shadow-color),
+    1px -1px var(--spinner-text-shadow-blur-radius) var(--spinner-text-shadow-color),
+    1px 0 var(--spinner-text-shadow-blur-radius)
+      var(--spinner-text-shadow-color),
+    1px 1px var(--spinner-text-shadow-blur-radius)
+      var(--spinner-text-shadow-color),
+    -1px -1px var(--spinner-text-shadow-blur-radius)
+      var(--spinner-text-shadow-color),
+    -1px 0 var(--spinner-text-shadow-blur-radius) var(--spinner-text-shadow-color),
+    -1px 1px var(--spinner-text-shadow-blur-radius) var(--spinner-text-shadow-color);
+}
+
+.spinner__animation {
+  @apply rounded-full border-solid border-x-transparent;
+
+  grid-row: 1 / -1;
+  grid-column: 1 / -1;
+  border-block-width: var(--spinner-animation-size);
+  border-top-color: var(--spinner-animation-color-even);
+  border-bottom-color: var(--spinner-animation-color-even);
+  padding: calc(
+    (
+        var(--spinner-animation-index) *
+          (var(--spinner-animation-size) + var(--spinner-animation-gap))
+      ) + (var(--spinner-gap) / 2)
+  );
+  animation: spinner var(--spinner-animation-duration) linear infinite;
+  animation-duration: calc(
+    var(--spinner-animation-index) *
+      var(--spinner-animation-index-duration-factor) *
+      var(--spinner-animation-duration)
+  );
+}
+.spinner__animation:nth-of-type(2n + 1) {
+  border-top-color: var(--spinner-animation-color-odd);
+  border-bottom-color: var(--spinner-animation-color-odd);
+  animation-direction: reverse;
+}
+.spinner__animation:nth-of-type(2) {
+  --spinner-animation-index: 2;
+}
+.spinner__animation:nth-of-type(3) {
+  --spinner-animation-index: 3;
+}
+.spinner__animation:nth-of-type(4) {
+  --spinner-animation-index: 4;
+}
+.spinner__animation:nth-of-type(5) {
+  --spinner-animation-index: 5;
+}
+.spinner__animation:nth-of-type(6) {
+  --spinner-animation-index: 6;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ripple {
+  --ripple-animation-color: theme(colors.secondary.500);
+  --ripple-animation-duration: 3000ms;
+
+  @apply relative;
+}
+.ripple__animation {
+  --ripple-animation-left: 50%;
+  --ripple-animation-top: 50%;
+  --ripple-animation-size: 100%;
+
+  @apply absolute inset-0 overflow-hidden;
+
+  border-radius: inherit;
+}
+.ripple__animation::after {
+  @apply pointer-events-none absolute rounded-full transition-colors;
+
+  content: "";
+  left: var(--ripple-animation-left);
+  top: var(--ripple-animation-top);
+  height: var(--ripple-animation-size);
+  width: var(--ripple-animation-size);
+  background-color: var(--ripple-animation-color);
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple var(--ripple-animation-duration) ease-out infinite;
+}
+
+@keyframes ripple {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
