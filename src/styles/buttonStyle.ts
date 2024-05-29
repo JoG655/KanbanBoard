@@ -2,14 +2,14 @@ import { cva } from "class-variance-authority";
 
 export const buttonStyle = cva(
   [
+    "m-2.5",
     "flex",
     "items-center",
     "justify-center",
     "rounded-lg",
-    "ring-focus",
     "transition",
     "focus:outline-none",
-    "focus-visible:ring-4",
+    "focus-visible:shadow-focus",
     "disabled:cursor-not-allowed",
     "disabled:bg-primary-300",
     "disabled:text-primary-800",
@@ -46,12 +46,13 @@ export const buttonStyle = cva(
           "text-primary-800",
           "hover:bg-primary-200",
           "active:bg-primary-300",
-          "disabled:border-0",
+          "disabled:border-primary-300",
           "dark:border-primary-400",
           "dark:bg-primary-950",
           "dark:text-primary-50",
           "dark:hover:bg-primary-900",
           "dark:active:bg-primary-800",
+          "dark:disabled:border-primary-600",
         ],
         ghost: [
           "bg-primary-100",
@@ -75,8 +76,8 @@ export const buttonStyle = cva(
         icon: ["rounded-full", "px-0"],
       },
       styleStack: {
-        false: "gap-2",
-        true: ["flex-col", "gap-0.5"],
+        false: "",
+        true: "flex-col",
       },
     },
     compoundVariants: [

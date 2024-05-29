@@ -2,22 +2,23 @@ import { cva } from "class-variance-authority";
 
 export const inputStyle = cva(
   [
+    "m-2.5",
     "rounded-lg",
     "border-2",
     "bg-primary-100",
     "text-primary-800",
-    "ring-focus",
     "transition",
     "read-only:bg-primary-200",
     "read-only:text-primary-800",
     "focus:outline-none",
-    "focus-visible:ring-4",
+    "focus-visible:shadow-focus",
     "disabled:cursor-not-allowed",
-    "disabled:border-0",
+    "disabled:border-primary-950",
     "disabled:bg-primary-300",
     "disabled:text-primary-800",
     "dark:bg-primary-950",
     "dark:text-primary-50",
+    "dark:disabled:border-primary-600",
     "dark:disabled:bg-primary-600",
     "dark:disabled:text-primary-100",
   ],
@@ -72,8 +73,8 @@ export const labelStyle = cva(
         xl: "text-md",
       },
       styleStack: {
-        false: "gap-2",
-        true: ["flex-col", "gap-0.5"],
+        false: "",
+        true: "flex-col",
       },
     },
     defaultVariants: {

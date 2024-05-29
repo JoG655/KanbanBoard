@@ -3,19 +3,21 @@ import { cva } from "class-variance-authority";
 export const switchStyle = cva(
   [
     "relative",
+    "m-2.5",
     "flex",
     "items-center",
     "rounded-full",
-    "border-2",
+    "border-4",
     "bg-primary-100",
+    "transition",
+    "peer-focus-visible:shadow-focus",
+    "peer-disabled:cursor-not-allowed",
+    "peer-disabled:border-primary-300",
     "peer-disabled:bg-primary-300",
     "peer-disabled:text-primary-800",
-    "peer-disabled:border-0",
+    "dark:peer-disabled:border-primary-600",
     "dark:peer-disabled:bg-primary-600",
     "dark:peer-disabled:text-primary-100",
-    "transition",
-    "peer-focus-visible:ring-4",
-    "peer-disabled:cursor-not-allowed",
   ],
   {
     variants: {
@@ -32,7 +34,7 @@ export const switchStyle = cva(
         secondary: [
           "border-secondary-300",
           "peer-checked:bg-secondary-400",
-          "hover:border-secondary-500",
+          "peer-hover:border-secondary-500",
           "peer-focus:border-secondary-700",
           "dark:border-secondary-600",
           "dark:hover:border-secondary-400",
@@ -40,15 +42,75 @@ export const switchStyle = cva(
         ],
       },
       styleSize: {
-        sm: ["min-h-8", "px-2", "py-1", "text-sm"],
-        md: ["w-14", "h-5"],
-        lg: ["min-h-10", "px-4", "py-2", "text-md"],
-        xl: ["min-h-11", "px-5", "py-2.5", "text-md"],
+        sm: ["h-4", "w-8"],
+        md: ["h-5", "w-10"],
+        lg: ["h-6", "w-12"],
+        xl: ["h-7", "w-14"],
+      },
+      styleType: {
+        default: "",
+        icon: "",
       },
     },
+    compoundVariants: [
+      { styleType: "icon", styleSize: "sm", class: ["my-1", "h-4", "w-12"] },
+      { styleType: "icon", styleSize: "md", class: ["my-1.5", "h-5", "w-14"] },
+      { styleType: "icon", styleSize: "lg", class: ["my-2", "h-6", "w-16"] },
+      { styleType: "icon", styleSize: "xl", class: ["my-2.5", "h-7", "w-18"] },
+    ],
     defaultVariants: {
       styleVariant: "primary",
       styleSize: "md",
+      styleType: "default",
+    },
+  },
+);
+
+export const iconStyle = cva(
+  [
+    "absolute",
+    "-left-1",
+    "flex",
+    "items-center",
+    "justify-center",
+    "rounded-full",
+    "border-2",
+    "border-primary-600",
+    "bg-primary-300",
+    "text-primary-800",
+    "transition",
+    "dark:border-primary-400",
+    "dark:bg-primary-950",
+    "dark:text-primary-50",
+  ],
+  {
+    variants: {
+      styleSize: {
+        sm: "size-4",
+        md: "size-5",
+        lg: "size-6",
+        xl: "size-7",
+      },
+      styleType: {
+        default: "",
+        icon: ["p-0.5"],
+      },
+      styleState: {
+        false: "",
+        true: "translate-x-full",
+      },
+    },
+    compoundVariants: [
+      { styleType: "icon", styleSize: "sm", class: "size-6" },
+      { styleType: "icon", styleSize: "md", class: "size-7" },
+      { styleType: "icon", styleSize: "lg", class: "size-8" },
+      { styleType: "icon", styleSize: "xl", class: "size-9" },
+      { styleType: "icon", styleState: true, class: "rotate-360" },
+    ],
+    defaultVariants: {
+      styleSize: "md",
+      styleType: "default",
+      styleState: false,
     },
   },
 );
@@ -70,53 +132,13 @@ export const labelStyle = cva(
         xl: "text-md",
       },
       styleStack: {
-        false: "gap-2",
-        true: ["flex-col", "gap-0.5"],
+        false: "",
+        true: "flex-col",
       },
     },
     defaultVariants: {
       styleSize: "md",
       styleStack: false,
-    },
-  },
-);
-
-export const iconStyle = cva(
-  [
-    "absolute",
-    "-left-0.5",
-    "transition",
-    "rounded-full",
-    "bg-primary-600",
-    "dark:bg-primary-100",
-  ],
-  {
-    variants: {
-      styleSize: {
-        sm: ["text-sm"],
-        md: "size-5",
-        lg: ["text-md"],
-        xl: ["text-md"],
-      },
-      styleType: {
-        default: "",
-        icon: "",
-      },
-      styleState: {
-        false: "",
-        true: "translate-x-full",
-      },
-    },
-    compoundVariants: [
-      { styleType: "icon", styleSize: "sm", class: "size-9" },
-      { styleType: "icon", styleSize: "md", class: "size-7" },
-      { styleType: "icon", styleSize: "lg", class: "size-11" },
-      { styleType: "icon", styleSize: "xl", class: "size-12" },
-    ],
-    defaultVariants: {
-      styleSize: "md",
-      styleType: "icon",
-      styleState: false,
     },
   },
 );

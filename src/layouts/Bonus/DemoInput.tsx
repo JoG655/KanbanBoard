@@ -11,14 +11,15 @@ const inputStyleSizes: InputProps["styleSize"][] = ["sm", "md", "lg", "xl"];
 export function DemoInput() {
   return (
     <>
+      <h1 className="text-2xl font-bold uppercase tracking-wide">Input</h1>
       {inputStyleVariants.map((inputStyleVariant) => (
         <div
           className="flex flex-col items-center gap-6"
           key={inputStyleVariant}
         >
           <div className="grid gap-2">
-            <h2 className="text-xl font-bold uppercase tracking-wide">
-              {inputStyleVariant} Inputs
+            <h2 className="text-lg uppercase tracking-wide">
+              {inputStyleVariant} Default
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-4">
               {inputStyleSizes.map((inputStyleSize, index) => (
@@ -43,7 +44,7 @@ export function DemoInput() {
             </div>
           </div>
           <div className="grid gap-2">
-            <h2 className="text-xl font-bold uppercase tracking-wide">
+            <h2 className="text-lg uppercase tracking-wide">
               {inputStyleVariant} Stack
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-4">

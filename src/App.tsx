@@ -1,5 +1,3 @@
-import "./App.css";
-
 import { Bonus } from "./layouts/Bonus/Bonus";
 
 function App() {

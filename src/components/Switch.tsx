@@ -58,7 +58,10 @@ export function Switch({
         {...rest}
       />
       <div
-        className={twMerge(switchStyle({ styleVariant, styleSize }), className)}
+        className={twMerge(
+          switchStyle({ styleVariant, styleSize, styleType }),
+          className,
+        )}
       >
         <div
           className={twMerge(

@@ -7,7 +7,7 @@ export default {
     extend: {
       colors: {
         scrollbar: "#404040",
-        focus: "#cbd5e1",
+        focus: "#808080",
         primary: {
           50: "#fafafa",
           100: "#f5f5f5",
@@ -34,6 +34,18 @@ export default {
           900: "#78350f",
           950: "#451a03",
         },
+      },
+      spacing: {
+        13: "3.25rem",
+        15: "3.75rem",
+        17: "4.25rem",
+        18: "4.5rem",
+      },
+      boxShadow: {
+        focus: "0 0 8px 2px #808080",
+      },
+      rotate: {
+        360: "360deg",
       },
     },
   },

@@ -13,14 +13,15 @@ const buttonStyleSizes: ButtonProps["styleSize"][] = ["sm", "md", "lg", "xl"];
 export function DemoButton() {
   return (
     <>
+      <h1 className="text-2xl font-bold uppercase tracking-wide">Button</h1>
       {buttonStyleVariants.map((buttonStyleVariant) => (
         <div
           className="flex flex-col items-center gap-6"
           key={buttonStyleVariant}
         >
           <div className="grid gap-2">
-            <h2 className="text-xl font-bold uppercase tracking-wide">
-              {buttonStyleVariant} Buttons
+            <h2 className="text-lg uppercase tracking-wide">
+              {buttonStyleVariant} Default
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-4">
               {buttonStyleSizes.map((buttonStyleSize, index) => (
@@ -37,7 +38,7 @@ export function DemoButton() {
             </div>
           </div>
           <div className="grid gap-2">
-            <h2 className="text-xl font-bold uppercase tracking-wide">
+            <h2 className="text-lg uppercase tracking-wide">
               {buttonStyleVariant} Icon
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-4">
@@ -55,7 +56,7 @@ export function DemoButton() {
             </div>
           </div>
           <div className="grid gap-2">
-            <h2 className="text-xl font-bold uppercase tracking-wide">
+            <h2 className="text-lg uppercase tracking-wide">
               {buttonStyleVariant} Stack
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-4">

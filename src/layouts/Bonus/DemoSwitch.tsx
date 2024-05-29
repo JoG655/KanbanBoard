@@ -11,14 +11,15 @@ const switchStyleSizes: SwitchProps["styleSize"][] = ["sm", "md", "lg", "xl"];
 export function DemoSwitch() {
   return (
     <>
+      <h1 className="text-2xl font-bold uppercase tracking-wide">Switch</h1>
       {switchStyleVariants.map((switchStyleVariant) => (
         <div
           className="flex flex-col items-center gap-6"
           key={switchStyleVariant}
         >
           <div className="grid gap-2">
-            <h2 className="text-xl font-bold uppercase tracking-wide">
-              {switchStyleVariant} Switchs
+            <h2 className="text-lg uppercase tracking-wide">
+              {switchStyleVariant} Default
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-4">
               {switchStyleSizes.map((switchStyleSize, index) => (
@@ -26,14 +27,6 @@ export function DemoSwitch() {
                   key={switchStyleSize}
                   styleVariant={switchStyleVariant}
                   styleSize={switchStyleSize}
-                  defaultValue={
-                    index === switchStyleSizes.length - 2
-                      ? "Read only text"
-                      : index === switchStyleSizes.length - 1
-                        ? "Disabled text"
-                        : ""
-                  }
-                  readOnly={index === switchStyleSizes.length - 2}
                   disabled={index === switchStyleSizes.length - 1}
                 >
                   {index > 0 ? <Search /> : "Text"}
@@ -42,7 +35,25 @@ export function DemoSwitch() {
             </div>
           </div>
           <div className="grid gap-2">
-            <h2 className="text-xl font-bold uppercase tracking-wide">
+            <h2 className="text-lg uppercase tracking-wide">
+              {switchStyleVariant} Icon
+            </h2>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              {switchStyleSizes.map((switchStyleSize, index) => (
+                <Switch
+                  key={switchStyleSize}
+                  styleVariant={switchStyleVariant}
+                  styleSize={switchStyleSize}
+                  styleType="icon"
+                  disabled={index === switchStyleSizes.length - 1}
+                >
+                  {index > 0 ? <Search /> : "Text"}
+                </Switch>
+              ))}
+            </div>
+          </div>
+          <div className="grid gap-2">
+            <h2 className="text-lg uppercase tracking-wide">
               {switchStyleVariant} Stack
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-4">
@@ -52,15 +63,6 @@ export function DemoSwitch() {
                   styleVariant={switchStyleVariant}
                   styleSize={switchStyleSize}
                   styleStack={true}
-                  type="search"
-                  defaultValue={
-                    index === switchStyleSizes.length - 2
-                      ? "Read only text"
-                      : index === switchStyleSizes.length - 1
-                        ? "Disabled text"
-                        : ""
-                  }
-                  readOnly={index === switchStyleSizes.length - 2}
                   disabled={index === switchStyleSizes.length - 1}
                 >
                   {index > 0 ? <Search /> : "Text"}
