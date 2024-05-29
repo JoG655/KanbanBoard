@@ -24,7 +24,6 @@ export function useRipple<T extends HTMLElement>(
 
   const rippleTrigger = useCallback(
     (e: MinimalEvent) => {
-      console.log("CB");
       if (!enabled || !ref.current) return;
 
       requestAnimationFrame(() => {

@@ -3,6 +3,7 @@ import { DemoButton } from "./DemoButton";
 import { DemoSwitch } from "./DemoSwitch";
 import { DemoInput } from "./DemoInput";
 import { DemoSelect } from "./DemoSelect";
+import { DemoModal } from "./DemoModal";
 
 export function Bonus() {
   return (
@@ -21,6 +22,8 @@ export function Bonus() {
                 <DemoSelect />
 
                 <DemoSpinner />
+
+                <DemoModal />
               </div>
             </div>
           </div>

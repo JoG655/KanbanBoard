@@ -1,6 +1,8 @@
+import { KeyboardEvent } from "react";
+
 export function trapFocus<T extends HTMLElement>(
-  container: T,
-  e: KeyboardEvent,
+  element: T,
+  e: KeyboardEvent<T>,
 ) {
   const isTabPressed = e.key === "Tab";
 
@@ -10,7 +12,7 @@ export function trapFocus<T extends HTMLElement>(
     "a[href]:not([disabled]), area[href]:not([disabled]), input:not([disabled]), select:not([disabled]), button:not([disabled]), textarea:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]";
 
   const focusableElements = Array.from(
-    container.querySelectorAll<HTMLElement>(focusableQuery),
+    element.querySelectorAll<HTMLElement>(focusableQuery),
   );
 
   const filteredFocusableElements = focusableElements.filter(
@@ -29,7 +31,7 @@ export function trapFocus<T extends HTMLElement>(
   );
 
   if (filteredFocusableElements.length === 0) {
-    container.focus();
+    element.focus();
 
     e.preventDefault();
 
@@ -44,7 +46,7 @@ export function trapFocus<T extends HTMLElement>(
     if (e.shiftKey) {
       if (
         document.activeElement === firstFocusableElement ||
-        document.activeElement === container
+        document.activeElement === element
       ) {
         lastfocusableElement.focus();
 
@@ -58,6 +60,4 @@ export function trapFocus<T extends HTMLElement>(
       }
     }
   }
-
-  return;
 }

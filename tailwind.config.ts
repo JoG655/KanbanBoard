@@ -42,7 +42,8 @@ export default {
         18: "4.5rem",
       },
       boxShadow: {
-        focus: "0 0 8px 2px #808080",
+        "focus-sm": "0 0 8px 2px #808080",
+        "focus-lg": "0 0 20px 20px #808080",
       },
       rotate: {
         360: "360deg",

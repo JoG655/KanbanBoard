@@ -11,7 +11,7 @@ export const inputStyle = cva(
     "read-only:bg-primary-200",
     "read-only:text-primary-800",
     "focus:outline-none",
-    "focus-visible:shadow-focus",
+    "focus-visible:shadow-focus-sm",
     "disabled:cursor-not-allowed",
     "disabled:border-primary-950",
     "disabled:bg-primary-300",

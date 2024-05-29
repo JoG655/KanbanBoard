@@ -1,75 +1,114 @@
 import {
-  type SetStateAction,
-  type Dispatch,
   type ComponentPropsWithoutRef,
+  type MouseEvent,
+  type KeyboardEvent,
   useEffect,
   useRef,
 } from "react";
-import { twMerge } from "tailwind-merge";
+import { elementTansition } from "../utils/elementTansition";
 import { trapFocus } from "../utils/trapFocus";
+import { createPortal, flushSync } from "react-dom";
+import { twMerge } from "tailwind-merge";
 
 export type ModalProps = {
+  uuid: string;
   isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setIsOpen: (value: boolean) => void;
 } & ComponentPropsWithoutRef<"dialog">;
 
 export function Modal({
+  uuid,
   isOpen,
   setIsOpen,
   className,
+  onClick,
+  onKeyDown,
   children,
   ...rest
 }: ModalProps) {
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    const dialogElement = ref.current;
+    const element = ref.current;
 
-    if (!dialogElement) return;
+    if (!element) return;
 
     if (!isOpen) {
-      dialogElement.close();
+      if (!document.startViewTransition) {
+        element.close();
+
+        return;
+      }
+
+      document.startViewTransition(() => {
+        flushSync(() => {
+          element.close();
+        });
+      });
 
       return;
     }
 
-    dialogElement.showModal();
+    if (!document.startViewTransition) {
+      element.showModal();
 
-    const handleKeydown = (e: KeyboardEvent) => {
-      trapFocus<HTMLDialogElement>(dialogElement, e);
-    };
+      return;
+    }
 
-    document.addEventListener("keydown", handleKeydown);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeydown);
-    };
+    document.startViewTransition(() => {
+      flushSync(() => {
+        element.showModal();
+      });
+    });
   }, [isOpen]);
 
-  return (
+  function handleOnClick(e: MouseEvent<HTMLDialogElement>) {
+    if (onClick) {
+      onClick(e);
+    }
+
+    const element = ref.current;
+
+    if (!element || e.target !== element) return;
+
+    setIsOpen(false);
+  }
+
+  function handleOnKeyDown(e: KeyboardEvent<HTMLDialogElement>) {
+    if (onKeyDown) {
+      onKeyDown(e);
+    }
+
+    const element = ref.current;
+
+    if (!element || e.target !== element) return;
+
+    trapFocus(element, e);
+
+    if (e.key !== "Escape") return;
+
+    setIsOpen(false);
+  }
+
+  const root = document.querySelector("#root");
+
+  const modal = (
     <dialog
       ref={ref}
       className={twMerge(
-        "rounded-xl p-0 shadow-[0_0_20px_20px] shadow-primary-500 outline-none backdrop:bg-gray-400 backdrop:bg-opacity-50",
+        "shadow-focus-lg rounded-xl p-0 outline-none backdrop:bg-gray-400 backdrop:bg-opacity-50",
         className,
       )}
-      onClick={(e) => {
-        if (e.target !== ref.current) return;
-
-        setIsOpen(false);
-
-        if (ref.current) {
-          ref.current.close();
-        }
-      }}
-      onKeyDown={(e) => {
-        if (e.key !== "Escape") return;
-
-        setIsOpen(false);
+      onClick={handleOnClick}
+      onKeyDown={handleOnKeyDown}
+      style={{
+        viewTransitionName: uuid,
       }}
       {...rest}
     >
       {children}
     </dialog>
   );
+
+  return root ? createPortal(modal, root, uuid) : modal;
 }

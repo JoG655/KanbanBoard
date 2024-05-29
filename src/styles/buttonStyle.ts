@@ -9,7 +9,7 @@ export const buttonStyle = cva(
     "rounded-lg",
     "transition",
     "focus:outline-none",
-    "focus-visible:shadow-focus",
+    "focus-visible:shadow-focus-sm",
     "disabled:cursor-not-allowed",
     "disabled:bg-primary-300",
     "disabled:text-primary-800",

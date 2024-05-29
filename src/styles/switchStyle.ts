@@ -10,7 +10,7 @@ export const switchStyle = cva(
     "border-4",
     "bg-primary-100",
     "transition",
-    "peer-focus-visible:shadow-focus",
+    "peer-focus-visible:shadow-focus-sm",
     "peer-disabled:cursor-not-allowed",
     "peer-disabled:border-primary-300",
     "peer-disabled:bg-primary-300",
