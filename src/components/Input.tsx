@@ -4,10 +4,9 @@ import { type ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 export type InputProps = VariantProps<typeof inputStyle> &
-  VariantProps<typeof labelStyle> &
-  ComponentPropsWithoutRef<"input"> & {
+  VariantProps<typeof labelStyle> & {
     childrenInsertion?: "Prepend" | "Append";
-  };
+  } & ComponentPropsWithoutRef<"input">;
 
 function LabelContent(children: InputProps["children"]) {
   if (!children) return null;
@@ -19,13 +18,13 @@ export function Input({
   styleVariant,
   styleSize,
   styleStack,
+  childrenInsertion = "Prepend",
   className,
   children,
-  childrenInsertion = "Prepend",
   ...rest
 }: InputProps) {
   return (
-    <label className={labelStyle({ styleSize, styleStack })}>
+    <label className={twMerge(labelStyle({ styleSize, styleStack }))}>
       {childrenInsertion === "Prepend" ? LabelContent(children) : null}
       <input
         className={twMerge(inputStyle({ styleVariant, styleSize }), className)}

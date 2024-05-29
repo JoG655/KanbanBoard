@@ -4,11 +4,10 @@ import { type ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 export type SelectProps = VariantProps<typeof selectStyle> &
-  VariantProps<typeof labelStyle> &
-  ComponentPropsWithoutRef<"select"> & {
+  VariantProps<typeof labelStyle> & {
     options: Record<string, string>;
     childrenInsertion?: "Prepend" | "Append";
-  };
+  } & ComponentPropsWithoutRef<"select">;
 
 function LabelContent(children: SelectProps["children"]) {
   if (!children) return null;
@@ -20,10 +19,10 @@ export function Select({
   styleVariant,
   styleSize,
   styleStack,
-  className,
-  children,
   options,
   childrenInsertion = "Prepend",
+  className,
+  children,
   ...rest
 }: SelectProps) {
   return (

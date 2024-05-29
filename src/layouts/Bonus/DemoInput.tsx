@@ -13,7 +13,7 @@ export function DemoInput() {
     <>
       {inputStyleVariants.map((inputStyleVariant) => (
         <div
-          className="flex items-start justify-center gap-6"
+          className="flex flex-col items-center gap-6"
           key={inputStyleVariant}
         >
           <div className="grid gap-2">

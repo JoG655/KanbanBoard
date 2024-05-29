@@ -9,7 +9,7 @@ export const buttonStyle = cva(
     "ring-focus",
     "transition",
     "focus:outline-none",
-    "focus-visible:ring-2",
+    "focus-visible:ring-4",
     "disabled:cursor-not-allowed",
     "disabled:bg-primary-300",
     "disabled:text-primary-800",
@@ -71,7 +71,7 @@ export const buttonStyle = cva(
         xl: ["min-h-11", "px-5", "py-2.5", "text-md"],
       },
       styleType: {
-        button: "",
+        default: "",
         icon: ["rounded-full", "px-0"],
       },
       styleStack: {
@@ -88,7 +88,7 @@ export const buttonStyle = cva(
     defaultVariants: {
       styleVariant: "primary",
       styleSize: "md",
-      styleType: "button",
+      styleType: "default",
       styleStack: false,
     },
   },

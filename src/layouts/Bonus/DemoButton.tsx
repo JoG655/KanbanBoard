@@ -15,7 +15,7 @@ export function DemoButton() {
     <>
       {buttonStyleVariants.map((buttonStyleVariant) => (
         <div
-          className="flex items-start justify-center gap-6"
+          className="flex flex-col items-center gap-6"
           key={buttonStyleVariant}
         >
           <div className="grid gap-2">

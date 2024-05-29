@@ -6,7 +6,7 @@ const spinnerAnimationCounts: SpinnerProps["animationCount"][] = [
 
 export function DemoSpinner() {
   return (
-    <div className="flex items-start justify-center gap-6">
+    <div className="flex flex-col items-center gap-6">
       <div className="grid gap-2">
         <h2 className="text-xl font-bold uppercase tracking-wide">Spinner</h2>
         <div className="flex flex-wrap items-center justify-center gap-4">

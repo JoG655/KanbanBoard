@@ -11,7 +11,7 @@ export const selectStyle = cva(
     "read-only:bg-primary-200",
     "read-only:text-primary-800",
     "focus:outline-none",
-    "focus-visible:ring-2",
+    "focus-visible:ring-4",
     "disabled:cursor-not-allowed",
     "disabled:border-0",
     "disabled:bg-primary-300",

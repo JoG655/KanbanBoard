@@ -1,16 +1,20 @@
 import { type VariantProps } from "class-variance-authority";
-import { type ComponentPropsWithoutRef, type ReactElement } from "react";
-import { twMerge } from "tailwind-merge";
-import { switchStyle } from "../styles/switchStyle";
+import { switchStyle, labelStyle, iconStyle } from "../styles/switchStyle";
 import { Check, X } from "lucide-react";
+import {
+  useState,
+  type ComponentPropsWithoutRef,
+  type ReactElement,
+  type ChangeEvent,
+} from "react";
+import { twMerge } from "tailwind-merge";
 
-export type SwitchProps = VariantProps<typeof switchStyle> & {
-  checked: boolean;
-  checkedIcon?: ReactElement;
-  uncheckedIcon?: ReactElement;
-  childrenInsertion?: "Prepend" | "Append";
-  childrenStack?: boolean;
-} & ComponentPropsWithoutRef<"input">;
+export type SwitchProps = VariantProps<typeof switchStyle> &
+  VariantProps<typeof labelStyle> & {
+    checkedIcon?: ReactElement;
+    uncheckedIcon?: ReactElement;
+    childrenInsertion?: "Prepend" | "Append";
+  } & Omit<ComponentPropsWithoutRef<"input">, "type" | "checked">;
 
 function LabelContent(children: SwitchProps["children"]) {
   if (!children) return null;
@@ -19,34 +23,53 @@ function LabelContent(children: SwitchProps["children"]) {
 }
 
 export function Switch({
-  size,
-  checked,
+  styleVariant,
+  styleSize,
+  styleType,
+  styleStack,
   checkedIcon = <Check />,
   uncheckedIcon = <X />,
-  childrenInsertion = "Append",
-  childrenStack = false,
+  childrenInsertion = "Prepend",
   className,
+  defaultChecked = false,
+  onChange,
   children,
   ...rest
 }: SwitchProps) {
+  const [isChecked, setIsChecked] = useState(defaultChecked);
+
+  function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
+    if (onChange) {
+      onChange(e);
+    }
+
+    setIsChecked(e.target.checked);
+  }
+
   // const test = "rounded-full bg-primary-600 transition-colors peer-checked:bg-secondary-500 peer-checked:*:translate-x-6 peer-checked:*:rotate-[360deg]";
   return (
-    <label
-      className={twMerge(
-        "inline-flex cursor-pointer items-center",
-        childrenStack ? "flex-col" : null,
-      )}
-    >
+    <label className={twMerge(labelStyle({ styleSize, styleStack }))}>
       {childrenInsertion === "Prepend" ? LabelContent(children) : null}
       <input
         type="checkbox"
         className="peer sr-only"
-        checked={checked}
+        checked={isChecked}
+        onChange={handleOnChange}
         {...rest}
       />
-      <div className={twMerge(switchStyle({ size }), className)}>
-        <div className="flex size-5 items-center justify-center rounded-full p-1 text-white shadow-sm transition-all duration-300">
-          {checked ? checkedIcon : uncheckedIcon}
+      <div
+        className={twMerge(switchStyle({ styleVariant, styleSize }), className)}
+      >
+        <div
+          className={twMerge(
+            iconStyle({ styleSize, styleType, styleState: isChecked }),
+          )}
+        >
+          {styleType === "icon"
+            ? isChecked
+              ? checkedIcon
+              : uncheckedIcon
+            : null}
         </div>
       </div>
       {childrenInsertion === "Append" ? LabelContent(children) : null}

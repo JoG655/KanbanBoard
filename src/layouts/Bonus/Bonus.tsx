@@ -1,23 +1,17 @@
 import { Moon, Sun } from "lucide-react";
-import { Switch } from "../../components/Switch";
-import { useState } from "react";
+import { NewSwitch } from "../../components/NewSwitch";
 
 import { DemoSpinner } from "./DemoSpinner";
 import { DemoButton } from "./DemoButton";
 import { DemoInput } from "./DemoInput";
 import { DemoSelect } from "./DemoSelect";
+import { Switch } from "../../components/Switch";
 
 export function Bonus() {
-  const [isChecked, setIsChecked] = useState(true);
   return (
     <div className="mx-auto flex min-h-dvh max-w-5xl flex-col scroll-smooth">
-      <Switch
-        checked={isChecked}
-        onClick={() => setIsChecked(!isChecked)}
-        className="bg-primary-500 checked:bg-primary-500"
-        checkedIcon={<Sun className="text-white" />}
-        uncheckedIcon={<Moon className="text-white" />}
-      ></Switch>
+      <NewSwitch />
+      <Switch />
       <div className="grid flex-grow grid-cols-[auto,minmax(0,1fr)] overflow-auto">
         <div className="text-center">
           <div className="relative z-0 grid place-content-center overflow-hidden p-6 lg:p-8">
