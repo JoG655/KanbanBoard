@@ -1,8 +1,10 @@
 import { Bonus } from "./layouts/Bonus/Bonus";
+import { Navigation } from "./layouts/Navigation";
 
 function App() {
   return (
     <>
+      <Navigation />
       <main className="mx-auto flex min-h-dvh max-w-7xl flex-grow flex-col items-center scroll-smooth px-1 py-4 md:px-4 md:py-6">
         <Bonus />
       </main>
