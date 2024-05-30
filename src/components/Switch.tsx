@@ -46,7 +46,6 @@ export function Switch({
     setIsChecked(e.target.checked);
   }
 
-  // const test = "rounded-full bg-primary-600 transition-colors peer-checked:bg-secondary-500 peer-checked:*:translate-x-6 peer-checked:*:rotate-[360deg]";
   return (
     <label className={twMerge(labelStyle({ styleSize, styleStack }))}>
       {childrenInsertion === "Prepend" ? LabelContent(children) : null}
@@ -63,11 +62,7 @@ export function Switch({
           className,
         )}
       >
-        <div
-          className={twMerge(
-            iconStyle({ styleSize, styleType, styleState: isChecked }),
-          )}
-        >
+        <div>
           {styleType === "icon"
             ? isChecked
               ? checkedIcon
