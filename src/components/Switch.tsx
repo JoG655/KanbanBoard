@@ -1,5 +1,5 @@
 import { type VariantProps } from "class-variance-authority";
-import { switchStyle, labelStyle, iconStyle } from "../styles/switchStyle";
+import { switchStyle, labelStyle } from "../styles/switchStyle";
 import { Check, X } from "lucide-react";
 import {
   useState,
