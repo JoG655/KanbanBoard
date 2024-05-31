@@ -48,6 +48,15 @@ export default {
       rotate: {
         360: "360deg",
       },
+      animation: {
+        fadeIn: "fadeIn 500ms ease-out",
+      },
+      keyframes: {
+        fadeIn: {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+      },
     },
   },
   plugins: [],

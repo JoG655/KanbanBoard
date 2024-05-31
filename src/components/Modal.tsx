@@ -5,9 +5,9 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { elementTansition } from "../utils/elementTansition";
+import { elementTransition } from "../utils/elementTransition";
 import { trapFocus } from "../utils/trapFocus";
-import { createPortal, flushSync } from "react-dom";
+import { createPortal } from "react-dom";
 import { twMerge } from "tailwind-merge";
 
 export type ModalProps = {
@@ -34,32 +34,12 @@ export function Modal({
     if (!element) return;
 
     if (!isOpen) {
-      if (!document.startViewTransition) {
-        element.close();
-
-        return;
-      }
-
-      document.startViewTransition(() => {
-        flushSync(() => {
-          element.close();
-        });
-      });
+      elementTransition(() => element.close());
 
       return;
     }
 
-    if (!document.startViewTransition) {
-      element.showModal();
-
-      return;
-    }
-
-    document.startViewTransition(() => {
-      flushSync(() => {
-        element.showModal();
-      });
-    });
+    elementTransition(() => element.showModal());
   }, [isOpen]);
 
   function handleOnClick(e: MouseEvent<HTMLDialogElement>) {
@@ -96,14 +76,11 @@ export function Modal({
     <dialog
       ref={ref}
       className={twMerge(
-        "shadow-focus-lg rounded-xl p-0 outline-none backdrop:bg-gray-400 backdrop:bg-opacity-50",
+        "modal-transition z-40 rounded-xl p-0 shadow-focus-lg outline-none backdrop:bg-primary-300 backdrop:bg-opacity-50 dark:backdrop:bg-primary-800 dark:backdrop:bg-opacity-50",
         className,
       )}
       onClick={handleOnClick}
       onKeyDown={handleOnKeyDown}
-      style={{
-        viewTransitionName: uuid,
-      }}
       {...rest}
     >
       {children}

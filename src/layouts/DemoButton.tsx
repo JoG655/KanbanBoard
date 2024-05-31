@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from "../../components/Button";
+import { Button, type ButtonProps } from "../components/Button";
 import { Plus } from "lucide-react";
 
 const buttonStyleVariants: ButtonProps["styleVariant"][] = [

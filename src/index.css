@@ -157,12 +157,70 @@
   width: var(--ripple-animation-size);
   background-color: var(--ripple-animation-color);
   transform: translate(-50%, -50%) scale(0);
-  animation: ripple var(--ripple-animation-duration) ease-out infinite;
+  animation: rippleKeyframes var(--ripple-animation-duration) ease-out infinite;
 }
 
-@keyframes ripple {
+@keyframes rippleKeyframes {
   to {
     opacity: 0;
     transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* View Transition */
+/* ::view-transition-old(root) {
+  animation: fadeInKeyframes 300ms ease-out;
+}
+::view-transition-new(root) {
+  animation: fadeOutKeyframes 300ms ease-in;
+}
+
+@keyframes fadeInKeyframes {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutKeyframes {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+} */
+
+.modal-transition {
+  view-transition-name: modal;
+}
+::view-transition-old(modal) {
+  animation: modalLeaveKeyframes 300ms ease-out;
+}
+::view-transition-new(modal) {
+  animation: modalEnterKeyframes 300ms ease-in;
+}
+
+@keyframes modalLeaveKeyframes {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes modalEnterKeyframes {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }

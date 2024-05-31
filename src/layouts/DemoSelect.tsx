@@ -1,4 +1,4 @@
-import { Select, type SelectProps } from "../../components/Select";
+import { Select, type SelectProps } from "../components/Select";
 import { Search } from "lucide-react";
 
 const inputStyleVariants: SelectProps["styleVariant"][] = [
