@@ -52,7 +52,7 @@ export function Modal({
     setIsOpen(false);
   }
 
-  function handleonCancel(e: SyntheticEvent<HTMLDialogElement, Event>) {
+  function handleOnCancel(e: SyntheticEvent<HTMLDialogElement, Event>) {
     if (onCancel) {
       onCancel(e);
     }
@@ -71,7 +71,7 @@ export function Modal({
       ref={ref}
       className={twMerge("dialog", className)}
       onClick={handleOnClick}
-      onCancel={handleonCancel}
+      onCancel={handleOnCancel}
       {...rest}
     >
       <div className="p-0">{children}</div>
