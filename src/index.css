@@ -131,7 +131,7 @@
 
 /* Dialog */
 .dialog {
-  @apply z-40 scale-50 rounded-xl p-0 opacity-0 shadow-focus-lg outline-none transition-all duration-[3000ms] ease-in;
+  @apply z-40 scale-50 rounded-xl p-0 opacity-0 shadow-focus-lg outline-none transition-all ease-in;
 
   transition-behavior: allow-discrete;
 }
@@ -146,7 +146,7 @@
   }
 }
 .dialog::backdrop {
-  @apply bg-primary-300 bg-opacity-0 backdrop-blur-none transition-all duration-[3000ms] ease-out dark:bg-primary-800 dark:bg-opacity-0;
+  @apply bg-primary-300 bg-opacity-0 backdrop-blur-none transition-all ease-out dark:bg-primary-800 dark:bg-opacity-0;
 
   transition-behavior: allow-discrete;
 }
