@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: theme(colors.scrollbar) transparent;
+}
+
+*::-webkit-scrollbar {
+  @apply w-2;
+}
+
+*::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-scrollbar;
+}
+
+.scrollbar-hidden {
+  scrollbar-color: transparent transparent;
+}
+
+.scrollbar-hidden:hover {
+  scrollbar-color: theme(colors.scrollbar) transparent;
+}
+
+.scrollbar-hidden::-webkit-scrollbar-thumb {
+  @apply bg-transparent;
+}
+
+.scrollbar-hidden:hover::-webkit-scrollbar-thumb {
+  @apply bg-scrollbar;
+}
+
+/* Dialog */
+.dialog {
+  @apply z-40 scale-50 rounded-xl p-0 opacity-0 shadow-focus-lg outline-none transition-all ease-in;
+
+  transition-behavior: allow-discrete;
+}
+.dialog[open] {
+  @apply scale-100 opacity-100 ease-out;
+
+  transition-behavior: allow-discrete;
+}
+@starting-style {
+  .dialog[open] {
+    @apply scale-50 opacity-0;
+  }
+}
+.dialog::backdrop {
+  @apply bg-primary-300 bg-opacity-0 backdrop-blur-none transition-all ease-out dark:bg-primary-800 dark:bg-opacity-0;
+
+  transition-behavior: allow-discrete;
+}
+.dialog[open]::backdrop {
+  @apply bg-opacity-50 backdrop-blur-sm ease-in dark:bg-opacity-50;
+}
+@starting-style {
+  .dialog[open]::backdrop {
+    @apply bg-opacity-0 backdrop-blur-none dark:bg-opacity-0;
+  }
+}
+
+/* Ripple */
+.ripple {
+  --ripple-animation-color: theme(colors.focus);
+  --ripple-animation-duration: 3000ms;
+
+  @apply relative;
+}
+
+.ripple__animation {
+  --ripple-animation-left: 50%;
+  --ripple-animation-top: 50%;
+  --ripple-animation-size: 100%;
+
+  @apply absolute inset-0 overflow-hidden;
+
+  border-radius: inherit;
+}
+.ripple__animation::after {
+  @apply pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 scale-0 rounded-full transition-colors;
+
+  content: "";
+  left: var(--ripple-animation-left);
+  top: var(--ripple-animation-top);
+  height: var(--ripple-animation-size);
+  width: var(--ripple-animation-size);
+  background-color: var(--ripple-animation-color);
+  animation: ripple var(--ripple-animation-duration) ease-out infinite;
+}
+
+@keyframes ripple {
+  100% {
+    opacity: 0;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+      rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+      scale(1);
+  }
+}

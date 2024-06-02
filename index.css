@@ -1,39 +1,46 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Scrollbar */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: theme(colors.scrollbar) transparent;
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
 }
 
-*::-webkit-scrollbar {
-  @apply w-2;
+html,
+:host {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  -webkit-tap-highlight-color: transparent;
 }
 
-*::-webkit-scrollbar-track {
-  @apply bg-transparent;
+#rootSpinner {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+#rootSpinner[data-animation="rootSpinnerFadeOut"] {
+  animation: rootSpinnerFadeOut 1s ease-in;
 }
 
-*::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-scrollbar;
-}
-
-.scrollbar-hidden {
-  scrollbar-color: transparent transparent;
-}
-
-.scrollbar-hidden:hover {
-  scrollbar-color: theme(colors.scrollbar) transparent;
-}
-
-.scrollbar-hidden::-webkit-scrollbar-thumb {
-  @apply bg-transparent;
-}
-
-.scrollbar-hidden:hover::-webkit-scrollbar-thumb {
-  @apply bg-scrollbar;
+@keyframes rootSpinnerFadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Spinner */
@@ -50,7 +57,10 @@
   --spinner-animation-color-even: theme(colors.primary.500);
   --spinner-animation-color-odd: theme(colors.secondary.500);
 
-  @apply relative grid place-items-center rounded-full;
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
 }
 .dark .spinner {
   --spinner-text-color: theme(colors.primary.50);
@@ -62,8 +72,13 @@
 }
 
 .spinner__text {
-  @apply absolute px-2 text-center text-sm font-black;
-
+  position: absolute;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 900;
   color: var(--spinner-text-color);
   grid-row: 1 / -1;
   grid-column: 1 / -1;
@@ -83,13 +98,15 @@
 }
 
 .spinner__animation {
-  @apply rounded-full border-solid border-x-transparent;
-
   grid-row: 1 / -1;
   grid-column: 1 / -1;
+  border-radius: 9999px;
+  border-style: solid;
   border-block-width: var(--spinner-animation-size);
   border-top-color: var(--spinner-animation-color-even);
   border-bottom-color: var(--spinner-animation-color-even);
+  border-left-color: transparent;
+  border-right-color: transparent;
   padding: calc(
     (
         var(--spinner-animation-index) *
@@ -123,76 +140,9 @@
 .spinner__animation:nth-of-type(6) {
   --spinner-animation-index: 6;
 }
+
 @keyframes spinner {
   100% {
     transform: rotate(360deg);
-  }
-}
-
-/* Dialog */
-.dialog {
-  @apply z-40 scale-50 rounded-xl p-0 opacity-0 shadow-focus-lg outline-none transition-all ease-in;
-
-  transition-behavior: allow-discrete;
-}
-.dialog[open] {
-  @apply scale-100 opacity-100 ease-out;
-
-  transition-behavior: allow-discrete;
-}
-@starting-style {
-  .dialog[open] {
-    @apply scale-50 opacity-0;
-  }
-}
-.dialog::backdrop {
-  @apply bg-primary-300 bg-opacity-0 backdrop-blur-none transition-all ease-out dark:bg-primary-800 dark:bg-opacity-0;
-
-  transition-behavior: allow-discrete;
-}
-.dialog[open]::backdrop {
-  @apply bg-opacity-50 backdrop-blur-sm ease-in dark:bg-opacity-50;
-}
-@starting-style {
-  .dialog[open]::backdrop {
-    @apply bg-opacity-0 backdrop-blur-none dark:bg-opacity-0;
-  }
-}
-
-/* Ripple */
-.ripple {
-  --ripple-animation-color: theme(colors.focus);
-  --ripple-animation-duration: 3000ms;
-
-  @apply relative;
-}
-
-.ripple__animation {
-  --ripple-animation-left: 50%;
-  --ripple-animation-top: 50%;
-  --ripple-animation-size: 100%;
-
-  @apply absolute inset-0 overflow-hidden;
-
-  border-radius: inherit;
-}
-.ripple__animation::after {
-  @apply pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 scale-0 rounded-full transition-colors;
-
-  content: "";
-  left: var(--ripple-animation-left);
-  top: var(--ripple-animation-top);
-  height: var(--ripple-animation-size);
-  width: var(--ripple-animation-size);
-  background-color: var(--ripple-animation-color);
-  animation: rippleKeyframes var(--ripple-animation-duration) ease-out infinite;
-}
-
-@keyframes rippleKeyframes {
-  100% {
-    opacity: 0;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-      rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-      scale(1);
   }
 }

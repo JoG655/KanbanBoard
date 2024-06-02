@@ -3,13 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link href="/index.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kanban Board</title>
   </head>
   <body>
+    <div id="rootSpinner">
+      <div class="spinner">
+        <i class="spinner__animation"></i>
+        <i class="spinner__animation"></i>
+        <i class="spinner__animation"></i>
+        <span class="spinner__text">Loading...</span>
+      </div>
+    </div>
     <div
       id="root"
-      class="min-h-dvh animate-fadeIn bg-primary-50 text-primary-800 dark:bg-primary-900 dark:text-primary-50"
+      class="min-h-dvh bg-primary-50 text-primary-800 dark:bg-primary-900 dark:text-primary-50"
     ></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
