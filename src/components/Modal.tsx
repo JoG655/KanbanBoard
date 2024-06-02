@@ -1,14 +1,12 @@
 import {
   type ComponentPropsWithoutRef,
   type MouseEvent,
-  type KeyboardEvent,
+  type SyntheticEvent,
   useEffect,
   useRef,
 } from "react";
-import { elementTransition } from "../utils/elementTransition";
-import { trapFocus } from "../utils/trapFocus";
-import { createPortal } from "react-dom";
 import { twMerge } from "tailwind-merge";
+import { createPortal } from "react-dom";
 
 export type ModalProps = {
   uuid: string;
@@ -22,7 +20,7 @@ export function Modal({
   setIsOpen,
   className,
   onClick,
-  onKeyDown,
+  onCancel,
   children,
   ...rest
 }: ModalProps) {
@@ -34,12 +32,12 @@ export function Modal({
     if (!element) return;
 
     if (!isOpen) {
-      elementTransition(() => element.close());
+      element.close();
 
       return;
     }
 
-    elementTransition(() => element.showModal());
+    element.showModal();
   }, [isOpen]);
 
   function handleOnClick(e: MouseEvent<HTMLDialogElement>) {
@@ -54,18 +52,14 @@ export function Modal({
     setIsOpen(false);
   }
 
-  function handleOnKeyDown(e: KeyboardEvent<HTMLDialogElement>) {
-    if (onKeyDown) {
-      onKeyDown(e);
+  function handleonCancel(e: SyntheticEvent<HTMLDialogElement, Event>) {
+    if (onCancel) {
+      onCancel(e);
     }
 
     const element = ref.current;
 
     if (!element || e.target !== element) return;
-
-    trapFocus(element, e);
-
-    if (e.key !== "Escape") return;
 
     setIsOpen(false);
   }
@@ -75,15 +69,12 @@ export function Modal({
   const modal = (
     <dialog
       ref={ref}
-      className={twMerge(
-        "modal-transition z-40 rounded-xl p-0 shadow-focus-lg outline-none backdrop:bg-primary-300 backdrop:bg-opacity-50 dark:backdrop:bg-primary-800 dark:backdrop:bg-opacity-50",
-        className,
-      )}
+      className={twMerge("dialog", className)}
       onClick={handleOnClick}
-      onKeyDown={handleOnKeyDown}
+      onCancel={handleonCancel}
       {...rest}
     >
-      {children}
+      <div className="p-0">{children}</div>
     </dialog>
   );
 

@@ -123,10 +123,39 @@
 .spinner__animation:nth-of-type(6) {
   --spinner-animation-index: 6;
 }
-
 @keyframes spinner {
-  to {
+  100% {
     transform: rotate(360deg);
+  }
+}
+
+/* Dialog */
+.dialog {
+  @apply z-40 scale-50 rounded-xl p-0 opacity-0 shadow-focus-lg outline-none transition-all duration-[3000ms] ease-in;
+
+  transition-behavior: allow-discrete;
+}
+.dialog[open] {
+  @apply scale-100 opacity-100 ease-out;
+
+  transition-behavior: allow-discrete;
+}
+@starting-style {
+  .dialog[open] {
+    @apply scale-50 opacity-0;
+  }
+}
+.dialog::backdrop {
+  @apply bg-primary-300 bg-opacity-0 backdrop-blur-none transition-all duration-[3000ms] ease-out dark:bg-primary-800 dark:bg-opacity-0;
+
+  transition-behavior: allow-discrete;
+}
+.dialog[open]::backdrop {
+  @apply bg-opacity-50 backdrop-blur-sm ease-in dark:bg-opacity-50;
+}
+@starting-style {
+  .dialog[open]::backdrop {
+    @apply bg-opacity-0 backdrop-blur-none dark:bg-opacity-0;
   }
 }
 
@@ -148,7 +177,7 @@
   border-radius: inherit;
 }
 .ripple__animation::after {
-  @apply pointer-events-none absolute rounded-full transition-colors;
+  @apply pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 scale-0 rounded-full transition-colors;
 
   content: "";
   left: var(--ripple-animation-left);
@@ -156,71 +185,14 @@
   height: var(--ripple-animation-size);
   width: var(--ripple-animation-size);
   background-color: var(--ripple-animation-color);
-  transform: translate(-50%, -50%) scale(0);
   animation: rippleKeyframes var(--ripple-animation-duration) ease-out infinite;
 }
 
 @keyframes rippleKeyframes {
-  to {
+  100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-/* View Transition */
-/* ::view-transition-old(root) {
-  animation: fadeInKeyframes 300ms ease-out;
-}
-::view-transition-new(root) {
-  animation: fadeOutKeyframes 300ms ease-in;
-}
-
-@keyframes fadeInKeyframes {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOutKeyframes {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-} */
-
-.modal-transition {
-  view-transition-name: modal;
-}
-::view-transition-old(modal) {
-  animation: modalLeaveKeyframes 300ms ease-out;
-}
-::view-transition-new(modal) {
-  animation: modalEnterKeyframes 300ms ease-in;
-}
-
-@keyframes modalLeaveKeyframes {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-}
-
-@keyframes modalEnterKeyframes {
-  from {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+      rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+      scale(1);
   }
 }
