@@ -49,12 +49,12 @@ export default {
         360: "360deg",
       },
       animation: {
-        fadeIn: "fadeIn 500ms ease-out",
+        fadeIn: "fadeIn 1s ease-out",
       },
       keyframes: {
         fadeIn: {
-          from: { opacity: "0" },
-          to: { opacity: "1" },
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
       },
     },
