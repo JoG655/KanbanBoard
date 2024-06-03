@@ -1,11 +1,13 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
+export const THEME_STORE_KEY = "theme";
+
 type ThemeState = "light" | "dark";
 
 type ThemeStoreProps = {
   theme: ThemeState;
-  setTheme: (value: ThemeState) => void;
+  setTheme: (theme: ThemeState) => void;
 };
 
 export const useThemeStore = create<ThemeStoreProps>()(
@@ -13,10 +15,10 @@ export const useThemeStore = create<ThemeStoreProps>()(
     persist(
       (set) => ({
         theme: "light",
-        setTheme: (value) => set({ theme: value }),
+        setTheme: (theme) => set(() => ({ theme: theme })),
       }),
       {
-        name: "theme",
+        name: THEME_STORE_KEY,
       },
     ),
   ),

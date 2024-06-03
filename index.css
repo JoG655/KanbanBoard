@@ -28,7 +28,7 @@ html,
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: rgb(192, 192, 192);
 }
 #rootSpinner[data-animation="rootSpinnerFadeOut"] {
   animation: rootSpinnerFadeOut 1s ease-in;

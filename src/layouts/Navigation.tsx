@@ -1,7 +1,9 @@
 import { Moon, Sun } from "lucide-react";
 import { useThemeStore } from "../stores/theme";
 import { useEffect } from "react";
+import { initializeBoardStoreDummyData } from "../utils/initializeBoardStoreDummyData";
 import { NavButton } from "../components/NavButton";
+import { Button } from "../components/Button";
 import { Switch } from "../components/Switch";
 
 export function Navigation() {
@@ -22,14 +24,18 @@ export function Navigation() {
     }
   }, [theme]);
 
-  function handleThemeChange() {
+  function handleOnChangeTheme() {
     setTheme(theme === "dark" ? "light" : "dark");
+  }
+
+  function handleOnClickInitialize() {
+    initializeBoardStoreDummyData();
   }
 
   return (
     <>
-      <nav className="sticky top-0 z-10 flex w-full items-center justify-end gap-4 border-b-2 border-primary-700 bg-primary-200 p-1 text-lg dark:border-primary-300 dark:bg-primary-700">
-        <ul className="flex list-none">
+      <nav className="sticky top-0 z-10 flex w-full flex-wrap items-center justify-end gap-4 border-b-2 border-primary-700 bg-primary-200 p-1 text-lg dark:border-primary-300 dark:bg-primary-700">
+        <ul className="flex list-none items-center">
           <li>
             <NavButton to="/">Home</NavButton>
           </li>
@@ -37,6 +43,9 @@ export function Navigation() {
             <NavButton to="/bonus">Bonus</NavButton>
           </li>
         </ul>
+        <Button styleVariant={"secondary"} onClick={handleOnClickInitialize}>
+          Dummy data
+        </Button>
         <Switch
           styleVariant={"secondary"}
           styleSize={"xl"}
@@ -44,7 +53,7 @@ export function Navigation() {
           checkedIcon={<Moon />}
           uncheckedIcon={<Sun />}
           defaultChecked={theme === "dark"}
-          onChange={handleThemeChange}
+          onChange={handleOnChangeTheme}
         >
           Theme
         </Switch>

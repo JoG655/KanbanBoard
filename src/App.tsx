@@ -2,7 +2,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { Navigation } from "./layouts/Navigation";
 import { AnimatePresence } from "framer-motion";
 import { TransitionSlide } from "./components/TransitionSlide";
-import { Home } from "./pages/Home";
+import { Board } from "./pages/Board";
 import { Bonus } from "./pages/Bonus";
 import { useEffect } from "react";
 
@@ -47,7 +47,7 @@ function App() {
               index
               element={
                 <TransitionSlide>
-                  <Home />
+                  <Board />
                 </TransitionSlide>
               }
             />
