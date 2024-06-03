@@ -34,7 +34,7 @@ export function Navigation() {
 
   return (
     <>
-      <nav className="sticky top-0 z-10 flex w-full flex-wrap items-center justify-end gap-4 border-b-2 border-primary-700 bg-primary-200 p-1 text-lg dark:border-primary-300 dark:bg-primary-700">
+      <nav className="sticky top-0 z-10 flex w-full flex-wrap items-center justify-end gap-2 border-b-2 border-primary-700 bg-primary-200 p-1 text-lg dark:border-primary-300 dark:bg-primary-700">
         <ul className="flex list-none items-center">
           <li>
             <NavButton to="/">Home</NavButton>

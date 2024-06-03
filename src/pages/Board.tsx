@@ -13,7 +13,7 @@ export function Board() {
   }
 
   return (
-    <div className="scrollbar-hidden w-full overflow-auto bg-primary-200 text-primary-800 dark:bg-primary-600 dark:text-primary-100">
+    <div className="scrollbar-hidden flex max-h-[85dvh] max-w-full overflow-hidden bg-primary-200 text-primary-800 dark:bg-primary-600 dark:text-primary-100">
       <DropArea variant="column" columnIndex={0} />
       {columns.map((column, index) => (
         <Fragment key={column.id}>
@@ -29,7 +29,7 @@ export function Board() {
       <Button
         styleVariant={"outline"}
         styleSize={"xl"}
-        className="w-full"
+        styleStack={true}
         onClick={handleOnClickAdd}
       >
         <Plus />

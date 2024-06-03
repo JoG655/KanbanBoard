@@ -35,8 +35,6 @@ export const Column = ({ id, title, tasks, columnIndex }: ColumnProps) => {
         <Button
           styleVariant={"outline"}
           styleSize={"xl"}
-          styleStack={true}
-          className="h-full max-w-fit"
           onClick={handleOnClickAdd}
         >
           <Plus />
