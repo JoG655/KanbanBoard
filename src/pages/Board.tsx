@@ -1,4 +1,4 @@
-import { useBoardStore } from "../stores/board";
+import { useBoardStore } from "../stores/boardStore";
 import { DropArea } from "../layouts/home/DropArea";
 import { Fragment } from "react/jsx-runtime";
 import { Column } from "../layouts/home/Column";
@@ -13,7 +13,7 @@ export function Board() {
   }
 
   return (
-    <div className="scrollbar-hidden flex max-h-[85dvh] max-w-full overflow-hidden bg-primary-200 text-primary-800 dark:bg-primary-600 dark:text-primary-100">
+    <div className="scrollbar-hidden flex max-h-[85dvh] max-w-full snap-x snap-mandatory gap-2 overflow-auto scroll-smooth">
       <DropArea variant="column" columnIndex={0} />
       {columns.map((column, index) => (
         <Fragment key={column.id}>

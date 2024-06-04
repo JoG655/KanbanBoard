@@ -1,12 +1,13 @@
-import { type DragDataType } from "../../types/dragData";
-import { type DragEvent, useState } from "react";
-import { useDragControlStore } from "../../stores/dragControl";
-import { useBoardStore } from "../../stores/board";
+import { type DragVariantType } from "../../types/dragDataType";
+import { useState, type DragEvent } from "react";
+import { validateDrag } from "../../utils/validateDrag";
+import { useDragStore } from "../../stores/dragStore";
+import { useBoardStore } from "../../stores/boardStore";
+import { elementTransition } from "../../utils/elementTransition";
 import { twMerge } from "tailwind-merge";
-import { getDragData } from "../../utils/getDragData";
 
 export type DropAreaProps = {
-  variant: DragDataType["type"];
+  variant: DragVariantType;
   columnIndex: number;
 } & (
   | {
@@ -24,22 +25,16 @@ export const DropArea = ({
   columnIndex,
   taskIndex,
 }: DropAreaProps) => {
-  const { isDragEnabled } = useDragControlStore();
+  const { isDragEnabled, dragData } = useDragStore();
 
   const { moveColumn, moveTask } = useBoardStore();
 
   const [isVisible, setIsVisible] = useState(false);
 
   function handleDragEnter(e: DragEvent<HTMLDivElement>) {
-    if (!isDragEnabled) {
-      e.preventDefault();
-
-      return;
-    }
-
-    const { valid, type } = getDragData(e);
-
-    if (!valid || type !== variant) {
+    if (
+      !validateDrag(variant, columnIndex, taskIndex, isDragEnabled, dragData)
+    ) {
       e.preventDefault();
 
       return;
@@ -53,15 +48,9 @@ export const DropArea = ({
   }
 
   function handleDrop(e: DragEvent<HTMLDivElement>) {
-    if (!isDragEnabled) {
-      e.preventDefault();
-
-      return;
-    }
-
-    const { valid, type, columnId, taskId } = getDragData(e);
-
-    if (!valid || type !== variant) {
+    if (
+      !validateDrag(variant, columnIndex, taskIndex, isDragEnabled, dragData)
+    ) {
       e.preventDefault();
 
       return;
@@ -69,13 +58,13 @@ export const DropArea = ({
 
     setIsVisible(false);
 
-    if (variant === "column") {
-      moveColumn(columnId, columnIndex);
-
-      return;
-    }
-
-    moveTask(columnId, taskId, columnIndex, taskIndex);
+    elementTransition(() => {
+      if (dragData.variant === "column" && variant === "column") {
+        moveColumn(dragData.columnId, columnIndex);
+      } else if (dragData.variant === "task" && variant === "task") {
+        moveTask(dragData.columnId, dragData.taskId, columnIndex, taskIndex);
+      }
+    });
   }
 
   function handleDragOver(e: DragEvent<HTMLDivElement>) {
@@ -85,13 +74,16 @@ export const DropArea = ({
   return (
     <div
       className={twMerge(
-        "relative transition-all before:absolute before:inset-2 before:rounded-xl before:border-2 before:border-dashed before:border-primary-500 before:bg-primary-400 dark:before:bg-primary-600",
-        variant === "column" ? "w-2 only:w-32" : "h-2 only:h-32",
+        "relative block transition-all before:absolute before:inset-2 before:rounded-xl before:border-2 before:border-dashed before:border-primary-500 before:bg-primary-400 dark:before:bg-primary-600",
+        variant === "column" ? "px-2 only:px-16" : "py-2 only:py-16",
         isVisible
           ? variant === "column"
             ? "px-8 opacity-100"
             : "py-8 opacity-100"
           : "opacity-0",
+        !validateDrag(variant, columnIndex, taskIndex, isDragEnabled, dragData)
+          ? "pointer-events-none"
+          : null,
       )}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}

@@ -9,7 +9,7 @@ export type TaskType = {
   columnId: string;
   title: string;
   description: string;
-  status: string;
+  priority: "Very Low" | "Low" | "Medium" | "High" | "Very High";
   subtasks: SubtaskType[];
 };
 

@@ -1,4 +1,4 @@
-import { useBoardStore } from "../../stores/board";
+import { useBoardStore } from "../../stores/boardStore";
 import { Button } from "../../components/Button";
 
 export function EditTask() {
@@ -15,10 +15,10 @@ export function EditTask() {
 
   return (
     <div
+      className="cursor-grab rounded-md bg-primary-100 p-3 text-primary-800 shadow-md active:animate-pulse active:cursor-grabbing dark:bg-primary-800 dark:text-primary-100"
+      style={{ viewTransitionName: `card-${id}` }}
       draggable="true"
       onDragStart={handleDragStart}
-      style={{ viewTransitionName: `card-${id}` }}
-      className="cursor-grab rounded-md bg-primary-100 p-3 text-primary-800 shadow-md active:animate-pulse active:cursor-grabbing dark:bg-primary-800 dark:text-primary-100"
     >
       <h4 className="text-md max-h-10 text-balance">{title}</h4>
       <div className="flex">

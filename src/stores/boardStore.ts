@@ -1,4 +1,4 @@
-import { type ColumnType, type TaskType } from "../types/board";
+import { type ColumnType, type TaskType } from "../types/boardType";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -6,7 +6,9 @@ import { getUUID } from "../utils/getUUID";
 
 export const BOARD_STORE_KEY = "board";
 
-function getColumnIndex(columns: ColumnType[], columnId: string) {
+function getColumnIndex(columnId: string) {
+  const columns = useBoardStore.getState().columns;
+
   const columnIndex = columns.findIndex((column) => column.id === columnId);
 
   if (columnIndex === -1) {
@@ -16,14 +18,12 @@ function getColumnIndex(columns: ColumnType[], columnId: string) {
   return { valid: columnIndex !== -1, columnIndex };
 }
 
-function getColumnAndTaskIndex(
-  columns: ColumnType[],
-  columnId: string,
-  taskId: string,
-) {
-  const { valid, columnIndex } = getColumnIndex(columns, columnId);
+function getColumnAndTaskIndex(columnId: string, taskId: string) {
+  const { valid, columnIndex } = getColumnIndex(columnId);
 
   if (!valid) return { valid, columnIndex, taskIndex: -1 };
+
+  const columns = useBoardStore.getState().columns;
 
   const taskIndex = columns[columnIndex].tasks.findIndex(
     (task) => task.id === taskId,
@@ -37,18 +37,18 @@ function getColumnAndTaskIndex(
 }
 
 function getColumnAndTaskAndSubtaskIndex(
-  columns: ColumnType[],
   columnId: string,
   taskId: string,
   subtaskId: string,
 ) {
   const { valid, columnIndex, taskIndex } = getColumnAndTaskIndex(
-    columns,
     columnId,
     taskId,
   );
 
   if (!valid) return { valid, columnIndex, taskIndex, subtaskIndex: -1 };
+
+  const columns = useBoardStore.getState().columns;
 
   const subtaskIndex = columns[columnIndex].tasks[taskIndex].subtasks.findIndex(
     (subtask) => subtask.id === subtaskId,
@@ -77,6 +77,13 @@ type BoardStoreProps = {
     destinationTaskIndex: number,
   ) => void;
   toggleSubtask: (columnId: string, taskId: string, subtaskId: string) => void;
+
+  isOpenColumnAdd: boolean;
+  setIsOpenColumnAdd: (isOpenColumnAdd: boolean) => void;
+
+  isOpenTaskAdd: boolean;
+  setIsOpenTaskAdd: (isOpenTaskAdd: boolean) => void;
+
   scopedTask: TaskType;
   isOpenTaskView: boolean;
   setIsOpenTaskView: (isOpenTaskView: boolean) => void;
@@ -94,10 +101,7 @@ export const useBoardStore = create<BoardStoreProps>()(
         }),
       deleteColumn: (columnId) =>
         set((state) => {
-          const { valid, columnIndex } = getColumnIndex(
-            state.columns,
-            columnId,
-          );
+          const { valid, columnIndex } = getColumnIndex(columnId);
 
           if (!valid) return;
 
@@ -105,25 +109,21 @@ export const useBoardStore = create<BoardStoreProps>()(
         }),
       moveColumn: (columnId, destinationColumnIndex) =>
         set((state) => {
-          const { valid, columnIndex } = getColumnIndex(
-            state.columns,
-            columnId,
-          );
+          const { valid, columnIndex } = getColumnIndex(columnId);
 
           if (!valid) return;
 
-          state.columns.splice(destinationColumnIndex, 0, {
-            ...state.columns[columnIndex],
-          });
+          const data = { ...state.columns[columnIndex] };
 
           state.columns.splice(columnIndex, 1);
+
+          state.columns.splice(destinationColumnIndex, 0, {
+            ...data,
+          });
         }),
       addTask: (columnId) =>
         set((state) => {
-          const { valid, columnIndex } = getColumnIndex(
-            state.columns,
-            columnId,
-          );
+          const { valid, columnIndex } = getColumnIndex(columnId);
 
           if (!valid) return;
 
@@ -132,14 +132,13 @@ export const useBoardStore = create<BoardStoreProps>()(
             columnId: columnId,
             title: "",
             description: "",
-            status: "",
+            priority: "Low",
             subtasks: [],
           });
         }),
       viewTask: (columnId, taskId) =>
         set((state) => {
           const { valid, columnIndex, taskIndex } = getColumnAndTaskIndex(
-            state.columns,
             columnId,
             taskId,
           );
@@ -155,7 +154,6 @@ export const useBoardStore = create<BoardStoreProps>()(
       editTask: (columnId, taskId) =>
         set((state) => {
           const { valid, columnIndex, taskIndex } = getColumnAndTaskIndex(
-            state.columns,
             columnId,
             taskId,
           );
@@ -171,7 +169,6 @@ export const useBoardStore = create<BoardStoreProps>()(
       deleteTask: (columnId, taskId) =>
         set((state) => {
           const { valid, columnIndex, taskIndex } = getColumnAndTaskIndex(
-            state.columns,
             columnId,
             taskId,
           );
@@ -188,30 +185,29 @@ export const useBoardStore = create<BoardStoreProps>()(
       ) =>
         set((state) => {
           const { valid, columnIndex, taskIndex } = getColumnAndTaskIndex(
-            state.columns,
             columnId,
             taskId,
           );
 
           if (!valid) return;
 
+          const data = {
+            ...state.columns[columnIndex].tasks[taskIndex],
+            columnId: state.columns[destinationColumnIndex].id,
+          };
+
+          state.columns[columnIndex].tasks.splice(taskIndex, 1);
+
           state.columns[destinationColumnIndex].tasks.splice(
             destinationTaskIndex,
             0,
-            { ...state.columns[columnIndex].tasks[taskIndex] },
+            { ...data },
           );
-
-          state.columns[columnIndex].tasks.splice(taskIndex, 1);
         }),
       toggleSubtask: (columnId, taskId, subtaskId) =>
         set((state) => {
           const { valid, columnIndex, taskIndex, subtaskIndex } =
-            getColumnAndTaskAndSubtaskIndex(
-              state.columns,
-              columnId,
-              taskId,
-              subtaskId,
-            );
+            getColumnAndTaskAndSubtaskIndex(columnId, taskId, subtaskId);
 
           if (!valid) return;
 
@@ -223,12 +219,25 @@ export const useBoardStore = create<BoardStoreProps>()(
             subtaskIndex
           ].isCompleted = !isCompleted;
         }),
+
+      isOpenColumnAdd: false,
+      setIsOpenColumnAdd: (isOpenColumnAdd) =>
+        set((state) => {
+          state.isOpenColumnAdd = isOpenColumnAdd;
+        }),
+
+      isOpenTaskAdd: false,
+      setIsOpenTaskAdd: (isOpenTaskAdd) =>
+        set((state) => {
+          state.isOpenTaskAdd = isOpenTaskAdd;
+        }),
+
       scopedTask: {
         id: "",
         columnId: "",
         title: "",
         description: "",
-        status: "",
+        priority: "Low",
         subtasks: [],
       },
       isOpenTaskView: false,

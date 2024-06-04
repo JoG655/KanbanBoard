@@ -40,7 +40,7 @@ function App() {
   return (
     <>
       <Navigation />
-      <main className="mx-auto flex max-w-7xl animate-fadeIn flex-col items-center scroll-smooth bg-primary-50 p-4 text-primary-800 dark:bg-primary-900 dark:text-primary-50">
+      <main className="flex flex-grow animate-fadeIn flex-col items-center scroll-smooth bg-primary-50 p-4 text-primary-800 dark:bg-primary-900 dark:text-primary-50">
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route

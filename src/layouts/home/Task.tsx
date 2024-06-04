@@ -1,28 +1,45 @@
-import { type TaskType } from "../../types/board";
-import { useBoardStore } from "../../stores/board";
-import { useDragControlStore } from "../../stores/dragControl";
+import { type TaskType } from "../../types/boardType";
+import { useBoardStore } from "../../stores/boardStore";
+import { useDragStore } from "../../stores/dragStore";
 import { type DragEvent } from "react";
-import { setDragData } from "../../utils/setDragData";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../../components/Button";
 import { Edit, List, Trash } from "lucide-react";
 
-export type CardProps = Pick<
+export type TaskProps = Pick<
   TaskType,
   "id" | "columnId" | "title" | "subtasks"
->;
+> & {
+  columnIndex: number;
+  taskIndex: number;
+};
 
-export function Card({ id, columnId, title, subtasks }: CardProps) {
+export function Task({
+  id,
+  columnId,
+  title,
+  subtasks,
+  columnIndex,
+  taskIndex,
+}: TaskProps) {
   const { viewTask, editTask, deleteTask } = useBoardStore();
 
-  const { isDragEnabled } = useDragControlStore();
+  const { isDragEnabled, dragData, setDragData } = useDragStore();
 
   const subtasksCompleted = subtasks.filter(
     (subtask) => subtask.isCompleted,
   ).length;
 
   function handleDragStart(e: DragEvent<HTMLDivElement>) {
-    setDragData(e, { type: "task", columnId: columnId, taskId: id });
+    e.stopPropagation();
+
+    setDragData({
+      variant: "task",
+      columnId: columnId,
+      columnIndex: columnIndex,
+      taskId: id,
+      taskIndex: taskIndex,
+    });
   }
 
   function handleOnClickView() {
@@ -39,13 +56,20 @@ export function Card({ id, columnId, title, subtasks }: CardProps) {
 
   return (
     <div
+      className={twMerge(
+        "rounded-md bg-primary-300 p-2 shadow-md dark:bg-primary-600",
+        isDragEnabled ? "cursor-grab" : null,
+        dragData.variant === "task" &&
+          dragData.columnId === columnId &&
+          dragData.taskId === id
+          ? "active:animate-pulse active:cursor-grabbing"
+          : null,
+      )}
+      style={
+        dragData.variant === "task" ? { viewTransitionName: `Task-${id}` } : {}
+      }
       draggable={isDragEnabled}
       onDragStart={handleDragStart}
-      style={{ viewTransitionName: `card-${id}` }}
-      className={twMerge(
-        "rounded-md bg-primary-100 p-1 shadow-md active:animate-pulse active:cursor-grabbing dark:bg-primary-800",
-        isDragEnabled ? "cursor-grab" : null,
-      )}
     >
       <h4 className="text-md max-h-10 text-balance">{title}</h4>
       <div className="flex">
