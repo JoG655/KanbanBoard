@@ -4,12 +4,19 @@ export type ColumnType = {
   tasks: TaskType[];
 };
 
+export type TaskPriorityType =
+  | "Very low"
+  | "Low"
+  | "Medium"
+  | "High"
+  | "Very high";
+
 export type TaskType = {
   id: string;
   columnId: string;
   title: string;
   description: string;
-  priority: "Very Low" | "Low" | "Medium" | "High" | "Very High";
+  priority: TaskPriorityType;
   subtasks: SubtaskType[];
 };
 

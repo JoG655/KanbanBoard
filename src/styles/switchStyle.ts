@@ -110,8 +110,8 @@ export const labelStyle = cva(
       styleSize: {
         sm: "text-sm",
         md: "text-sm",
-        lg: "text-md",
-        xl: "text-md",
+        lg: "text-base",
+        xl: "text-base",
       },
       styleStack: {
         false: "",

@@ -20,7 +20,7 @@ export function EditTask() {
       draggable="true"
       onDragStart={handleDragStart}
     >
-      <h4 className="text-md max-h-10 text-balance">{title}</h4>
+      <h4 className="max-h-10 text-balance text-base">{title}</h4>
       <div className="flex">
         <p className="text-sm">
           {subtasks.length

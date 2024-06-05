@@ -45,8 +45,8 @@ export const inputStyle = cva(
       styleSize: {
         sm: ["min-h-8", "px-2", "py-1", "text-sm"],
         md: ["min-h-9", "px-3", "py-1.5", "text-sm"],
-        lg: ["min-h-10", "px-4", "py-2", "text-md"],
-        xl: ["min-h-11", "px-5", "py-2.5", "text-md"],
+        lg: ["min-h-10", "px-4", "py-2", "text-base"],
+        xl: ["min-h-11", "px-5", "py-2.5", "text-base"],
       },
     },
     defaultVariants: {
@@ -69,8 +69,8 @@ export const labelStyle = cva(
       styleSize: {
         sm: "text-sm",
         md: "text-sm",
-        lg: "text-md",
-        xl: "text-md",
+        lg: "text-base",
+        xl: "text-base",
       },
       styleStack: {
         false: "",
