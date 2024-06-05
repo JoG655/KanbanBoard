@@ -1,5 +1,5 @@
 import { getUUID } from "./getUUID";
-import { type ColumnType } from "../types/boardType";
+import { type BoardType } from "../types/boardType";
 import { useBoardStore } from "../stores/boardStore";
 
 const DUMMY_DATA_COLUMN_ID = getUUID();
@@ -8,7 +8,7 @@ const DUMMY_DATA_TASK_ID = getUUID();
 
 const DUMMY_DATA_SUBTASK_ID = getUUID();
 
-const BOARD_STORE_DUMMY_DATA: ColumnType[] = [
+const BOARD_STORE_DUMMY_DATA: BoardType = [
   {
     id: DUMMY_DATA_COLUMN_ID,
     title: "To-Do",
@@ -174,5 +174,5 @@ const BOARD_STORE_DUMMY_DATA: ColumnType[] = [
 ];
 
 export function initializeBoardStoreDummyData() {
-  useBoardStore.setState({ columns: BOARD_STORE_DUMMY_DATA });
+  useBoardStore.setState({ board: BOARD_STORE_DUMMY_DATA });
 }

@@ -1,28 +1,28 @@
-import { type DragVariantType, type DragDataType } from "../types/dragDataType";
+import { type DragVariantType, type DragType } from "../types/dragType";
 
 export function validateDrag(
   variant: DragVariantType,
   columnIndex: number,
   taskIndex: number = NaN,
   isDragEnabled: boolean,
-  dragData: DragDataType,
+  drag: DragType,
 ) {
   if (!isDragEnabled) return false;
 
-  if (dragData.variant !== variant) return false;
+  if (drag.variant !== variant) return false;
 
-  switch (dragData.variant) {
+  switch (drag.variant) {
     case "column":
-      if (dragData.columnIndex === columnIndex) return false;
+      if (drag.columnIndex === columnIndex) return false;
 
-      if (dragData.columnIndex + 1 === columnIndex) return false;
+      if (drag.columnIndex + 1 === columnIndex) return false;
 
       break;
     case "task":
-      if (dragData.columnIndex === columnIndex) {
-        if (dragData.taskIndex === taskIndex) return false;
+      if (drag.columnIndex === columnIndex) {
+        if (drag.taskIndex === taskIndex) return false;
 
-        if (dragData.taskIndex + 1 === taskIndex) return false;
+        if (drag.taskIndex + 1 === taskIndex) return false;
       }
 
       break;

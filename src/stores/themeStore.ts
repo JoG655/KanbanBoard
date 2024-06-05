@@ -3,18 +3,18 @@ import { devtools, persist } from "zustand/middleware";
 
 export const THEME_STORE_KEY = "theme";
 
-type ThemeState = "light" | "dark";
+type ThemeStateType = "light" | "dark";
 
 type ThemeStoreProps = {
-  theme: ThemeState;
-  setTheme: (theme: ThemeState) => void;
+  theme: ThemeStateType;
+  setTheme: (theme: ThemeStateType) => void;
 };
 
 export const useThemeStore = create<ThemeStoreProps>()(
   devtools(
     persist(
       (set) => ({
-        theme: "light",
+        theme: "dark",
         setTheme: (theme) => set(() => ({ theme })),
       }),
       {

@@ -1,14 +1,15 @@
-import { type TaskType } from "../../types/boardType";
+import { type BoardTaskType } from "../../types/boardType";
 import { useBoardStore } from "../../stores/boardStore";
 import { useDragStore } from "../../stores/dragStore";
+import { useModalStore } from "../../stores/modalStore";
 import { type DragEvent } from "react";
 import { elementTransition } from "../../utils/elementTransition";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../../components/Button";
 import { Edit, List, Trash } from "lucide-react";
 
-export type TaskProps = Pick<
-  TaskType,
+type TaskProps = Pick<
+  BoardTaskType,
   "id" | "columnId" | "title" | "subtasks"
 > & {
   columnIndex: number;
@@ -23,9 +24,11 @@ export function Task({
   columnIndex,
   taskIndex,
 }: TaskProps) {
-  const { viewTask, editTask, deleteTask } = useBoardStore();
+  const { deleteTask } = useBoardStore();
 
-  const { isDragEnabled, dragData, setDragData } = useDragStore();
+  const { isDragEnabled, drag, setDrag } = useDragStore();
+
+  const { setModal } = useModalStore();
 
   const subtasksCompleted = subtasks.filter(
     (subtask) => subtask.isCompleted,
@@ -34,7 +37,7 @@ export function Task({
   function handleDragStart(e: DragEvent<HTMLDivElement>) {
     e.stopPropagation();
 
-    setDragData({
+    setDrag({
       variant: "task",
       columnId: columnId,
       columnIndex: columnIndex,
@@ -44,11 +47,11 @@ export function Task({
   }
 
   function handleOnClickView() {
-    viewTask(columnId, id);
+    setModal({ variant: "TaskView", columnId, taskId: id });
   }
 
   function handleOnClickEdit() {
-    editTask(columnId, id);
+    setModal({ variant: "TaskEdit", columnId, taskId: id });
   }
 
   function handleOnClickDelete() {
@@ -63,14 +66,14 @@ export function Task({
         "rounded-md bg-primary-300 p-2 shadow-md dark:bg-primary-600",
         isDragEnabled ? "cursor-grab" : null,
         isDragEnabled &&
-          dragData.variant === "task" &&
-          dragData.columnId === columnId &&
-          dragData.taskId === id
+          drag.variant === "task" &&
+          drag.columnId === columnId &&
+          drag.taskId === id
           ? "active:animate-pulse active:cursor-grabbing"
           : null,
       )}
       style={
-        dragData.variant === "task" ? { viewTransitionName: `Task-${id}` } : {}
+        drag.variant === "task" ? { viewTransitionName: `Task-${id}` } : {}
       }
       draggable={isDragEnabled}
       onDragStart={handleDragStart}

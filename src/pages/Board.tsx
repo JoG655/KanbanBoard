@@ -1,28 +1,36 @@
-import { useBoardStore } from "../stores/boardStore";
+import { useBoardStore } from "../stores/boardStore.ts";
+import { useModalStore } from "../stores/modalStore.ts";
 import { useState, useMemo } from "react";
-import { type SearchKeysType } from "../types/boardType";
-import { SearchColumns } from "../layouts/board/SearchColumns";
+import {
+  type BoardSearchKeysType,
+  type BoardIsSearchActiveType,
+} from "../types/boardType.ts";
+import { Search } from "../layouts/board/Search";
 import { Button } from "../components/Button";
 import { Plus } from "lucide-react";
 import { DropArea } from "../layouts/board/DropArea";
 import { Fragment } from "react/jsx-runtime";
 import { Column } from "../layouts/board/Column";
+import { Modals } from "../layouts/board/Modals.tsx";
 
 export function Board() {
-  const { columns, addColumn } = useBoardStore();
+  const { board } = useBoardStore();
 
-  const [searchKeys, setSearchKeys] = useState<SearchKeysType>({
+  const { setModal } = useModalStore();
+
+  const [searchKeys, setSearchKeys] = useState<BoardSearchKeysType>({
     title: "",
     description: "",
     priority: "",
   });
 
-  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [isSearchActive, setIsSearchActive] =
+    useState<BoardIsSearchActiveType>(false);
 
-  const filteredColumns = useMemo(() => {
-    if (!isSearchActive) return columns;
+  const filteredBoard = useMemo(() => {
+    if (!isSearchActive) return board;
 
-    return columns
+    return board
       .map((column) => {
         const filteredTasks = column.tasks.filter((task) => {
           return (
@@ -44,21 +52,21 @@ export function Board() {
         };
       })
       .filter((column) => column.tasks.length > 0);
-  }, [columns, searchKeys, isSearchActive]);
+  }, [board, searchKeys, isSearchActive]);
 
   function handleOnClickAdd() {
-    addColumn();
+    setModal({ variant: "ColumnAdd" });
   }
 
   return (
     <>
-      <SearchColumns
+      <Search
         setSearchKeys={setSearchKeys}
         setIsSearchActive={setIsSearchActive}
       />
       <div className="scrollbar-hidden flex max-h-[70dvh] max-w-full snap-x snap-mandatory gap-2 overflow-auto scroll-smooth p-2 md:max-h-[75dvh] lg:max-h-[80dvh]">
         <DropArea variant="column" columnIndex={0} />
-        {filteredColumns.map((column, index) => (
+        {filteredBoard.map((column, index) => (
           <Fragment key={column.id}>
             <Column
               id={column.id}
@@ -79,6 +87,7 @@ export function Board() {
           <span>Add Column</span>
         </Button>
       </div>
+      <Modals />
     </>
   );
 }

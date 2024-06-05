@@ -1,4 +1,4 @@
-import { type DragVariantType } from "../../types/dragDataType";
+import { type DragVariantType } from "../../types/dragType";
 import { useState, type DragEvent } from "react";
 import { validateDrag } from "../../utils/validateDrag";
 import { useDragStore } from "../../stores/dragStore";
@@ -6,7 +6,7 @@ import { useBoardStore } from "../../stores/boardStore";
 import { elementTransition } from "../../utils/elementTransition";
 import { twMerge } from "tailwind-merge";
 
-export type DropAreaProps = {
+type DropAreaProps = {
   variant: DragVariantType;
   columnIndex: number;
 } & (
@@ -25,16 +25,14 @@ export const DropArea = ({
   columnIndex,
   taskIndex,
 }: DropAreaProps) => {
-  const { isDragEnabled, dragData } = useDragStore();
+  const { isDragEnabled, drag } = useDragStore();
 
   const { moveColumn, moveTask } = useBoardStore();
 
   const [isVisible, setIsVisible] = useState(false);
 
   function handleDragEnter(e: DragEvent<HTMLDivElement>) {
-    if (
-      !validateDrag(variant, columnIndex, taskIndex, isDragEnabled, dragData)
-    ) {
+    if (!validateDrag(variant, columnIndex, taskIndex, isDragEnabled, drag)) {
       e.preventDefault();
 
       return;
@@ -48,9 +46,7 @@ export const DropArea = ({
   }
 
   function handleDrop(e: DragEvent<HTMLDivElement>) {
-    if (
-      !validateDrag(variant, columnIndex, taskIndex, isDragEnabled, dragData)
-    ) {
+    if (!validateDrag(variant, columnIndex, taskIndex, isDragEnabled, drag)) {
       e.preventDefault();
 
       return;
@@ -59,10 +55,10 @@ export const DropArea = ({
     setIsVisible(false);
 
     elementTransition(() => {
-      if (dragData.variant === "column" && variant === "column") {
-        moveColumn(dragData.columnId, columnIndex);
-      } else if (dragData.variant === "task" && variant === "task") {
-        moveTask(dragData.columnId, dragData.taskId, columnIndex, taskIndex);
+      if (drag.variant === "column" && variant === "column") {
+        moveColumn(drag.columnId, columnIndex);
+      } else if (drag.variant === "task" && variant === "task") {
+        moveTask(drag.columnId, drag.taskId, columnIndex, taskIndex);
       }
     });
   }
@@ -81,7 +77,7 @@ export const DropArea = ({
             ? "px-8 opacity-100"
             : "py-8 opacity-100"
           : "opacity-0",
-        !validateDrag(variant, columnIndex, taskIndex, isDragEnabled, dragData)
+        !validateDrag(variant, columnIndex, taskIndex, isDragEnabled, drag)
           ? "pointer-events-none"
           : null,
       )}

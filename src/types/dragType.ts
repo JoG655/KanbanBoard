@@ -1,6 +1,6 @@
 export type DragVariantType = "column" | "task";
 
-export type DragDataType = {
+export type DragType = {
   variant: DragVariantType;
   columnId: string;
   columnIndex: number;

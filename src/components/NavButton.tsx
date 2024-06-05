@@ -1,7 +1,7 @@
 import { Button, type ButtonProps } from "./Button";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export type NavButtonProps = {
+type NavButtonProps = {
   to: string;
 } & Omit<ButtonProps, "styleVariant" | "onClick">;
 

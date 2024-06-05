@@ -8,8 +8,6 @@ export const selectStyle = cva(
     "bg-primary-100",
     "text-primary-800",
     "transition",
-    "read-only:bg-primary-200",
-    "read-only:text-primary-800",
     "focus:outline-none",
     "focus-visible:shadow-focus-sm",
     "disabled:cursor-not-allowed",
