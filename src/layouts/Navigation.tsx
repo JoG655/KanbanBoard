@@ -37,7 +37,7 @@ export function Navigation() {
       <nav className="border-b-2 border-primary-700 bg-primary-200 p-1 text-primary-800 dark:border-primary-300 dark:bg-primary-700 dark:text-primary-50">
         <ul className="flex list-none flex-wrap items-center justify-end">
           <li>
-            <NavButton to="/">Home</NavButton>
+            <NavButton to="/">Board</NavButton>
           </li>
           <li>
             <NavButton to="/bonus">Bonus</NavButton>

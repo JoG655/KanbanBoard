@@ -27,3 +27,9 @@ export type SubtaskType = {
   title: string;
   isCompleted: boolean;
 };
+
+export type SearchKeysType = {
+  title: string;
+  description: string;
+  priority: string;
+};
