@@ -6,7 +6,7 @@ const DEFAULT_COLOR = resolveConfig(tailwindConfig).theme.colors.focus;
 
 const DEFAULT_DURATION = 500;
 
-type MinimalEvent = {
+type MinimalEventType = {
   clientX: number;
   clientY: number;
 };
@@ -24,7 +24,7 @@ export function useRipple<T extends HTMLElement>(
   const rippleSet = useRef(new Set<HTMLDivElement>());
 
   const rippleTrigger = useCallback(
-    (e: MinimalEvent) => {
+    (e: MinimalEventType) => {
       if (!enabled || !ref.current) return;
 
       requestAnimationFrame(() => {
