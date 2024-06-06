@@ -20,6 +20,7 @@ export function Button({
   ...rest
 }: ButtonProps) {
   const ref = useRef<HTMLButtonElement>(null);
+
   const [rippleTrigger] = useRipple<HTMLButtonElement>(ripple, ref);
 
   function handleOnClick(e: MouseEvent<HTMLButtonElement>) {
