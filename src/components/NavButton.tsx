@@ -1,5 +1,5 @@
-import { Button, type ButtonProps } from "./Button";
-import { useLocation, useNavigate } from "react-router-dom";
+import { type ButtonProps, Button } from "./Button";
+import { useNavigate, useLocation } from "react-router-dom";
 
 type NavButtonProps = {
   to: string;

@@ -1,10 +1,10 @@
-import { Moon, Sun } from "lucide-react";
 import { useThemeStore } from "../stores/themeStore";
 import { useEffect } from "react";
 import { initializeBoardStoreDummyData } from "../utils/initializeBoardStoreDummyData";
 import { NavButton } from "../components/NavButton";
 import { Button } from "../components/Button";
 import { Switch } from "../components/Switch";
+import { Moon, Sun } from "lucide-react";
 
 export function Navigation() {
   const { theme, setTheme } = useThemeStore();

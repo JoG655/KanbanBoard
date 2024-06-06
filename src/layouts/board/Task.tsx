@@ -8,18 +8,17 @@ import { twMerge } from "tailwind-merge";
 import { Button } from "../../components/Button";
 import { Edit, List, Trash } from "lucide-react";
 
-type TaskProps = Pick<
-  BoardTaskType,
-  "id" | "columnId" | "title" | "subtasks"
-> & {
+type TaskProps = BoardTaskType & {
   columnIndex: number;
   taskIndex: number;
 };
 
 export function Task({
-  id,
+  taskId,
   columnId,
   title,
+  description,
+  priority,
   subtasks,
   columnIndex,
   taskIndex,
@@ -39,24 +38,40 @@ export function Task({
 
     setDrag({
       variant: "task",
-      columnId: columnId,
-      columnIndex: columnIndex,
-      taskId: id,
-      taskIndex: taskIndex,
+      columnId,
+      columnIndex,
+      taskId,
+      taskIndex,
     });
   }
 
   function handleOnClickView() {
-    setModal({ variant: "TaskView", columnId, taskId: id });
+    setModal({
+      variant: "TaskView",
+      taskId,
+      columnId,
+      title,
+      description,
+      priority,
+      subtasks,
+    });
   }
 
   function handleOnClickEdit() {
-    setModal({ variant: "TaskEdit", columnId, taskId: id });
+    setModal({
+      variant: "TaskEdit",
+      taskId,
+      columnId,
+      title,
+      description,
+      priority,
+      subtasks,
+    });
   }
 
   function handleOnClickDelete() {
     elementTransition(() => {
-      deleteTask(columnId, id);
+      deleteTask(columnId, taskId);
     });
   }
 
@@ -68,12 +83,12 @@ export function Task({
         isDragEnabled &&
           drag.variant === "task" &&
           drag.columnId === columnId &&
-          drag.taskId === id
+          drag.taskId === taskId
           ? "active:animate-pulse active:cursor-grabbing"
           : null,
       )}
       style={
-        drag.variant === "task" ? { viewTransitionName: `Task-${id}` } : {}
+        drag.variant === "task" ? { viewTransitionName: `Task-${taskId}` } : {}
       }
       draggable={isDragEnabled}
       onDragStart={handleDragStart}

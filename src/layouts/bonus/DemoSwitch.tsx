@@ -1,4 +1,4 @@
-import { Switch, type SwitchProps } from "../../components/Switch";
+import { type SwitchProps, Switch } from "../../components/Switch";
 import { Search } from "lucide-react";
 
 const switchStyleVariants: SwitchProps["styleVariant"][] = [

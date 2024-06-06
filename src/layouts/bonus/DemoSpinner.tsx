@@ -1,4 +1,4 @@
-import { Spinner, type SpinnerProps } from "../../components/Spinner";
+import { type SpinnerProps, Spinner } from "../../components/Spinner";
 
 const spinnerAnimationCounts: SpinnerProps["animationCount"][] = [
   1, 2, 3, 4, 5,

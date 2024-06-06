@@ -1,4 +1,8 @@
-import { type BoardType } from "../types/boardType";
+import {
+  type BoardType,
+  type BoardColumnDataType,
+  type BoardTaskDataType,
+} from "../types/boardType";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -9,7 +13,7 @@ export const BOARD_STORE_KEY = "board";
 function getColumnIndex(columnId: string) {
   const board = useBoardStore.getState().board;
 
-  const columnIndex = board.findIndex((column) => column.id === columnId);
+  const columnIndex = board.findIndex((column) => column.columnId === columnId);
 
   if (columnIndex === -1) {
     console.warn("Column not found");
@@ -26,7 +30,7 @@ function getColumnAndTaskIndex(columnId: string, taskId: string) {
   const board = useBoardStore.getState().board;
 
   const taskIndex = board[columnIndex].tasks.findIndex(
-    (task) => task.id === taskId,
+    (task) => task.taskId === taskId,
   );
 
   if (taskIndex === -1) {
@@ -51,7 +55,7 @@ function getColumnAndTaskAndSubtaskIndex(
   const board = useBoardStore.getState().board;
 
   const subtaskIndex = board[columnIndex].tasks[taskIndex].subtasks.findIndex(
-    (subtask) => subtask.id === subtaskId,
+    (subtask) => subtask.subtaskId === subtaskId,
   );
 
   if (subtaskIndex === -1) {
@@ -64,11 +68,13 @@ function getColumnAndTaskAndSubtaskIndex(
 type BoardStoreProps = {
   board: BoardType;
 
-  addColumn: () => void;
+  addColumn: (data: BoardColumnDataType) => void;
+  editColumn: (columnId: string, data: BoardColumnDataType) => void;
   deleteColumn: (columnId: string) => void;
   moveColumn: (columnId: string, destinationColumnIndex: number) => void;
 
-  addTask: (columnId: string) => void;
+  addTask: (columnId: string, data: BoardTaskDataType) => void;
+  editTask: (columnId: string, taskId: string, data: BoardTaskDataType) => void;
   deleteTask: (columnId: string, taskId: string) => void;
   moveTask: (
     columnId: string,
@@ -85,9 +91,17 @@ export const useBoardStore = create<BoardStoreProps>()(
     immer((set) => ({
       board: [],
 
-      addColumn: () =>
+      addColumn: (data) =>
         set((state) => {
-          state.board.push({ id: getUUID(), title: "", tasks: [] });
+          state.board.push({ columnId: getUUID(), ...data });
+        }),
+      editColumn: (columnId, data) =>
+        set((state) => {
+          const { valid, columnIndex } = getColumnIndex(columnId);
+
+          if (!valid) return;
+
+          state.board[columnIndex] = { columnId, ...data };
         }),
       deleteColumn: (columnId) =>
         set((state) => {
@@ -112,22 +126,19 @@ export const useBoardStore = create<BoardStoreProps>()(
           });
         }),
 
-      addTask: (columnId) =>
+      addTask: (columnId, data) =>
         set((state) => {
           const { valid, columnIndex } = getColumnIndex(columnId);
 
           if (!valid) return;
 
           state.board[columnIndex].tasks.push({
-            id: getUUID(),
-            columnId: columnId,
-            title: "",
-            description: "",
-            priority: "Low",
-            subtasks: [],
+            columnId,
+            taskId: getUUID(),
+            ...data,
           });
         }),
-      /* editTask: (columnId, taskId) =>
+      editTask: (columnId, taskId, data) =>
         set((state) => {
           const { valid, columnIndex, taskIndex } = getColumnAndTaskIndex(
             columnId,
@@ -136,8 +147,12 @@ export const useBoardStore = create<BoardStoreProps>()(
 
           if (!valid) return;
 
-          
-        }), */
+          state.board[columnIndex].tasks[taskIndex] = {
+            columnId,
+            taskId,
+            ...data,
+          };
+        }),
       deleteTask: (columnId, taskId) =>
         set((state) => {
           const { valid, columnIndex, taskIndex } = getColumnAndTaskIndex(
@@ -165,7 +180,7 @@ export const useBoardStore = create<BoardStoreProps>()(
 
           const data = {
             ...state.board[columnIndex].tasks[taskIndex],
-            columnId: state.board[destinationColumnIndex].id,
+            columnId: state.board[destinationColumnIndex].columnId,
           };
 
           state.board[columnIndex].tasks.splice(taskIndex, 1);

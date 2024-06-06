@@ -2,7 +2,7 @@ import { type BoardColumnType } from "../../types/boardType.ts";
 import { useBoardStore } from "../../stores/boardStore.ts";
 import { useDragStore } from "../../stores/dragStore.ts";
 import { useModalStore } from "../../stores/modalStore.ts";
-import { Fragment, type DragEvent } from "react";
+import { type DragEvent, Fragment } from "react";
 import { elementTransition } from "../../utils/elementTransition.ts";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../../components/Button.tsx";
@@ -14,7 +14,12 @@ type ColumnProps = BoardColumnType & {
   columnIndex: number;
 };
 
-export const Column = ({ id, title, tasks, columnIndex }: ColumnProps) => {
+export const Column = ({
+  columnId,
+  title,
+  tasks,
+  columnIndex,
+}: ColumnProps) => {
   const { deleteColumn } = useBoardStore();
 
   const { drag, setDrag, isDragEnabled } = useDragStore();
@@ -24,21 +29,21 @@ export const Column = ({ id, title, tasks, columnIndex }: ColumnProps) => {
   function handleDragStart(e: DragEvent<HTMLDivElement>) {
     e.stopPropagation();
 
-    setDrag({ variant: "column", columnId: id, columnIndex: columnIndex });
+    setDrag({ variant: "column", columnId, columnIndex: columnIndex });
   }
 
   function handleOnClickEdit() {
-    setModal({ variant: "ColumnEdit", columnId: id });
+    setModal({ variant: "ColumnEdit", columnId, title, tasks });
   }
 
   function handleOnClickDelete() {
     elementTransition(() => {
-      deleteColumn(id);
+      deleteColumn(columnId);
     });
   }
 
   function handleOnClickAdd() {
-    setModal({ variant: "TaskAdd", columnId: id });
+    setModal({ variant: "ColumnAdd" });
   }
 
   return (
@@ -47,13 +52,15 @@ export const Column = ({ id, title, tasks, columnIndex }: ColumnProps) => {
         className={twMerge(
           "h-full w-80 flex-shrink-0 snap-center rounded-lg bg-primary-200 p-3 sm:w-96 dark:bg-primary-700",
           isDragEnabled ? "cursor-grab" : null,
-          isDragEnabled && drag.variant === "column" && drag.columnId === id
+          isDragEnabled &&
+            drag.variant === "column" &&
+            drag.columnId === columnId
             ? "active:animate-pulse active:cursor-grabbing"
             : null,
         )}
         style={
           drag.variant === "column"
-            ? { viewTransitionName: `Column-${id}` }
+            ? { viewTransitionName: `Column-${columnId}` }
             : {}
         }
         draggable={isDragEnabled}
@@ -83,7 +90,7 @@ export const Column = ({ id, title, tasks, columnIndex }: ColumnProps) => {
         <div className="flex flex-col gap-1">
           <DropArea variant="task" columnIndex={columnIndex} taskIndex={0} />
           {tasks.map((task, index) => (
-            <Fragment key={task.id}>
+            <Fragment key={task.taskId}>
               <Task {...task} columnIndex={columnIndex} taskIndex={index} />
               <DropArea
                 variant="task"

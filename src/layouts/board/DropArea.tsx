@@ -1,8 +1,8 @@
 import { type DragVariantType } from "../../types/dragType";
-import { useState, type DragEvent } from "react";
-import { validateDrag } from "../../utils/validateDrag";
+import { type DragEvent, useState } from "react";
 import { useDragStore } from "../../stores/dragStore";
 import { useBoardStore } from "../../stores/boardStore";
+import { validateDrag } from "../../utils/validateDrag";
 import { elementTransition } from "../../utils/elementTransition";
 import { twMerge } from "tailwind-merge";
 

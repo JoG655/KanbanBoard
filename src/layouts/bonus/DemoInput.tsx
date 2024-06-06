@@ -1,4 +1,4 @@
-import { Input, type InputProps } from "../../components/Input";
+import { type InputProps, Input } from "../../components/Input";
 import { Search } from "lucide-react";
 
 const inputStyleVariants: InputProps["styleVariant"][] = [

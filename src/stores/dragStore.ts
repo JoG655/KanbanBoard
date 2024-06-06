@@ -1,5 +1,5 @@
-import { create } from "zustand";
 import { type DragType } from "../types/dragType";
+import { create } from "zustand";
 
 type DragStoreProps = {
   drag: DragType;
@@ -17,7 +17,7 @@ export const useDragStore = create<DragStoreProps>((set) => ({
     taskId: "",
     taskIndex: NaN,
   },
-  setDrag: (drag) => set(() => ({ drag })),
+  setDrag: (drag) => set(() => ({ drag: { ...drag } })),
 
   isDragEnabled: true,
   setIsDragEnabled: (isDragEnabled) => set(() => ({ isDragEnabled })),

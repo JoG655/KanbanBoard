@@ -1,8 +1,8 @@
 import { type VariantProps } from "class-variance-authority";
-import { useRef, type MouseEvent, type ComponentPropsWithoutRef } from "react";
+import { type MouseEvent, type ComponentPropsWithoutRef, useRef } from "react";
+import { useRipple } from "../hooks/useRipple";
 import { twMerge } from "tailwind-merge";
 import { buttonStyle } from "../styles/buttonStyle";
-import { useRipple } from "../hooks/useRipple";
 
 export type ButtonProps = VariantProps<typeof buttonStyle> & {
   ripple?: boolean;

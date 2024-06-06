@@ -1,4 +1,4 @@
-import { useCallback, useRef, type RefObject } from "react";
+import { type RefObject, useRef, useCallback } from "react";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../..//tailwind.config";
 

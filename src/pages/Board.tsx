@@ -6,11 +6,11 @@ import {
   type BoardIsSearchActiveType,
 } from "../types/boardType.ts";
 import { Search } from "../layouts/board/Search";
-import { Button } from "../components/Button";
-import { Plus } from "lucide-react";
 import { DropArea } from "../layouts/board/DropArea";
 import { Fragment } from "react/jsx-runtime";
 import { Column } from "../layouts/board/Column";
+import { Button } from "../components/Button";
+import { Plus } from "lucide-react";
 import { Modals } from "../layouts/board/Modals.tsx";
 
 export function Board() {
@@ -67,9 +67,9 @@ export function Board() {
       <div className="scrollbar-hidden flex max-h-[70dvh] max-w-full snap-x snap-mandatory gap-2 overflow-auto scroll-smooth p-2 md:max-h-[75dvh] lg:max-h-[80dvh]">
         <DropArea variant="column" columnIndex={0} />
         {filteredBoard.map((column, index) => (
-          <Fragment key={column.id}>
+          <Fragment key={column.columnId}>
             <Column
-              id={column.id}
+              columnId={column.columnId}
               title={column.title}
               tasks={column.tasks}
               columnIndex={index}

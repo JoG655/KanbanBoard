@@ -8,8 +8,8 @@ import {
   type BoardIsSearchActiveType,
 } from "../../types/boardType";
 import { type EntriesType } from "../../types/utility";
-import { type FormEvent } from "react";
 import { useDragStore } from "../../stores/dragStore";
+import { type FormEvent } from "react";
 import { Input } from "../../components/Input";
 import { Select } from "../../components/Select";
 import { Button } from "../../components/Button";

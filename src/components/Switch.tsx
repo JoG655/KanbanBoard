@@ -1,12 +1,12 @@
 import { type VariantProps } from "class-variance-authority";
 import { switchStyle, labelStyle } from "../styles/switchStyle";
-import { Check, X } from "lucide-react";
 import {
-  useState,
   type ComponentPropsWithoutRef,
   type ReactElement,
   type ChangeEvent,
+  useState,
 } from "react";
+import { Check, X } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
 export type SwitchProps = VariantProps<typeof switchStyle> &

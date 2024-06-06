@@ -1,12 +1,12 @@
 export type BoardSubtaskDataType = {
-  columnId: string;
-  taskId: string;
   title: string;
   isCompleted: boolean;
 };
 
 export type BoardSubtaskType = {
-  id: string;
+  columnId: string;
+  taskId: string;
+  subtaskId: string;
 } & BoardSubtaskDataType;
 
 export type BoardTaskDataPriorityType =
@@ -17,7 +17,6 @@ export type BoardTaskDataPriorityType =
   | "Very high";
 
 export type BoardTaskDataType = {
-  columnId: string;
   title: string;
   description: string;
   priority: BoardTaskDataPriorityType;
@@ -25,7 +24,8 @@ export type BoardTaskDataType = {
 };
 
 export type BoardTaskType = {
-  id: string;
+  columnId: string;
+  taskId: string;
 } & BoardTaskDataType;
 
 export type BoardColumnDataType = {
@@ -34,7 +34,7 @@ export type BoardColumnDataType = {
 };
 
 export type BoardColumnType = {
-  id: string;
+  columnId: string;
 } & BoardColumnDataType;
 
 export type BoardType = BoardColumnType[];

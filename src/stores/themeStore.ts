@@ -15,7 +15,7 @@ export const useThemeStore = create<ThemeStoreProps>()(
     persist(
       (set) => ({
         theme: "dark",
-        setTheme: (theme) => set(() => ({ theme })),
+        setTheme: (theme) => set(() => ({ theme: theme })),
       }),
       {
         name: THEME_STORE_KEY,
