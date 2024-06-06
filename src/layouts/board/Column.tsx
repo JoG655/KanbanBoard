@@ -50,7 +50,7 @@ export const Column = ({
     <>
       <div
         className={twMerge(
-          "h-full w-80 flex-shrink-0 snap-center rounded-lg bg-primary-200 p-3 sm:w-96 dark:bg-primary-700",
+          "h-full w-full flex-shrink-0 snap-center rounded-lg bg-primary-200 p-3 sm:w-96 dark:bg-primary-700",
           isDragEnabled ? "cursor-grab" : null,
           isDragEnabled &&
             drag.variant === "column" &&

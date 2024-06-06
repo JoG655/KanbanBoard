@@ -13,7 +13,7 @@ import { type FormEvent } from "react";
 import { Input } from "../../components/Input";
 import { Select } from "../../components/Select";
 import { Button } from "../../components/Button";
-import { Search as SearchIcon, X } from "lucide-react";
+import { Search as SearchIcon, RotateCcw } from "lucide-react";
 
 type FormSearchKeysType = Record<keyof BoardSearchKeysType, string | undefined>;
 
@@ -97,7 +97,7 @@ export function Search({ setSearchKeys, setIsSearchActive }: SearchProps) {
           <SearchIcon />
         </Button>
         <Button styleVariant="secondary" type="reset">
-          <X />
+          <RotateCcw />
         </Button>
       </div>
     </form>
