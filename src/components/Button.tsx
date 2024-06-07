@@ -1,8 +1,8 @@
 import { type VariantProps } from "class-variance-authority";
+import { buttonStyle } from "../styles/buttonStyle";
 import { type MouseEvent, type ComponentPropsWithoutRef, useRef } from "react";
 import { useRipple } from "../hooks/useRipple";
 import { twMerge } from "tailwind-merge";
-import { buttonStyle } from "../styles/buttonStyle";
 
 export type ButtonProps = VariantProps<typeof buttonStyle> & {
   ripple?: boolean;
@@ -15,13 +15,17 @@ export function Button({
   styleStack,
   ripple = true,
   className,
+  disabled,
   onClick,
   children,
   ...rest
 }: ButtonProps) {
-  const ref = useRef<HTMLButtonElement>(null);
+  const rippleRef = useRef<HTMLButtonElement>(null);
 
-  const [rippleTrigger] = useRipple<HTMLButtonElement>(ripple, ref);
+  const [rippleTrigger] = useRipple<HTMLButtonElement>(
+    ripple && !disabled,
+    rippleRef,
+  );
 
   function handleOnClick(e: MouseEvent<HTMLButtonElement>) {
     if (onClick) {
@@ -33,11 +37,12 @@ export function Button({
 
   return (
     <button
-      ref={ref}
+      ref={rippleRef}
       className={twMerge(
         buttonStyle({ styleVariant, styleSize, styleType, styleStack }),
         className,
       )}
+      disabled={disabled}
       onClick={handleOnClick}
       {...rest}
     >

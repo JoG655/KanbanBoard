@@ -49,9 +49,11 @@ export function useRipple<T extends HTMLElement>(
 
         const { height, width, top, left } = target.getBoundingClientRect();
 
-        const keyboardTrigger = clientX === 0 && clientY === 0;
+        const centerRipple =
+          (clientX === 0 && clientY === 0) ||
+          (clientX === Math.round(left) && clientY === Math.round(top));
 
-        if (!keyboardTrigger) {
+        if (!centerRipple) {
           rippleElement.style.setProperty(
             "--ripple-animation-left",
             `${clientX - left}px`,
@@ -62,11 +64,11 @@ export function useRipple<T extends HTMLElement>(
           );
         }
 
-        const maxHeight = !keyboardTrigger
+        const maxHeight = !centerRipple
           ? Math.max(clientY - top, height - clientY + top)
           : height / 2;
 
-        const maxWidth = !keyboardTrigger
+        const maxWidth = !centerRipple
           ? Math.max(clientX - left, width - clientX + left)
           : width / 2;
 

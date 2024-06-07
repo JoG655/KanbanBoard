@@ -3,7 +3,6 @@ import { cva } from "class-variance-authority";
 export const switchStyle = cva(
   [
     "relative",
-    "m-2.5",
     "flex",
     "items-center",
     "rounded-full",
@@ -12,6 +11,7 @@ export const switchStyle = cva(
     "transition",
     "*:absolute",
     "*:-left-1",
+    "*:z-10",
     "*:flex",
     "*:items-center",
     "*:justify-center",
@@ -71,22 +71,22 @@ export const switchStyle = cva(
       {
         styleType: "icon",
         styleSize: "sm",
-        class: ["my-1", "h-4", "w-12", "*:size-6"],
+        class: ["w-12", "*:size-6"],
       },
       {
         styleType: "icon",
         styleSize: "md",
-        class: ["my-1.5", "h-5", "w-14", "*:size-7"],
+        class: ["w-14", "*:size-7"],
       },
       {
         styleType: "icon",
         styleSize: "lg",
-        class: ["my-2", "h-6", "w-16", "*:size-8"],
+        class: ["w-16", "*:size-8"],
       },
       {
         styleType: "icon",
         styleSize: "xl",
-        class: ["my-2.5", "h-7", "w-18", "*:size-9"],
+        class: ["w-18", "*:size-9"],
       },
     ],
     defaultVariants: {
@@ -97,13 +97,16 @@ export const switchStyle = cva(
   },
 );
 
+export const containerStyle = cva(["m-2.5", "rounded-lg"]);
+
 export const labelStyle = cva(
   [
     "flex",
     "items-center",
     "justify-center",
     "leading-none",
-    "hover:cursor-pointer",
+    "cursor-pointer",
+    "aria-disabled:cursor-not-allowed",
   ],
   {
     variants: {

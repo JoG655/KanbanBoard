@@ -2,7 +2,6 @@ import { cva } from "class-variance-authority";
 
 export const selectStyle = cva(
   [
-    "m-2.5",
     "rounded-lg",
     "border-2",
     "bg-primary-100",
@@ -54,13 +53,16 @@ export const selectStyle = cva(
   },
 );
 
+export const containerStyle = cva(["m-2.5", "rounded-lg"]);
+
 export const labelStyle = cva(
   [
     "flex",
     "items-center",
     "justify-center",
     "leading-none",
-    "hover:cursor-pointer",
+    "cursor-pointer",
+    "aria-disabled:cursor-not-allowed",
   ],
   {
     variants: {
