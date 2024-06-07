@@ -44,8 +44,6 @@
 }
 .dialog[open] {
   @apply scale-100 opacity-100 ease-out;
-
-  transition-behavior: allow-discrete;
 }
 @starting-style {
   .dialog[open] {
