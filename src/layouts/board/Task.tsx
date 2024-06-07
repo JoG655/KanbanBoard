@@ -1,6 +1,7 @@
 import { type BoardTaskType } from "../../types/boardType";
 import { useBoardStore } from "../../stores/boardStore";
 import { useDragStore } from "../../stores/dragStore";
+import { useViewStore } from "../../stores/viewStore";
 import { useModalStore } from "../../stores/modalStore";
 import { type DragEvent } from "react";
 import { elementTransition } from "../../utils/elementTransition";
@@ -26,6 +27,8 @@ export function Task({
   const { deleteTask } = useBoardStore();
 
   const { isDragEnabled, drag, setDrag } = useDragStore();
+
+  const { view, setView } = useViewStore();
 
   const { setModal } = useModalStore();
 
@@ -70,6 +73,8 @@ export function Task({
   }
 
   function handleOnClickDelete() {
+    setView("tasks");
+
     elementTransition(() => {
       deleteTask(columnId, taskId);
     });
@@ -88,7 +93,9 @@ export function Task({
           : null,
       )}
       style={
-        drag.variant === "task" ? { viewTransitionName: `Task-${taskId}` } : {}
+        view === "columns&tasks" || view === "tasks"
+          ? { viewTransitionName: `Task-${taskId}` }
+          : {}
       }
       draggable={isDragEnabled}
       onDragStart={handleDragStart}

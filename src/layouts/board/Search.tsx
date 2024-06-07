@@ -9,7 +9,9 @@ import {
 } from "../../types/boardType";
 import { type EntriesType } from "../../types/utility";
 import { useDragStore } from "../../stores/dragStore";
+import { useViewStore } from "../../stores/viewStore";
 import { type FormEvent } from "react";
+import { elementTransition } from "../../utils/elementTransition";
 import { Input } from "../../components/Input";
 import { Select } from "../../components/Select";
 import { Button } from "../../components/Button";
@@ -34,6 +36,8 @@ type SearchProps = {
 export function Search({ setSearchKeys, setIsSearchActive }: SearchProps) {
   const { setIsDragEnabled } = useDragStore();
 
+  const { setView } = useViewStore();
+
   function handleOnSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -51,17 +55,26 @@ export function Search({ setSearchKeys, setIsSearchActive }: SearchProps) {
 
     setIsDragEnabled(isSearchKeysDefaults);
 
-    setSearchKeys({
-      title: searchKeys.title ?? SEARCH_DEFAULT_VALUES.title,
-      description: searchKeys.description ?? SEARCH_DEFAULT_VALUES.description,
-      priority: searchKeys.priority ?? SEARCH_DEFAULT_VALUES.priority,
+    setView("columns&tasks");
+
+    elementTransition(() => {
+      setSearchKeys({
+        title: searchKeys.title ?? SEARCH_DEFAULT_VALUES.title,
+        description:
+          searchKeys.description ?? SEARCH_DEFAULT_VALUES.description,
+        priority: searchKeys.priority ?? SEARCH_DEFAULT_VALUES.priority,
+      });
     });
   }
 
   function handleOnReset() {
     setIsDragEnabled(true);
 
-    setSearchKeys({ ...SEARCH_DEFAULT_VALUES });
+    setView("columns&tasks");
+
+    elementTransition(() => {
+      setSearchKeys({ ...SEARCH_DEFAULT_VALUES });
+    });
   }
 
   return (

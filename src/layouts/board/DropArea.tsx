@@ -1,7 +1,8 @@
 import { type DragVariantType } from "../../types/dragType";
 import { type DragEvent, useState } from "react";
-import { useDragStore } from "../../stores/dragStore";
 import { useBoardStore } from "../../stores/boardStore";
+import { useDragStore } from "../../stores/dragStore";
+import { useViewStore } from "../../stores/viewStore";
 import { validateDrag } from "../../utils/validateDrag";
 import { elementTransition } from "../../utils/elementTransition";
 import { twMerge } from "tailwind-merge";
@@ -25,9 +26,11 @@ export const DropArea = ({
   columnIndex,
   taskIndex,
 }: DropAreaProps) => {
+  const { moveColumn, moveTask } = useBoardStore();
+
   const { isDragEnabled, drag } = useDragStore();
 
-  const { moveColumn, moveTask } = useBoardStore();
+  const { setView } = useViewStore();
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -52,12 +55,24 @@ export const DropArea = ({
       return;
     }
 
+    const isDropColumn = drag.variant === "column" && variant === "column";
+
+    const isDropTaks = drag.variant === "task" && variant === "task";
+
+    if (!isDropColumn && !isDropTaks) return;
+
+    if (isDropColumn) {
+      setView("columns");
+    } else if (isDropTaks) {
+      setView("tasks");
+    }
+
     setIsVisible(false);
 
     elementTransition(() => {
-      if (drag.variant === "column" && variant === "column") {
+      if (isDropColumn) {
         moveColumn(drag.columnId, columnIndex);
-      } else if (drag.variant === "task" && variant === "task") {
+      } else if (isDropTaks) {
         moveTask(drag.columnId, drag.taskId, columnIndex, taskIndex);
       }
     });

@@ -2,6 +2,7 @@ import { type BoardColumnType } from "../../types/boardType.ts";
 import { useBoardStore } from "../../stores/boardStore.ts";
 import { useDragStore } from "../../stores/dragStore.ts";
 import { useModalStore } from "../../stores/modalStore.ts";
+import { useViewStore } from "../../stores/viewStore.ts";
 import { type DragEvent, Fragment } from "react";
 import { elementTransition } from "../../utils/elementTransition.ts";
 import { twMerge } from "tailwind-merge";
@@ -24,6 +25,8 @@ export const Column = ({
 
   const { drag, setDrag, isDragEnabled } = useDragStore();
 
+  const { view, setView } = useViewStore();
+
   const { setModal } = useModalStore();
 
   function handleDragStart(e: DragEvent<HTMLDivElement>) {
@@ -37,6 +40,8 @@ export const Column = ({
   }
 
   function handleOnClickDelete() {
+    setView("columns");
+
     elementTransition(() => {
       deleteColumn(columnId);
     });
@@ -50,7 +55,7 @@ export const Column = ({
     <>
       <div
         className={twMerge(
-          "h-full w-full flex-shrink-0 snap-center rounded-lg bg-primary-200 p-3 sm:w-96 dark:bg-primary-700",
+          "h-full w-80 flex-shrink-0 snap-center rounded-lg bg-primary-200 p-3 sm:w-96 dark:bg-primary-700",
           isDragEnabled ? "cursor-grab" : null,
           isDragEnabled &&
             drag.variant === "column" &&
@@ -59,7 +64,7 @@ export const Column = ({
             : null,
         )}
         style={
-          drag.variant === "column"
+          view === "columns&tasks" || view === "columns"
             ? { viewTransitionName: `Column-${columnId}` }
             : {}
         }
@@ -103,6 +108,11 @@ export const Column = ({
             styleVariant={"outline"}
             styleSize={"xl"}
             onClick={handleOnClickAdd}
+            style={
+              view === "columns&tasks" || view === "tasks"
+                ? { viewTransitionName: `AddTask-${columnId}` }
+                : {}
+            }
           >
             <Plus />
             <span>Add Task</span>
