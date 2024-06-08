@@ -48,7 +48,7 @@ export const Column = ({
   }
 
   function handleOnClickAdd() {
-    setModal({ variant: "ColumnAdd" });
+    setModal({ variant: "TaskAdd", columnId });
   }
 
   return (

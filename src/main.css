@@ -38,7 +38,7 @@
 
 /* Dialog */
 .dialog {
-  @apply z-40 scale-50 rounded-xl p-0 opacity-0 shadow-focus-lg outline-none transition-all ease-in;
+  @apply z-40 scale-50 rounded-xl bg-primary-50 p-0 text-primary-800 opacity-0 shadow-focus-lg outline-none transition-all ease-in dark:bg-primary-900 dark:text-primary-50;
 
   transition-behavior: allow-discrete;
 }

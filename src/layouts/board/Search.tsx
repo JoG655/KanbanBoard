@@ -1,10 +1,6 @@
 import {
-  SEARCH_NAMES,
-  SEARCH_DEFAULT_VALUES,
-  SEARCH_PRIORITY_OPTIONS,
-} from "../../constants/boardConstants";
-import {
   type BoardSearchKeysType,
+  type BoardTaskDataPriorityType,
   type BoardIsSearchActiveType,
 } from "../../types/boardType";
 import { type EntriesType } from "../../types/utility";
@@ -17,14 +13,37 @@ import { Select } from "../../components/Select";
 import { Button } from "../../components/Button";
 import { Search as SearchIcon, RotateCcw } from "lucide-react";
 
+const NAMES: BoardSearchKeysType = {
+  title: "title",
+  description: "description",
+  priority: "priority",
+};
+
+const DEFAULT_VALUES: BoardSearchKeysType = {
+  title: "",
+  description: "",
+  priority: "",
+};
+
+const PRIORITY_OPTIONS: Record<
+  BoardTaskDataPriorityType | "Not selected",
+  string
+> = {
+  "Not selected": "",
+  "Very low": "Very low",
+  Low: "Low",
+  Medium: "Medium",
+  High: "High",
+  "Very high": "Very high",
+};
+
 type FormSearchKeysType = Record<keyof BoardSearchKeysType, string | undefined>;
 
 function checkSearchKeysDefaults(searchKeys: FormSearchKeysType) {
   const entries = Object.entries(searchKeys) as EntriesType<FormSearchKeysType>;
 
   return entries.every(
-    ([key, value]) =>
-      value === undefined || value === SEARCH_DEFAULT_VALUES[key],
+    ([key, value]) => value === undefined || value === DEFAULT_VALUES[key],
   );
 }
 
@@ -41,12 +60,14 @@ export function Search({ setSearchKeys, setIsSearchActive }: SearchProps) {
   function handleOnSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const formData = new FormData(e.target as HTMLFormElement);
+    const target = e.target as HTMLFormElement;
+
+    const formData = new FormData(target);
 
     const searchKeys: FormSearchKeysType = {
-      title: formData.get(SEARCH_NAMES.title)?.toString().trim(),
-      description: formData.get(SEARCH_NAMES.description)?.toString().trim(),
-      priority: formData.get(SEARCH_NAMES.priority)?.toString(),
+      title: formData.get(NAMES.title)?.toString().trim(),
+      description: formData.get(NAMES.description)?.toString().trim(),
+      priority: formData.get(NAMES.priority)?.toString(),
     };
 
     const isSearchKeysDefaults = checkSearchKeysDefaults(searchKeys);
@@ -59,10 +80,9 @@ export function Search({ setSearchKeys, setIsSearchActive }: SearchProps) {
 
     elementTransition(() => {
       setSearchKeys({
-        title: searchKeys.title ?? SEARCH_DEFAULT_VALUES.title,
-        description:
-          searchKeys.description ?? SEARCH_DEFAULT_VALUES.description,
-        priority: searchKeys.priority ?? SEARCH_DEFAULT_VALUES.priority,
+        title: searchKeys.title ?? DEFAULT_VALUES.title,
+        description: searchKeys.description ?? DEFAULT_VALUES.description,
+        priority: searchKeys.priority ?? DEFAULT_VALUES.priority,
       });
     });
   }
@@ -73,7 +93,7 @@ export function Search({ setSearchKeys, setIsSearchActive }: SearchProps) {
     setView("columns&tasks");
 
     elementTransition(() => {
-      setSearchKeys({ ...SEARCH_DEFAULT_VALUES });
+      setSearchKeys({ ...DEFAULT_VALUES });
     });
   }
 
@@ -85,23 +105,23 @@ export function Search({ setSearchKeys, setIsSearchActive }: SearchProps) {
     >
       <Input
         styleStack={true}
-        name={SEARCH_NAMES.title}
-        defaultValue={SEARCH_DEFAULT_VALUES.title}
+        name={NAMES.title}
+        defaultValue={DEFAULT_VALUES.title}
       >
         Title
       </Input>
       <Input
         styleStack={true}
-        name={SEARCH_NAMES.description}
-        defaultValue={SEARCH_DEFAULT_VALUES.description}
+        name={NAMES.description}
+        defaultValue={DEFAULT_VALUES.description}
       >
         Description
       </Input>
       <Select
         styleStack={true}
-        name={SEARCH_NAMES.priority}
-        defaultValue={SEARCH_DEFAULT_VALUES.priority}
-        options={SEARCH_PRIORITY_OPTIONS}
+        name={NAMES.priority}
+        defaultValue={DEFAULT_VALUES.priority}
+        options={PRIORITY_OPTIONS}
       >
         Priority
       </Select>
