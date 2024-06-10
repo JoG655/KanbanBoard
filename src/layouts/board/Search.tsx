@@ -6,12 +6,19 @@ import {
 import { type EntriesType } from "../../types/utility";
 import { useDragStore } from "../../stores/dragStore";
 import { useViewStore } from "../../stores/viewStore";
-import { type FormEvent } from "react";
+import { type FormEvent, useState } from "react";
 import { elementTransition } from "../../utils/elementTransition";
+import {
+  Popup,
+  PopupToggler,
+  PopupContent,
+  PopupClose,
+} from "../../components/Popup";
+import { Notification } from "../../components/Notification";
+import { Filter, Search as SearchIcon, RotateCcw } from "lucide-react";
 import { Input } from "../../components/Input";
 import { Select } from "../../components/Select";
 import { Button } from "../../components/Button";
-import { Search as SearchIcon, RotateCcw } from "lucide-react";
 
 const NAMES: BoardSearchKeysType = {
   title: "title",
@@ -49,16 +56,31 @@ function checkSearchKeysDefaults(searchKeys: FormSearchKeysType) {
 
 type SearchProps = {
   setSearchKeys: (value: BoardSearchKeysType) => void;
+  isSearchActive: BoardIsSearchActiveType;
   setIsSearchActive: (value: BoardIsSearchActiveType) => void;
 };
 
-export function Search({ setSearchKeys, setIsSearchActive }: SearchProps) {
+export function Search({
+  setSearchKeys,
+  isSearchActive,
+  setIsSearchActive,
+}: SearchProps) {
   const { setIsDragEnabled } = useDragStore();
 
-  const { setView } = useViewStore();
+  const { view, setView } = useViewStore();
+
+  const [isChanged, setIsChanged] = useState(false);
+
+  function handleOnChange() {
+    setIsChanged(true);
+  }
 
   function handleOnSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (!isChanged) return;
+
+    setIsChanged(false);
 
     const target = e.target as HTMLFormElement;
 
@@ -72,13 +94,13 @@ export function Search({ setSearchKeys, setIsSearchActive }: SearchProps) {
 
     const isSearchKeysDefaults = checkSearchKeysDefaults(searchKeys);
 
-    setIsSearchActive(!isSearchKeysDefaults);
-
-    setIsDragEnabled(isSearchKeysDefaults);
-
     setView("columns&tasks");
 
     elementTransition(() => {
+      setIsSearchActive(!isSearchKeysDefaults);
+
+      setIsDragEnabled(isSearchKeysDefaults);
+
       setSearchKeys({
         title: searchKeys.title ?? DEFAULT_VALUES.title,
         description: searchKeys.description ?? DEFAULT_VALUES.description,
@@ -88,51 +110,77 @@ export function Search({ setSearchKeys, setIsSearchActive }: SearchProps) {
   }
 
   function handleOnReset() {
-    setIsDragEnabled(true);
+    if (!isSearchActive && !isChanged) return;
+
+    setIsChanged(false);
 
     setView("columns&tasks");
 
     elementTransition(() => {
+      setIsSearchActive(false);
+
+      setIsDragEnabled(true);
+
       setSearchKeys({ ...DEFAULT_VALUES });
     });
   }
 
   return (
     <form
-      className="flex flex-wrap items-end justify-evenly px-6"
+      className="flex justify-center"
       onSubmit={handleOnSubmit}
       onReset={handleOnReset}
     >
-      <Input
-        styleStack={true}
-        name={NAMES.title}
-        defaultValue={DEFAULT_VALUES.title}
-      >
-        Title
-      </Input>
-      <Input
-        styleStack={true}
-        name={NAMES.description}
-        defaultValue={DEFAULT_VALUES.description}
-      >
-        Description
-      </Input>
-      <Select
-        styleStack={true}
-        name={NAMES.priority}
-        defaultValue={DEFAULT_VALUES.priority}
-        options={PRIORITY_OPTIONS}
-      >
-        Priority
-      </Select>
-      <div className="flex items-center">
-        <Button type="submit">
-          <SearchIcon />
-        </Button>
-        <Button styleVariant="secondary" type="reset">
-          <RotateCcw />
-        </Button>
-      </div>
+      <Popup>
+        <PopupToggler>
+          <Notification text={isSearchActive ? "!" : null}>
+            <Filter />
+          </Notification>
+        </PopupToggler>
+        <PopupContent
+          className="flex min-w-max flex-wrap justify-center rounded-lg bg-primary-50 p-4 text-primary-800 dark:bg-primary-900 dark:text-primary-50"
+          style={
+            view === "columns&tasks" ? { viewTransitionName: "Search" } : {}
+          }
+        >
+          <Input
+            styleStack={true}
+            name={NAMES.title}
+            defaultValue={DEFAULT_VALUES.title}
+            onChange={handleOnChange}
+          >
+            Title
+          </Input>
+          <Input
+            styleStack={true}
+            name={NAMES.description}
+            defaultValue={DEFAULT_VALUES.description}
+            onChange={handleOnChange}
+          >
+            Description
+          </Input>
+          <Select
+            styleStack={true}
+            name={NAMES.priority}
+            defaultValue={DEFAULT_VALUES.priority}
+            options={PRIORITY_OPTIONS}
+            onChange={handleOnChange}
+          >
+            Priority
+          </Select>
+          <div className="flex justify-center">
+            <PopupClose type="submit">
+              <SearchIcon />
+            </PopupClose>
+            <PopupClose styleVariant="secondary" type="reset">
+              <RotateCcw />
+            </PopupClose>
+          </div>
+        </PopupContent>
+      </Popup>
+      <Button styleVariant="secondary" type="reset">
+        <RotateCcw />
+      </Button>
     </form>
   );
 }

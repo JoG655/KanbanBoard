@@ -67,9 +67,9 @@ export const DropArea = ({
       setView("tasks");
     }
 
-    setIsVisible(false);
-
     elementTransition(() => {
+      setIsVisible(false);
+
       if (isDropColumn) {
         moveColumn(drag.columnId, columnIndex);
       } else if (isDropTaks) {

@@ -65,9 +65,10 @@ export function Board() {
     <>
       <Search
         setSearchKeys={setSearchKeys}
+        isSearchActive={isSearchActive}
         setIsSearchActive={setIsSearchActive}
       />
-      <div className="scrollbar-hidden flex max-h-[70dvh] min-h-48 max-w-full snap-x snap-mandatory gap-2 overflow-auto scroll-smooth p-2 md:max-h-[75dvh] lg:max-h-[80dvh]">
+      <div className="scrollbar-hidden flex max-h-[80dvh] min-h-48 max-w-full snap-x snap-mandatory gap-2 overflow-auto scroll-smooth p-2">
         <DropArea variant="column" columnIndex={0} />
         {filteredBoard.map((column, index) => (
           <Fragment key={column.columnId}>
