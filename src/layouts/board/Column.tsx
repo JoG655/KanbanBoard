@@ -55,7 +55,7 @@ export const Column = ({
     <>
       <div
         className={twMerge(
-          "h-full w-80 flex-shrink-0 snap-center rounded-lg bg-primary-200 p-3 sm:w-96 dark:bg-primary-700",
+          "flex max-h-[80dvh] min-h-48 w-80 flex-shrink-0 snap-center flex-col overflow-auto rounded-lg bg-primary-200 px-3 pb-3 sm:w-96 dark:bg-primary-700",
           isDragEnabled ? "cursor-grab" : null,
           isDragEnabled &&
             drag.variant === "column" &&
@@ -71,7 +71,7 @@ export const Column = ({
         draggable={isDragEnabled}
         onDragStart={handleDragStart}
       >
-        <div className="flex items-baseline justify-between">
+        <div className="sticky top-0 z-10 flex items-baseline justify-between bg-primary-200 pt-3 dark:bg-primary-700">
           <h2 className="overflow-hidden text-balance break-words text-xl">{`${title} (${tasks.length})`}</h2>
           <div className="flex items-center">
             <Button
@@ -92,32 +92,30 @@ export const Column = ({
             </Button>
           </div>
         </div>
-        <div className="flex flex-col gap-1">
-          <DropArea variant="task" columnIndex={columnIndex} taskIndex={0} />
-          {tasks.map((task, index) => (
-            <Fragment key={task.taskId}>
-              <Task {...task} columnIndex={columnIndex} taskIndex={index} />
-              <DropArea
-                variant="task"
-                columnIndex={columnIndex}
-                taskIndex={index + 1}
-              />
-            </Fragment>
-          ))}
-          <Button
-            styleVariant={"outline"}
-            styleSize={"xl"}
-            onClick={handleOnClickAdd}
-            style={
-              view === "columns&tasks" || view === "tasks"
-                ? { viewTransitionName: `AddTask-${columnId}` }
-                : {}
-            }
-          >
-            <Plus />
-            <span>Add Task</span>
-          </Button>
-        </div>
+        <DropArea variant="task" columnIndex={columnIndex} taskIndex={0} />
+        {tasks.map((task, index) => (
+          <Fragment key={task.taskId}>
+            <Task {...task} columnIndex={columnIndex} taskIndex={index} />
+            <DropArea
+              variant="task"
+              columnIndex={columnIndex}
+              taskIndex={index + 1}
+            />
+          </Fragment>
+        ))}
+        <Button
+          styleVariant={"outline"}
+          styleSize={"xl"}
+          onClick={handleOnClickAdd}
+          style={
+            view === "columns&tasks" || view === "tasks"
+              ? { viewTransitionName: `AddTask-${columnId}` }
+              : {}
+          }
+        >
+          <Plus />
+          <span>Add Task</span>
+        </Button>
       </div>
     </>
   );

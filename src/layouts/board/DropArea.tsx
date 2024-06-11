@@ -35,11 +35,10 @@ export const DropArea = ({
   const [isVisible, setIsVisible] = useState(false);
 
   function handleDragEnter(e: DragEvent<HTMLDivElement>) {
-    if (!validateDrag(variant, columnIndex, taskIndex, isDragEnabled, drag)) {
-      e.preventDefault();
-
+    if (!validateDrag(variant, columnIndex, taskIndex, isDragEnabled, drag))
       return;
-    }
+
+    e.preventDefault();
 
     setIsVisible(true);
   }
@@ -79,19 +78,22 @@ export const DropArea = ({
   }
 
   function handleDragOver(e: DragEvent<HTMLDivElement>) {
+    if (!validateDrag(variant, columnIndex, taskIndex, isDragEnabled, drag))
+      return;
+
     e.preventDefault();
   }
 
   return (
     <div
       className={twMerge(
-        "relative block transition-all before:absolute before:inset-2 before:rounded-xl before:border-2 before:border-dashed before:border-primary-500 before:bg-primary-400 dark:before:bg-primary-600",
-        variant === "column" ? "px-2 only:px-16" : "py-2 only:py-16",
+        "relative block opacity-0 transition-all before:absolute before:inset-2 before:rounded-xl before:border-2 before:border-dashed before:border-primary-500 before:bg-primary-400 dark:before:bg-primary-600",
+        variant === "column" ? "px-2" : "py-2",
         isVisible
           ? variant === "column"
             ? "px-8 opacity-100"
             : "py-8 opacity-100"
-          : "opacity-0",
+          : null,
         !validateDrag(variant, columnIndex, taskIndex, isDragEnabled, drag)
           ? "pointer-events-none"
           : null,

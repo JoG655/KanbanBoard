@@ -12,7 +12,7 @@ type MinimalEventType = {
 };
 
 export function useRipple<T extends HTMLElement>(
-  enabled: boolean,
+  isEnabled: boolean,
   ref: RefObject<T>,
   options: {
     color?: string;
@@ -25,7 +25,7 @@ export function useRipple<T extends HTMLElement>(
 
   const rippleTrigger = useCallback(
     (e: MinimalEventType) => {
-      if (!enabled || !ref.current) return;
+      if (!isEnabled || !ref.current) return;
 
       requestAnimationFrame(() => {
         const target = ref.current;
@@ -96,7 +96,7 @@ export function useRipple<T extends HTMLElement>(
         }, duration);
       });
     },
-    [enabled, ref, color, duration],
+    [isEnabled, ref, color, duration],
   );
 
   return [rippleTrigger];

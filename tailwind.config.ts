@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        scrollbar: "#404040",
+        scrollbar: "#fbbf24",
         focus: "#808080",
         primary: {
           50: "#fafafa",
