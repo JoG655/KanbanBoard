@@ -54,8 +54,6 @@ export function useDragAutoScroll<T extends HTMLElement>(
         if (x > rightBoundary && left + width < scrollWidth) {
           xStep = step;
         } else if (x < leftBoundary && scrollLeft > 0) {
-          console.log(x, leftBoundary, scrollLeft);
-          console.log(clientX, left);
           xStep = -step;
         }
 
@@ -66,7 +64,7 @@ export function useDragAutoScroll<T extends HTMLElement>(
         } else if (y < topBoundary && scrollTop > 0) {
           yStep = -step;
         }
-        console.log(xStep, yStep);
+
         target.scrollBy({ top: yStep, left: xStep, behavior: "smooth" });
       });
     },

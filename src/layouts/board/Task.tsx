@@ -51,7 +51,6 @@ export function Task({
   }
 
   function handleDragEnd() {
-    console.log("end");
     setIsDragging(false);
   }
 
