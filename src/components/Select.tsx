@@ -31,13 +31,13 @@ export function Select({
 }: SelectProps) {
   const rippleRef = useRef<HTMLDivElement>(null);
 
-  const [rippleTrigger] = useRipple<HTMLDivElement>(
+  const rippleCallback = useRipple<HTMLDivElement>(
     ripple && !disabled,
     rippleRef,
   );
 
   function handleOnClickLabel(e: MouseEvent<HTMLLabelElement>) {
-    rippleTrigger(e);
+    rippleCallback(e);
   }
 
   return (

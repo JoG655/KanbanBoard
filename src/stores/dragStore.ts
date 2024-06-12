@@ -5,6 +5,9 @@ type DragStoreProps = {
   drag: DragType;
   setDrag: (drag: DragType) => void;
 
+  isDragging: boolean;
+  setIsDragging: (isDragging: boolean) => void;
+
   isDragEnabled: boolean;
   setIsDragEnabled: (isDragEnabled: boolean) => void;
 };
@@ -18,6 +21,9 @@ export const useDragStore = create<DragStoreProps>((set) => ({
     taskIndex: NaN,
   },
   setDrag: (drag) => set(() => ({ drag: { ...drag } })),
+
+  isDragging: true,
+  setIsDragging: (isDragging) => set(() => ({ isDragging })),
 
   isDragEnabled: true,
   setIsDragEnabled: (isDragEnabled) => set(() => ({ isDragEnabled })),

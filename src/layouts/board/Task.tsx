@@ -26,7 +26,7 @@ export function Task({
 }: TaskProps) {
   const { deleteTask } = useBoardStore();
 
-  const { isDragEnabled, drag, setDrag } = useDragStore();
+  const { isDragEnabled, drag, setDrag, setIsDragging } = useDragStore();
 
   const { view, setView } = useViewStore();
 
@@ -46,6 +46,13 @@ export function Task({
       taskId,
       taskIndex,
     });
+
+    setIsDragging(true);
+  }
+
+  function handleDragEnd() {
+    console.log("end");
+    setIsDragging(false);
   }
 
   function handleOnClickView() {
@@ -99,6 +106,7 @@ export function Task({
       }
       draggable={isDragEnabled}
       onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
     >
       <h4 className="overflow-hidden text-balance break-words text-base">
         {title}

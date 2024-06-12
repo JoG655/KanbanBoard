@@ -1,6 +1,6 @@
 import { type RefObject, useRef, useCallback, useEffect } from "react";
 import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "../..//tailwind.config";
+import tailwindConfig from "../../tailwind.config";
 
 const DEFAULT_COLOR = resolveConfig(tailwindConfig).theme.colors.focus;
 
@@ -25,7 +25,7 @@ export function useRipple<T extends HTMLElement>(
 
   const rippleSet = useRef(new Set<HTMLDivElement>());
 
-  const rippleTrigger = useCallback(
+  const rippleCallback = useCallback(
     (e: MinimalEventType) => {
       const requestId = requestIdRef.current;
 
@@ -110,6 +110,14 @@ export function useRipple<T extends HTMLElement>(
   );
 
   useEffect(() => {
+    if (isEnabled) return;
+
+    const requestId = requestIdRef.current;
+
+    if (requestId === null) return;
+
+    cancelAnimationFrame(requestId);
+
     return () => {
       const requestId = requestIdRef.current;
 
@@ -117,7 +125,7 @@ export function useRipple<T extends HTMLElement>(
 
       cancelAnimationFrame(requestId);
     };
-  }, []);
+  }, [isEnabled]);
 
-  return [rippleTrigger];
+  return rippleCallback;
 }

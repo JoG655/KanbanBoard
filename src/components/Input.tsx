@@ -30,13 +30,13 @@ export function Input({
 }: InputProps) {
   const rippleRef = useRef<HTMLDivElement>(null);
 
-  const [rippleTrigger] = useRipple<HTMLDivElement>(
+  const rippleCallback = useRipple<HTMLDivElement>(
     ripple && !readOnly && !disabled,
     rippleRef,
   );
 
   function handleOnClickLabel(e: MouseEvent<HTMLLabelElement>) {
-    rippleTrigger(e);
+    rippleCallback(e);
   }
 
   return (

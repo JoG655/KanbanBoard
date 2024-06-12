@@ -44,7 +44,7 @@ export function Switch({
 }: SwitchProps) {
   const rippleRef = useRef<HTMLDivElement>(null);
 
-  const [rippleTrigger] = useRipple<HTMLDivElement>(
+  const rippleCallback = useRipple<HTMLDivElement>(
     ripple && !disabled,
     rippleRef,
   );
@@ -52,7 +52,7 @@ export function Switch({
   const [isChecked, setIsChecked] = useState(defaultChecked);
 
   function handleOnClickLabel(e: MouseEvent<HTMLLabelElement>) {
-    rippleTrigger(e);
+    rippleCallback(e);
   }
 
   function handleOnChange(e: ChangeEvent<HTMLInputElement>) {

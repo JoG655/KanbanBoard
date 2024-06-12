@@ -22,7 +22,7 @@ export function Button({
 }: ButtonProps) {
   const rippleRef = useRef<HTMLButtonElement>(null);
 
-  const [rippleTrigger] = useRipple<HTMLButtonElement>(
+  const rippleCallback = useRipple<HTMLButtonElement>(
     ripple && !disabled,
     rippleRef,
   );
@@ -32,7 +32,7 @@ export function Button({
       onClick(e);
     }
 
-    rippleTrigger(e);
+    rippleCallback(e);
   }
 
   return (
