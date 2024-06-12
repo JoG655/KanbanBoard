@@ -1,6 +1,4 @@
 import {
-  type Dispatch,
-  type SetStateAction,
   type ComponentPropsWithoutRef,
   type MouseEvent,
   type SyntheticEvent,
@@ -13,7 +11,7 @@ import { createPortal } from "react-dom";
 export type ModalProps = {
   uuid: string;
   isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setIsOpen: (value: boolean) => void;
 } & ComponentPropsWithoutRef<"dialog">;
 
 export function Modal({

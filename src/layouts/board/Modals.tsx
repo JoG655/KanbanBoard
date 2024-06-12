@@ -125,15 +125,14 @@ export function Modals() {
         <h2 className="overflow-hidden text-balance break-words">
           {activeTitle}
         </h2>
-        <div className="flex items-center">
-          <Button
-            styleVariant={"ghost"}
-            styleSize={"sm"}
-            onClick={handleOnClickClose}
-          >
-            <X />
-          </Button>
-        </div>
+        <Button
+          styleVariant={"ghost"}
+          styleSize={"sm"}
+          className="mr-0"
+          onClick={handleOnClickClose}
+        >
+          <X />
+        </Button>
       </div>
       <form
         className="flex flex-col px-4"

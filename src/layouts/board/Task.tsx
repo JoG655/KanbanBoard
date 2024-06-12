@@ -89,7 +89,7 @@ export function Task({
   return (
     <div
       className={twMerge(
-        "snap-center rounded-md bg-primary-300 p-2 shadow-md dark:bg-primary-600",
+        "snap-start rounded-md bg-primary-300 p-2 shadow-md dark:bg-primary-600",
         isDragEnabled ? "cursor-grab" : null,
         isDragEnabled &&
           drag.variant === "task" &&

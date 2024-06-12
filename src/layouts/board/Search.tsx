@@ -127,7 +127,7 @@ export function Search({
 
   return (
     <form
-      className="flex justify-center"
+      className="flex items-center justify-center"
       onSubmit={handleOnSubmit}
       onReset={handleOnReset}
     >

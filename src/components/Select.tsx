@@ -29,12 +29,9 @@ export function Select({
   children,
   ...rest
 }: SelectProps) {
-  const rippleRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
-  const rippleCallback = useRipple<HTMLDivElement>(
-    ripple && !disabled,
-    rippleRef,
-  );
+  const rippleCallback = useRipple<HTMLDivElement>(ripple && !disabled, ref);
 
   function handleOnClickLabel(e: MouseEvent<HTMLLabelElement>) {
     rippleCallback(e);
@@ -47,7 +44,7 @@ export function Select({
       onClick={handleOnClickLabel}
     >
       {childrenInsertion === "Prepend" ? LabelContent(children) : null}
-      <div ref={rippleRef} className={containerStyle()}>
+      <div ref={ref} className={containerStyle()}>
         <select
           className={twMerge(
             selectStyle({ styleVariant, styleSize }),

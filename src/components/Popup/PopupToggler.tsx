@@ -9,12 +9,10 @@ export function PopupToggler({
   children,
   ...rest
 }: PopupTogglerProps) {
-  const { setIsPopupOpen } = usePopup();
+  const { isPopupOpen, setIsPopupOpen } = usePopup();
 
   function handleOnClick() {
-    setIsPopupOpen((previousIsPopupOpen) => {
-      return !previousIsPopupOpen;
-    });
+    setIsPopupOpen(!isPopupOpen);
   }
 
   return (

@@ -35,34 +35,42 @@ export function useDragAutoScroll<T extends HTMLElement>(
 
         if (!target) return;
 
-        const { clientX, clientY } = e;
+        const { clientY, clientX } = e;
 
-        const { height, width, top, left } = target.getBoundingClientRect();
+        const { top, left, height, width } = target.getBoundingClientRect();
 
-        const rightBoundary = width * (1 - threshold);
+        if (
+          clientY < top ||
+          clientY > top + height ||
+          clientX < left ||
+          clientX > left + width
+        )
+          return;
+
+        const topBoundary = height * threshold;
         const bottomBoundary = height * (1 - threshold);
         const leftBoundary = width * threshold;
-        const topBoundary = height * threshold;
+        const rightBoundary = width * (1 - threshold);
 
-        const x = clientX - left;
         const y = clientY - top;
+        const x = clientX - left;
 
-        const { scrollLeft, scrollTop, scrollWidth, scrollHeight } = target;
-
-        let xStep = 0;
-
-        if (x > rightBoundary && left + width < scrollWidth) {
-          xStep = step;
-        } else if (x < leftBoundary && scrollLeft > 0) {
-          xStep = -step;
-        }
+        const { scrollTop, scrollLeft, scrollHeight, scrollWidth } = target;
 
         let yStep = 0;
 
-        if (y > bottomBoundary && top + height < scrollHeight) {
-          yStep = step;
-        } else if (y < topBoundary && scrollTop > 0) {
+        if (y < topBoundary && scrollTop > 0) {
           yStep = -step;
+        } else if (y > bottomBoundary && top + height < scrollHeight) {
+          yStep = step;
+        }
+
+        let xStep = 0;
+
+        if (x < leftBoundary && scrollLeft > 0) {
+          xStep = -step;
+        } else if (x > rightBoundary && left + width < scrollWidth) {
+          xStep = step;
         }
 
         target.scrollBy({ top: yStep, left: xStep, behavior: "smooth" });

@@ -42,12 +42,9 @@ export function Switch({
   children,
   ...rest
 }: SwitchProps) {
-  const rippleRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
-  const rippleCallback = useRipple<HTMLDivElement>(
-    ripple && !disabled,
-    rippleRef,
-  );
+  const rippleCallback = useRipple<HTMLDivElement>(ripple && !disabled, ref);
 
   const [isChecked, setIsChecked] = useState(defaultChecked);
 
@@ -70,7 +67,7 @@ export function Switch({
       onClick={handleOnClickLabel}
     >
       {childrenInsertion === "Prepend" ? LabelContent(children) : null}
-      <div ref={rippleRef} className={containerStyle()}>
+      <div ref={ref} className={containerStyle()}>
         <input
           type="checkbox"
           className="peer sr-only"

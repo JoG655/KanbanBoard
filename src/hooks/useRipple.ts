@@ -55,22 +55,22 @@ export function useRipple<T extends HTMLElement>(
 
         rippleElement.classList.add("ripple__animation");
 
-        const { clientX, clientY } = e;
+        const { clientY, clientX } = e;
 
-        const { height, width, top, left } = target.getBoundingClientRect();
+        const { top, left, height, width } = target.getBoundingClientRect();
 
         const centerRipple =
-          (clientX === 0 && clientY === 0) ||
-          (clientX === Math.round(left) && clientY === Math.round(top));
+          (clientY === 0 && clientX === 0) ||
+          (clientY === Math.round(top) && clientX === Math.round(left));
 
         if (!centerRipple) {
           rippleElement.style.setProperty(
-            "--ripple-animation-left",
-            `${clientX - left}px`,
-          );
-          rippleElement.style.setProperty(
             "--ripple-animation-top",
             `${clientY - top}px`,
+          );
+          rippleElement.style.setProperty(
+            "--ripple-animation-left",
+            `${clientX - left}px`,
           );
         }
 

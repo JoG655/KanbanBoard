@@ -44,12 +44,6 @@ export const Column = ({
     dragAutoScrollCallback(e);
   }
 
-  function handleOnMouseMove(e: MouseEvent<HTMLDivElement>) {
-    if (!checkTouchDevice()) return;
-
-    dragAutoScrollCallback(e);
-  }
-
   function handleDragStart(e: DragEvent<HTMLDivElement>) {
     e.stopPropagation();
 
@@ -60,6 +54,12 @@ export const Column = ({
 
   function handleDragEnd() {
     setIsDragging(false);
+  }
+
+  function handleOnMouseMove(e: MouseEvent<HTMLDivElement>) {
+    if (!checkTouchDevice()) return;
+
+    dragAutoScrollCallback(e);
   }
 
   function handleOnClickEdit() {
@@ -82,9 +82,7 @@ export const Column = ({
     <>
       <div
         className={twMerge(
-          "flex max-h-full w-80 flex-shrink-0 snap-center flex-col overflow-auto rounded-lg bg-primary-200 px-3 pb-3 sm:w-96 dark:bg-primary-700",
-          !isDragging ? "snap-y snap-mandatory" : null,
-          isDragEnabled ? "cursor-grab" : null,
+          "flex w-80 flex-shrink-0 flex-col gap-1 rounded-lg bg-primary-200 sm:w-96 dark:bg-primary-700",
           isDragEnabled &&
             drag.variant === "column" &&
             drag.columnId === columnId
@@ -97,12 +95,12 @@ export const Column = ({
             : {}
         }
         draggable={isDragEnabled}
+        onDrag={handleOnDrag}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
-        onDrag={handleOnDrag}
         onMouseMove={handleOnMouseMove}
       >
-        <div className="sticky top-0 z-10 flex items-baseline justify-between bg-primary-200 pt-3 dark:bg-primary-700">
+        <div className="flex items-baseline justify-between px-3">
           <h2 className="overflow-hidden text-balance break-words text-xl">{`${title} (${tasks.length})`}</h2>
           <div className="flex items-center">
             <Button
@@ -123,31 +121,39 @@ export const Column = ({
             </Button>
           </div>
         </div>
-        <DropArea variant="task" columnIndex={columnIndex} taskIndex={0} />
-        {tasks.map((task, index) => (
-          <Fragment key={task.taskId}>
-            <Task {...task} columnIndex={columnIndex} taskIndex={index} />
-            <DropArea
-              variant="task"
-              columnIndex={columnIndex}
-              taskIndex={index + 1}
-            />
-          </Fragment>
-        ))}
-        <Button
-          styleVariant={"outline"}
-          styleSize={"xl"}
-          className="snap-center"
-          onClick={handleOnClickAdd}
-          style={
-            view === "columns&tasks" || view === "tasks"
-              ? { viewTransitionName: `AddTask-${columnId}` }
-              : {}
-          }
+        <div
+          ref={ref}
+          className={twMerge(
+            "flex max-h-[70dvh] min-h-48 snap-center flex-col overflow-auto overscroll-contain scroll-smooth px-3",
+            !isDragging ? "snap-y snap-mandatory" : null,
+          )}
         >
-          <Plus />
-          <span>Add Task</span>
-        </Button>
+          <DropArea variant="task" columnIndex={columnIndex} taskIndex={0} />
+          {tasks.map((task, index) => (
+            <Fragment key={task.taskId}>
+              <Task {...task} columnIndex={columnIndex} taskIndex={index} />
+              <DropArea
+                variant="task"
+                columnIndex={columnIndex}
+                taskIndex={index + 1}
+              />
+            </Fragment>
+          ))}
+          <Button
+            styleVariant={"outline"}
+            styleSize={"xl"}
+            className="snap-start"
+            onClick={handleOnClickAdd}
+            style={
+              view === "columns&tasks" || view === "tasks"
+                ? { viewTransitionName: `AddTask-${columnId}` }
+                : {}
+            }
+          >
+            <Plus />
+            <span>Add Task</span>
+          </Button>
+        </div>
       </div>
     </>
   );

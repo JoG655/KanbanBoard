@@ -101,7 +101,7 @@ export function Board() {
       <div
         ref={ref}
         className={twMerge(
-          "flex max-h-[80dvh] min-h-48 max-w-full gap-2 overflow-auto overscroll-contain scroll-smooth p-2",
+          "flex max-w-full gap-2 overflow-auto overscroll-contain scroll-smooth px-2 pb-6 pt-2",
           !isDragging ? "snap-x snap-mandatory" : null,
         )}
         onDrag={handleOnDrag}

@@ -22,7 +22,7 @@ export const useDragStore = create<DragStoreProps>((set) => ({
   },
   setDrag: (drag) => set(() => ({ drag: { ...drag } })),
 
-  isDragging: true,
+  isDragging: false,
   setIsDragging: (isDragging) => set(() => ({ isDragging })),
 
   isDragEnabled: true,

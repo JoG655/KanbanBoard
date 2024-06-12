@@ -28,11 +28,11 @@ export function Input({
   children,
   ...rest
 }: InputProps) {
-  const rippleRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const rippleCallback = useRipple<HTMLDivElement>(
     ripple && !readOnly && !disabled,
-    rippleRef,
+    ref,
   );
 
   function handleOnClickLabel(e: MouseEvent<HTMLLabelElement>) {
@@ -47,7 +47,7 @@ export function Input({
       onClick={handleOnClickLabel}
     >
       {childrenInsertion === "Prepend" ? LabelContent(children) : null}
-      <div ref={rippleRef} className={containerStyle()}>
+      <div ref={ref} className={containerStyle()}>
         <input
           className={twMerge(
             inputStyle({ styleVariant, styleSize }),

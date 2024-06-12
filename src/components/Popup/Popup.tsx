@@ -1,6 +1,4 @@
 import {
-  type Dispatch,
-  type SetStateAction,
   type ComponentPropsWithoutRef,
   createContext,
   useState,
@@ -11,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 
 type PopupContextType = {
   isPopupOpen: boolean;
-  setIsPopupOpen: Dispatch<SetStateAction<boolean>>;
+  setIsPopupOpen: (value: boolean) => void;
 };
 
 export const PopupContext = createContext<PopupContextType | undefined>(
