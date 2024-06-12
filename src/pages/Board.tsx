@@ -2,18 +2,18 @@ import { useBoardStore } from "../stores/boardStore.ts";
 import { useDragStore } from "../stores/dragStore.ts";
 import { useViewStore } from "../stores/viewStore.ts";
 import { useModalStore } from "../stores/modalStore.ts";
-import { useDragAutoScroll } from "../hooks/useDragAutoScroll.ts";
 import {
   type DragEvent,
   type MouseEvent,
+  useRef,
   useState,
   useMemo,
-  useRef,
 } from "react";
 import {
   type BoardSearchKeysType,
   type BoardIsSearchActiveType,
 } from "../types/boardType.ts";
+import { useDragAutoScroll } from "../hooks/useDragAutoScroll.ts";
 import { checkTouchDevice } from "../utils/checkTouchDevice.ts";
 import { twMerge } from "tailwind-merge";
 import { Search } from "../layouts/board/Search";
@@ -33,18 +33,13 @@ export function Board() {
 
   const { setModal } = useModalStore();
 
+  const ref = useRef<HTMLDivElement>(null);
+
   const [searchKeys, setSearchKeys] = useState<BoardSearchKeysType>({
     title: "",
     description: "",
     priority: "",
   });
-
-  const ref = useRef<HTMLDivElement>(null);
-
-  const dragAutoScrollCallback = useDragAutoScroll<HTMLDivElement>(
-    isDragging,
-    ref,
-  );
 
   const [isSearchActive, setIsSearchActive] =
     useState<BoardIsSearchActiveType>(false);
@@ -75,6 +70,12 @@ export function Board() {
       })
       .filter((column) => column.tasks.length > 0);
   }, [board, searchKeys, isSearchActive]);
+
+  const dragAutoScrollCallback = useDragAutoScroll<HTMLDivElement>(
+    isDragging,
+    ref,
+    { step: 350 },
+  );
 
   function handleOnDrag(e: DragEvent<HTMLDivElement>) {
     dragAutoScrollCallback(e);

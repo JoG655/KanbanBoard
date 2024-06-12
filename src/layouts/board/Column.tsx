@@ -3,7 +3,9 @@ import { useBoardStore } from "../../stores/boardStore.ts";
 import { useDragStore } from "../../stores/dragStore.ts";
 import { useModalStore } from "../../stores/modalStore.ts";
 import { useViewStore } from "../../stores/viewStore.ts";
-import { type DragEvent, Fragment } from "react";
+import { type DragEvent, type MouseEvent, useRef, Fragment } from "react";
+import { useDragAutoScroll } from "../../hooks/useDragAutoScroll.ts";
+import { checkTouchDevice } from "../../utils/checkTouchDevice.ts";
 import { elementTransition } from "../../utils/elementTransition.ts";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../../components/Button.tsx";
@@ -23,11 +25,30 @@ export const Column = ({
 }: ColumnProps) => {
   const { deleteColumn } = useBoardStore();
 
-  const { drag, setDrag, isDragEnabled, setIsDragging } = useDragStore();
+  const { drag, setDrag, isDragging, isDragEnabled, setIsDragging } =
+    useDragStore();
 
   const { view, setView } = useViewStore();
 
   const { setModal } = useModalStore();
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  const dragAutoScrollCallback = useDragAutoScroll<HTMLDivElement>(
+    isDragging,
+    ref,
+    { step: 100 },
+  );
+
+  function handleOnDrag(e: DragEvent<HTMLDivElement>) {
+    dragAutoScrollCallback(e);
+  }
+
+  function handleOnMouseMove(e: MouseEvent<HTMLDivElement>) {
+    if (!checkTouchDevice()) return;
+
+    dragAutoScrollCallback(e);
+  }
 
   function handleDragStart(e: DragEvent<HTMLDivElement>) {
     e.stopPropagation();
@@ -62,6 +83,7 @@ export const Column = ({
       <div
         className={twMerge(
           "flex max-h-full w-80 flex-shrink-0 snap-center flex-col overflow-auto rounded-lg bg-primary-200 px-3 pb-3 sm:w-96 dark:bg-primary-700",
+          !isDragging ? "snap-y snap-mandatory" : null,
           isDragEnabled ? "cursor-grab" : null,
           isDragEnabled &&
             drag.variant === "column" &&
@@ -77,6 +99,8 @@ export const Column = ({
         draggable={isDragEnabled}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
+        onDrag={handleOnDrag}
+        onMouseMove={handleOnMouseMove}
       >
         <div className="sticky top-0 z-10 flex items-baseline justify-between bg-primary-200 pt-3 dark:bg-primary-700">
           <h2 className="overflow-hidden text-balance break-words text-xl">{`${title} (${tasks.length})`}</h2>
@@ -113,6 +137,7 @@ export const Column = ({
         <Button
           styleVariant={"outline"}
           styleSize={"xl"}
+          className="snap-center"
           onClick={handleOnClickAdd}
           style={
             view === "columns&tasks" || view === "tasks"

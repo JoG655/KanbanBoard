@@ -1,8 +1,8 @@
 import { type RefObject, useRef, useCallback, useEffect } from "react";
 
-const DEFAULT_THRESHOLD = 0.1;
+const DEFAULT_THRESHOLD = 0.3;
 
-const DEFAULT_STEP = 350;
+const DEFAULT_STEP = 100;
 
 type MinimalEventType = {
   clientX: number;
