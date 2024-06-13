@@ -83,6 +83,7 @@ export const Column = ({
       <div
         className={twMerge(
           "flex w-80 flex-shrink-0 flex-col gap-1 rounded-lg bg-primary-200 sm:w-96 dark:bg-primary-700",
+          isDragEnabled ? "cursor-grab" : null,
           isDragEnabled &&
             drag.variant === "column" &&
             drag.columnId === columnId
