@@ -142,19 +142,19 @@
   @apply top-1/2 -translate-y-1/2;
 }
 .popup__content--horizontal-left {
-  @apply left-0;
+  @apply right-0;
 }
 .popup__content--horizontal-right {
-  @apply right-0;
+  @apply left-0;
 }
 .popup__content--horizontal-center {
   @apply left-1/2 -translate-x-1/2;
 }
 .popup__content--horizontal-left.popup__content--vertical-center {
-  @apply left-auto right-full;
+  @apply right-full;
 }
 .popup__content--horizontal-right.popup__content--vertical-center {
-  @apply left-full right-auto;
+  @apply left-full;
 }
 .popup__content-inner {
   @apply overflow-hidden;

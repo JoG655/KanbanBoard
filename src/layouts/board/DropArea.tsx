@@ -89,7 +89,7 @@ export const DropArea = ({
       className={twMerge(
         "relative block opacity-0 transition-all before:absolute before:inset-2 before:rounded-xl before:border-2 before:border-dashed before:border-primary-500 before:bg-primary-400 dark:before:bg-primary-600",
         variant === "column" ? "px-2" : "py-2",
-        isVisible ? "delay-300" : null,
+        // isVisible ? "delay-300" : null,
         isVisible
           ? variant === "column"
             ? "px-8 opacity-100"

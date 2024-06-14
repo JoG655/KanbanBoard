@@ -26,7 +26,8 @@ export function Task({
 }: TaskProps) {
   const { deleteTask } = useBoardStore();
 
-  const { isDragEnabled, drag, setDrag, setIsDragging } = useDragStore();
+  const { isDragEnabled, drag, setDrag, isDragging, setIsDragging } =
+    useDragStore();
 
   const { view, setView } = useViewStore();
 
@@ -92,10 +93,11 @@ export function Task({
         "snap-start rounded-md bg-primary-300 p-2 shadow-md dark:bg-primary-600",
         isDragEnabled ? "cursor-grab" : null,
         isDragEnabled &&
+          isDragging &&
           drag.variant === "task" &&
           drag.columnId === columnId &&
           drag.taskId === taskId
-          ? "active:animate-pulse active:cursor-grabbing"
+          ? "animate-pulse"
           : null,
       )}
       style={

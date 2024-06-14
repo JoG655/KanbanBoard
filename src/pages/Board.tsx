@@ -2,19 +2,12 @@ import { useBoardStore } from "../stores/boardStore.ts";
 import { useDragStore } from "../stores/dragStore.ts";
 import { useViewStore } from "../stores/viewStore.ts";
 import { useModalStore } from "../stores/modalStore.ts";
-import {
-  type DragEvent,
-  type MouseEvent,
-  useRef,
-  useState,
-  useMemo,
-} from "react";
+import { type DragEvent, useRef, useState, useMemo } from "react";
 import {
   type BoardSearchKeysType,
   type BoardIsSearchActiveType,
 } from "../types/boardType.ts";
 import { useDragAutoScroll } from "../hooks/useDragAutoScroll.ts";
-import { checkTouchDevice } from "../utils/checkTouchDevice.ts";
 import { twMerge } from "tailwind-merge";
 import { Search } from "../layouts/board/Search";
 import { DropArea } from "../layouts/board/DropArea";
@@ -81,12 +74,6 @@ export function Board() {
     dragAutoScrollCallback(e);
   }
 
-  function handleOnMouseMove(e: MouseEvent<HTMLDivElement>) {
-    if (!checkTouchDevice()) return;
-
-    dragAutoScrollCallback(e);
-  }
-
   function handleOnClickAdd() {
     setModal({ variant: "ColumnAdd" });
   }
@@ -105,7 +92,6 @@ export function Board() {
           !isDragging ? "snap-x snap-mandatory" : null,
         )}
         onDrag={handleOnDrag}
-        onMouseMove={handleOnMouseMove}
       >
         {filteredBoard.length !== 0 ? (
           <DropArea variant="column" columnIndex={0} />

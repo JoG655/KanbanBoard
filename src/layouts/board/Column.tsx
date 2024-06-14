@@ -3,9 +3,8 @@ import { useBoardStore } from "../../stores/boardStore.ts";
 import { useDragStore } from "../../stores/dragStore.ts";
 import { useModalStore } from "../../stores/modalStore.ts";
 import { useViewStore } from "../../stores/viewStore.ts";
-import { type DragEvent, type MouseEvent, useRef, Fragment } from "react";
+import { type DragEvent, useRef, Fragment } from "react";
 import { useDragAutoScroll } from "../../hooks/useDragAutoScroll.ts";
-import { checkTouchDevice } from "../../utils/checkTouchDevice.ts";
 import { elementTransition } from "../../utils/elementTransition.ts";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../../components/Button.tsx";
@@ -56,12 +55,6 @@ export const Column = ({
     setIsDragging(false);
   }
 
-  function handleOnMouseMove(e: MouseEvent<HTMLDivElement>) {
-    if (!checkTouchDevice()) return;
-
-    dragAutoScrollCallback(e);
-  }
-
   function handleOnClickEdit() {
     setModal({ variant: "ColumnEdit", columnId, title, tasks });
   }
@@ -85,9 +78,10 @@ export const Column = ({
           "flex w-80 flex-shrink-0 flex-col gap-1 rounded-lg bg-primary-200 sm:w-96 dark:bg-primary-700",
           isDragEnabled ? "cursor-grab" : null,
           isDragEnabled &&
+            isDragging &&
             drag.variant === "column" &&
             drag.columnId === columnId
-            ? "active:animate-pulse active:cursor-grabbing"
+            ? "animate-pulse"
             : null,
         )}
         style={
@@ -99,7 +93,6 @@ export const Column = ({
         onDrag={handleOnDrag}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
-        onMouseMove={handleOnMouseMove}
       >
         <div className="flex items-baseline justify-between px-3">
           <h2 className="overflow-hidden text-balance break-words text-xl">{`${title} (${tasks.length})`}</h2>

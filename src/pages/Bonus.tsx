@@ -8,7 +8,7 @@ import { DemoModal } from "../layouts/bonus/DemoModal";
 
 export function Bonus() {
   return (
-    <div className="flex max-w-7xl flex-col gap-12 text-center">
+    <div className="flex max-w-7xl flex-col gap-12 p-4 text-center">
       <DemoButton />
 
       <DemoSwitch />

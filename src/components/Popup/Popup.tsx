@@ -29,9 +29,14 @@ export function Popup({ className, children, ...rest }: PopupProps) {
 
     if (!element) return;
 
-    const target = e.target as Node;
+    const target = e.target;
 
-    if (!target || !target.isConnected || element.contains(target)) return;
+    if (
+      !(target instanceof Node) ||
+      !target.isConnected ||
+      element.contains(target)
+    )
+      return;
 
     setIsPopupOpen(false);
   }
