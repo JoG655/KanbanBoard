@@ -138,7 +138,7 @@ export function Search({
           </Notification>
         </PopupToggler>
         <PopupContent
-          className="flex min-w-max flex-wrap justify-center rounded-lg bg-primary-200 bg-opacity-60 p-4 text-primary-800 backdrop-blur-sm dark:bg-primary-800 dark:bg-opacity-60 dark:text-primary-50"
+          className="flex min-w-max flex-wrap justify-center rounded-lg border-2 border-primary-500 bg-primary-200 bg-opacity-60 p-4 text-primary-800 backdrop-blur-sm dark:bg-primary-800 dark:bg-opacity-60 dark:text-primary-50"
           style={
             view === "columns&tasks" ? { viewTransitionName: "Search" } : {}
           }

@@ -121,7 +121,7 @@ export function Modals() {
 
   return (
     <Modal uuid="modals" isOpen={isOpen} setIsOpen={setIsOpen}>
-      <div className="flex max-w-xl items-baseline justify-between border-b-2 border-primary-700 px-4 text-xl dark:border-primary-300">
+      <div className="flex max-w-xl items-baseline justify-between border-b-2 border-primary-500 px-4 text-xl">
         <h2 className="overflow-hidden text-balance break-words">
           {activeTitle}
         </h2>
