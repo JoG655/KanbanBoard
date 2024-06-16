@@ -1,6 +1,7 @@
 import { DemoButton } from "../layouts/bonus/DemoButton";
 import { DemoSwitch } from "../layouts/bonus/DemoSwitch";
 import { DemoInput } from "../layouts/bonus/DemoInput";
+import { DemoTextArea } from "../layouts/bonus/DemoTextArea";
 import { DemoSelect } from "../layouts/bonus/DemoSelect";
 import { DemoSpinner } from "../layouts/bonus/DemoSpinner";
 import { DemoPopup } from "../layouts/bonus/DemoPopup";
@@ -14,6 +15,8 @@ export function Bonus() {
       <DemoSwitch />
 
       <DemoInput />
+
+      <DemoTextArea />
 
       <DemoSelect />
 

@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 
-export const selectStyle = cva(
+export const textAreaStyle = cva(
   [
     "w-full",
     "rounded-lg",
@@ -8,10 +8,12 @@ export const selectStyle = cva(
     "bg-primary-100",
     "text-primary-800",
     "transition",
+    "read-only:bg-primary-200",
+    "read-only:text-primary-800",
     "focus:outline-none",
     "focus-visible:shadow-focus-sm",
     "disabled:cursor-not-allowed",
-    "disabled:border-primary-300",
+    "disabled:border-primary-950",
     "disabled:bg-primary-300",
     "disabled:text-primary-800",
     "dark:bg-primary-950",
@@ -41,10 +43,10 @@ export const selectStyle = cva(
         ],
       },
       styleSize: {
-        sm: ["min-h-8", "px-2", "py-1", "text-sm"],
-        md: ["min-h-9", "px-3", "py-1.5", "text-sm"],
-        lg: ["min-h-10", "px-4", "py-2", "text-base"],
-        xl: ["min-h-11", "px-5", "py-2.5", "text-base"],
+        sm: ["min-h-28", "px-2", "py-1", "text-sm"],
+        md: ["min-h-40", "px-3", "py-1.5", "text-sm"],
+        lg: ["min-h-52", "px-4", "py-2", "text-base"],
+        xl: ["min-h-64", "px-5", "py-2.5", "text-base"],
       },
     },
     defaultVariants: {

@@ -2,6 +2,7 @@ import { cva } from "class-variance-authority";
 
 export const inputStyle = cva(
   [
+    "w-full",
     "rounded-lg",
     "border-2",
     "bg-primary-100",
@@ -55,7 +56,7 @@ export const inputStyle = cva(
   },
 );
 
-export const containerStyle = cva(["m-2.5", "rounded-lg"]);
+export const containerStyle = cva(["m-2.5", "grow", "rounded-lg"]);
 
 export const labelStyle = cva(
   [

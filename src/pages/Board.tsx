@@ -15,7 +15,7 @@ import { Fragment } from "react/jsx-runtime";
 import { Column } from "../layouts/board/Column";
 import { Button } from "../components/Button";
 import { Plus } from "lucide-react";
-import { Modals } from "../layouts/board/Modals.tsx";
+import { Modals } from "../layouts/board/Modals";
 
 export function Board() {
   const { board } = useBoardStore();

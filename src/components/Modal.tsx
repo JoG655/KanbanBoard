@@ -1,6 +1,7 @@
 import {
   type ComponentPropsWithoutRef,
   type MouseEvent,
+  type TouchEvent,
   type SyntheticEvent,
   useRef,
   useEffect,
@@ -19,7 +20,8 @@ export function Modal({
   isOpen,
   setIsOpen,
   className,
-  onClick,
+  onMouseDown,
+  onTouchStart,
   onCancel,
   children,
   ...rest
@@ -40,9 +42,21 @@ export function Modal({
     element.showModal();
   }, [isOpen]);
 
-  function handleOnClick(e: MouseEvent<HTMLDialogElement>) {
-    if (onClick) {
-      onClick(e);
+  function handleOnMouseDown(e: MouseEvent<HTMLDialogElement>) {
+    if (onMouseDown) {
+      onMouseDown(e);
+    }
+
+    const element = ref.current;
+
+    if (!element || e.target !== element) return;
+
+    setIsOpen(false);
+  }
+
+  function handleOnTouchStart(e: TouchEvent<HTMLDialogElement>) {
+    if (onTouchStart) {
+      onTouchStart(e);
     }
 
     const element = ref.current;
@@ -70,7 +84,8 @@ export function Modal({
     <dialog
       ref={ref}
       className={twMerge("modal", className)}
-      onClick={handleOnClick}
+      onMouseDown={handleOnMouseDown}
+      onTouchStart={handleOnTouchStart}
       onCancel={handleOnCancel}
       {...rest}
     >

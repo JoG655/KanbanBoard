@@ -49,4 +49,6 @@ export type BoardIsSearchActiveType = boolean;
 
 export type BoardModalsKeysType = {
   title: string;
+  description: string;
+  priority: string;
 };
