@@ -12,7 +12,7 @@ export function ModalsViewTask() {
 
   return (
     <div className="flex flex-col px-4">
-      <Input readOnly defaultValue={modal.title}>
+      <Input className="font-bold" readOnly defaultValue={modal.title}>
         <BookType />
       </Input>
       <TextArea readOnly defaultValue={modal.description}>
