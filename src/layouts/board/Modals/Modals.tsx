@@ -85,7 +85,7 @@ export function Modals() {
 
   return (
     <Modal uuid="modals" isOpen={isOpen} setIsOpen={setIsOpen}>
-      <div className="flex min-w-96 max-w-xl items-baseline justify-between border-b-2 border-primary-500 px-4 py-2 text-xl">
+      <div className="flex min-w-80 max-w-xl items-baseline justify-between border-b-2 border-primary-500 px-4 py-2 text-xl sm:min-w-96">
         <h2 className="overflow-hidden text-balance break-words">
           {activeTitle}
         </h2>
