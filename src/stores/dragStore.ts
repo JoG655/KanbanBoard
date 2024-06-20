@@ -15,9 +15,8 @@ type DragStoreProps = {
 export const useDragStore = create<DragStoreProps>((set) => ({
   drag: {
     variant: "task",
-    columnId: "",
+    id: "",
     columnIndex: NaN,
-    taskId: "",
     taskIndex: NaN,
   },
   setDrag: (drag) => set(() => ({ drag: { ...drag } })),

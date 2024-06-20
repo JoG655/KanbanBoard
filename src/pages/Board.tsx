@@ -97,13 +97,8 @@ export function Board() {
           <DropArea variant="column" columnIndex={0} />
         ) : null}
         {filteredBoard.map((column, index) => (
-          <Fragment key={column.columnId}>
-            <Column
-              columnId={column.columnId}
-              title={column.title}
-              tasks={column.tasks}
-              columnIndex={index}
-            />
+          <Fragment key={column.id}>
+            <Column {...column} columnIndex={index} />
             <DropArea variant="column" columnIndex={index + 1} />
           </Fragment>
         ))}

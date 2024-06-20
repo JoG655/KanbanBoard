@@ -1,4 +1,4 @@
-function getRandomID(length = 6) {
+function getRandomID(length = 10) {
   const characterPool =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 

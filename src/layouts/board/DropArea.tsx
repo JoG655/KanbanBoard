@@ -70,9 +70,9 @@ export const DropArea = ({
       setIsVisible(false);
 
       if (isDropColumn) {
-        moveColumn(drag.columnId, columnIndex);
+        moveColumn(drag.id, columnIndex);
       } else if (isDropTaks) {
-        moveTask(drag.columnId, drag.taskId, columnIndex, taskIndex);
+        moveTask(drag.id, columnIndex, taskIndex);
       }
     });
   };

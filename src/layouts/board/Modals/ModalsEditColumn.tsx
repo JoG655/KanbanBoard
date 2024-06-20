@@ -59,7 +59,7 @@ export function ModalsEditColumn() {
 
     if (isError) return;
 
-    editColumn(modal.columnId, {
+    editColumn(modal.id, {
       title: title ?? modal.title,
       tasks: modal.tasks,
     });

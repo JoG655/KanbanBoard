@@ -2,87 +2,63 @@ import { getUUID } from "./getUUID";
 import { type BoardType } from "../types/boardType";
 import { useBoardStore } from "../stores/boardStore";
 
-const DUMMY_DATA_COLUMN_ID = getUUID();
-
-const DUMMY_DATA_TASK_ID = getUUID();
-
-const DUMMY_DATA_SUBTASK_ID = getUUID();
-
 const BOARD_STORE_DUMMY_DATA: BoardType = [
   {
-    columnId: DUMMY_DATA_COLUMN_ID,
+    id: getUUID(),
     title: "To-Do",
     tasks: [
       {
-        columnId: DUMMY_DATA_COLUMN_ID,
-        taskId: DUMMY_DATA_TASK_ID,
+        id: getUUID(),
         title: "Throw the trash",
         description: "The trash can is very far away",
         priority: "Low",
         subtasks: [
           {
-            columnId: DUMMY_DATA_COLUMN_ID,
-            taskId: DUMMY_DATA_TASK_ID,
-            subtaskId: DUMMY_DATA_SUBTASK_ID,
+            id: getUUID(),
             title: "Get out of the house",
             isCompleted: true,
           },
           {
-            columnId: DUMMY_DATA_COLUMN_ID,
-            taskId: DUMMY_DATA_TASK_ID,
-            subtaskId: DUMMY_DATA_SUBTASK_ID + 1,
+            id: getUUID(),
             title: "Walk for 10km",
             isCompleted: false,
           },
           {
-            columnId: DUMMY_DATA_COLUMN_ID,
-            taskId: DUMMY_DATA_TASK_ID,
-            subtaskId: DUMMY_DATA_SUBTASK_ID + 2,
+            id: getUUID(),
             title: "Throw the trash",
             isCompleted: false,
           },
           {
-            columnId: DUMMY_DATA_COLUMN_ID,
-            taskId: DUMMY_DATA_TASK_ID,
-            subtaskId: DUMMY_DATA_SUBTASK_ID + 3,
+            id: getUUID(),
             title: "Walk back home",
             isCompleted: false,
           },
         ],
       },
       {
-        columnId: DUMMY_DATA_COLUMN_ID,
-        taskId: DUMMY_DATA_TASK_ID + 1,
+        id: getUUID(),
         title: "Walk the dog",
         description: "The dog is very old",
         priority: "Low",
         subtasks: [
           {
-            columnId: DUMMY_DATA_COLUMN_ID,
-            taskId: DUMMY_DATA_TASK_ID + 1,
-            subtaskId: DUMMY_DATA_SUBTASK_ID,
+            id: getUUID(),
             title: "Get out of the house",
             isCompleted: true,
           },
 
           {
-            columnId: DUMMY_DATA_COLUMN_ID,
-            taskId: DUMMY_DATA_TASK_ID + 1,
-            subtaskId: DUMMY_DATA_SUBTASK_ID + 1,
+            id: getUUID(),
             title: "Walk for 10km",
             isCompleted: false,
           },
           {
-            columnId: DUMMY_DATA_COLUMN_ID,
-            taskId: DUMMY_DATA_TASK_ID + 1,
-            subtaskId: DUMMY_DATA_SUBTASK_ID + 2,
+            id: getUUID(),
             title: "Play with other dogs",
             isCompleted: false,
           },
           {
-            columnId: DUMMY_DATA_COLUMN_ID,
-            taskId: DUMMY_DATA_TASK_ID + 1,
-            subtaskId: DUMMY_DATA_SUBTASK_ID + 3,
+            id: getUUID(),
             title: "Walk back home",
             isCompleted: false,
           },
@@ -91,79 +67,61 @@ const BOARD_STORE_DUMMY_DATA: BoardType = [
     ],
   },
   {
-    columnId: DUMMY_DATA_COLUMN_ID + 1,
+    id: getUUID(),
     title: "Done",
     tasks: [
       {
-        columnId: DUMMY_DATA_COLUMN_ID + 1,
-        taskId: DUMMY_DATA_TASK_ID + 2,
+        id: getUUID(),
         title: "Workout",
         description: "10",
         priority: "Low",
         subtasks: [
           {
-            columnId: DUMMY_DATA_COLUMN_ID + 1,
-            taskId: DUMMY_DATA_TASK_ID + 2,
-            subtaskId: DUMMY_DATA_SUBTASK_ID,
+            id: getUUID(),
             title: "Get out of the house",
             isCompleted: true,
           },
           {
-            columnId: DUMMY_DATA_COLUMN_ID + 1,
-            taskId: DUMMY_DATA_TASK_ID + 2,
-            subtaskId: DUMMY_DATA_SUBTASK_ID + 1,
+            id: getUUID(),
             title: "Walk for 10km",
             isCompleted: true,
           },
           {
-            columnId: DUMMY_DATA_COLUMN_ID + 1,
-            taskId: DUMMY_DATA_TASK_ID + 2,
-            subtaskId: DUMMY_DATA_SUBTASK_ID + 2,
+            id: getUUID(),
             title: "Throw the trash",
             isCompleted: true,
           },
           {
-            columnId: DUMMY_DATA_COLUMN_ID + 1,
-            taskId: DUMMY_DATA_TASK_ID + 2,
-            subtaskId: DUMMY_DATA_SUBTASK_ID + 3,
+            id: getUUID(),
             title: "Walk back home",
             isCompleted: true,
           },
         ],
       },
       {
-        columnId: DUMMY_DATA_COLUMN_ID + 1,
-        taskId: DUMMY_DATA_TASK_ID + 3,
+        id: getUUID(),
         title: "Walk the dog",
         description: "The dog is very old",
         priority: "Low",
         subtasks: [
           {
-            columnId: DUMMY_DATA_COLUMN_ID + 1,
-            taskId: DUMMY_DATA_TASK_ID + 3,
-            subtaskId: DUMMY_DATA_SUBTASK_ID,
+            id: getUUID(),
             title: "Get out of the house",
             isCompleted: true,
           },
 
           {
-            columnId: DUMMY_DATA_COLUMN_ID + 1,
-            taskId: DUMMY_DATA_TASK_ID + 3,
-            subtaskId: DUMMY_DATA_SUBTASK_ID + 1,
+            id: getUUID(),
             title: "Walk for 10km",
             isCompleted: true,
           },
           {
-            columnId: DUMMY_DATA_COLUMN_ID + 1,
-            taskId: DUMMY_DATA_TASK_ID + 3,
-            subtaskId: DUMMY_DATA_SUBTASK_ID + 2,
+            id: getUUID(),
             title: "Play with other dogs",
             isCompleted: true,
           },
           {
-            columnId: DUMMY_DATA_COLUMN_ID + 1,
-            taskId: DUMMY_DATA_TASK_ID + 3,
-            subtaskId: DUMMY_DATA_SUBTASK_ID + 3,
+            id: getUUID(),
             title: "Walk back home",
             isCompleted: true,
           },

@@ -12,16 +12,15 @@ type ModalType = {
     }
   | ({
       variant: "ColumnEdit";
-      columnId: string;
+      id: string;
     } & BoardColumnDataType)
   | {
       variant: "TaskAdd";
-      columnId: string;
+      id: string;
     }
   | ({
       variant: "TaskEdit" | "TaskView";
-      columnId: string;
-      taskId: string;
+      id: string;
     } & BoardTaskDataType)
 );
 

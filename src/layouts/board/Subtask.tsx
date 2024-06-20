@@ -1,17 +1,19 @@
-import { type BoardSubtaskType } from "../../types/boardType";
+import { type BoardSubtaskDataType } from "../../types/boardType";
 import { useBoardStore } from "../../stores/boardStore";
 import { Button } from "../../components/Button";
 import { twMerge } from "tailwind-merge";
 import { useState } from "react";
 
-type SubtaskProps = BoardSubtaskType;
+type SubtaskProps = BoardSubtaskDataType & {
+  taskId: string;
+  subtaskIndex: number;
+};
 
 export function Subtask({
-  columnId,
-  taskId,
-  subtaskId,
   title,
   isCompleted,
+  taskId,
+  subtaskIndex,
 }: SubtaskProps) {
   const { toggleSubtask } = useBoardStore();
 
@@ -22,7 +24,7 @@ export function Subtask({
       return !previousIsInternalCompleted;
     });
 
-    toggleSubtask(columnId, taskId, subtaskId);
+    toggleSubtask(taskId, subtaskIndex);
   };
 
   return (

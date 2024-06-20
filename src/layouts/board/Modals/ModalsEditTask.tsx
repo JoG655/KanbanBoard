@@ -122,7 +122,7 @@ export function ModalsEditTask() {
 
     if (isError) return;
 
-    editTask(modal.columnId, modal.taskId, {
+    editTask(modal.id, {
       title: title ?? DEFAULT_VALUES.title,
       description: description ?? DEFAULT_VALUES.description,
       priority: (priority ??
@@ -188,9 +188,7 @@ export function ModalsEditTask() {
       return [
         ...previousSubtasks,
         {
-          columnId: modal.columnId,
-          taskId: modal.taskId,
-          subtaskId: getUUID(),
+          id: getUUID(),
           title: "",
           isCompleted: false,
         },
@@ -238,7 +236,7 @@ export function ModalsEditTask() {
         <CopyMinus className="mt-4" />
         <div className="flex max-h-[45dvh] grow snap-y snap-mandatory snap-center flex-col overflow-auto overscroll-contain scroll-smooth px-3">
           {subtasks.map((subtask, index) => (
-            <Fragment key={subtask.subtaskId}>
+            <Fragment key={subtask.id}>
               <div className="flex snap-start justify-between">
                 <Input
                   name={[NAMES.subtasks, index].join("-")}

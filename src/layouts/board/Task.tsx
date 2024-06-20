@@ -15,8 +15,7 @@ type TaskProps = BoardTaskType & {
 };
 
 export function Task({
-  columnId,
-  taskId,
+  id,
   title,
   description,
   priority,
@@ -42,9 +41,8 @@ export function Task({
 
     setDrag({
       variant: "task",
-      columnId,
+      id,
       columnIndex,
-      taskId,
       taskIndex,
     });
 
@@ -58,8 +56,7 @@ export function Task({
   const handleOnClickView = () => {
     setModal({
       variant: "TaskView",
-      taskId,
-      columnId,
+      id,
       title,
       description,
       priority,
@@ -70,8 +67,7 @@ export function Task({
   const handleOnClickEdit = () => {
     setModal({
       variant: "TaskEdit",
-      taskId,
-      columnId,
+      id,
       title,
       description,
       priority,
@@ -83,7 +79,7 @@ export function Task({
     setView("tasks");
 
     elementTransition(() => {
-      deleteTask(columnId, taskId);
+      deleteTask(id);
     });
   };
 
@@ -92,17 +88,13 @@ export function Task({
       className={twMerge(
         "snap-start rounded-md bg-primary-300 p-2 shadow-md dark:bg-primary-600",
         isDragEnabled ? "cursor-grab" : null,
-        isDragEnabled &&
-          isDragging &&
-          drag.variant === "task" &&
-          drag.columnId === columnId &&
-          drag.taskId === taskId
+        isDragEnabled && isDragging && drag.variant === "task" && drag.id === id
           ? "animate-pulse"
           : null,
       )}
       style={
         view === "columns&tasks" || view === "tasks"
-          ? { viewTransitionName: `Task-${taskId}` }
+          ? { viewTransitionName: `Task-${id}` }
           : {}
       }
       draggable={isDragEnabled}

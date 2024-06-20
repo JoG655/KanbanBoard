@@ -4,9 +4,7 @@ export type BoardSubtaskDataType = {
 };
 
 export type BoardSubtaskType = {
-  columnId: string;
-  taskId: string;
-  subtaskId: string;
+  id: string;
 } & BoardSubtaskDataType;
 
 export type BoardTaskDataPriorityType =
@@ -24,8 +22,7 @@ export type BoardTaskDataType = {
 };
 
 export type BoardTaskType = {
-  columnId: string;
-  taskId: string;
+  id: string;
 } & BoardTaskDataType;
 
 export type BoardColumnDataType = {
@@ -34,7 +31,7 @@ export type BoardColumnDataType = {
 };
 
 export type BoardColumnType = {
-  columnId: string;
+  id: string;
 } & BoardColumnDataType;
 
 export type BoardType = BoardColumnType[];

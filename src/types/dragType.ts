@@ -2,17 +2,15 @@ export type DragVariantType = "column" | "task";
 
 export type DragType = {
   variant: DragVariantType;
-  columnId: string;
-  columnIndex: number;
+  id: string;
 } & (
   | {
       variant: "column";
-      taskId?: string;
-      taskIndex?: number;
+      columnIndex: number;
     }
   | {
       variant: "task";
-      taskId: string;
+      columnIndex: number;
       taskIndex: number;
     }
 );

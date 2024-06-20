@@ -16,12 +16,7 @@ type ColumnProps = BoardColumnType & {
   columnIndex: number;
 };
 
-export const Column = ({
-  columnId,
-  title,
-  tasks,
-  columnIndex,
-}: ColumnProps) => {
+export const Column = ({ id, title, tasks, columnIndex }: ColumnProps) => {
   const { setModal } = useModalStore();
 
   const { deleteColumn } = useBoardStore();
@@ -46,7 +41,7 @@ export const Column = ({
   const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
-    setDrag({ variant: "column", columnId, columnIndex: columnIndex });
+    setDrag({ variant: "column", id, columnIndex });
 
     setIsDragging(true);
   };
@@ -56,19 +51,19 @@ export const Column = ({
   };
 
   const handleOnClickEdit = () => {
-    setModal({ variant: "ColumnEdit", columnId, title, tasks });
+    setModal({ variant: "ColumnEdit", id, title, tasks });
   };
 
   const handleOnClickDelete = () => {
     setView("columns");
 
     elementTransition(() => {
-      deleteColumn(columnId);
+      deleteColumn(id);
     });
   };
 
   const handleOnClickAdd = () => {
-    setModal({ variant: "TaskAdd", columnId });
+    setModal({ variant: "TaskAdd", id });
   };
 
   return (
@@ -80,13 +75,13 @@ export const Column = ({
           isDragEnabled &&
             isDragging &&
             drag.variant === "column" &&
-            drag.columnId === columnId
+            drag.id === id
             ? "animate-pulse"
             : null,
         )}
         style={
           view === "columns&tasks" || view === "columns"
-            ? { viewTransitionName: `Column-${columnId}` }
+            ? { viewTransitionName: `Column-${id}` }
             : {}
         }
         draggable={isDragEnabled}
@@ -124,7 +119,7 @@ export const Column = ({
         >
           <DropArea variant="task" columnIndex={columnIndex} taskIndex={0} />
           {tasks.map((task, index) => (
-            <Fragment key={task.taskId}>
+            <Fragment key={task.id}>
               <Task {...task} columnIndex={columnIndex} taskIndex={index} />
               <DropArea
                 variant="task"
@@ -140,7 +135,7 @@ export const Column = ({
             onClick={handleOnClickAdd}
             style={
               view === "columns&tasks" || view === "tasks"
-                ? { viewTransitionName: `AddTask-${columnId}` }
+                ? { viewTransitionName: `AddTask-${id}` }
                 : {}
             }
           >

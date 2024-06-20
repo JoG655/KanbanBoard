@@ -32,13 +32,13 @@ export function Modals() {
 
       activeDelete = true;
 
-      activeComponent = <ModalsEditColumn key={modal.columnId} />;
+      activeComponent = <ModalsEditColumn key={modal.id} />;
 
       break;
     case "TaskAdd":
       activeTitle = "Add Task";
 
-      activeComponent = <ModalsAddTask key={modal.columnId} />;
+      activeComponent = <ModalsAddTask key={modal.id} />;
 
       break;
     case "TaskEdit":
@@ -46,7 +46,7 @@ export function Modals() {
 
       activeDelete = true;
 
-      activeComponent = <ModalsEditTask key={modal.columnId + modal.taskId} />;
+      activeComponent = <ModalsEditTask key={modal.id} />;
 
       break;
     case "TaskView":
@@ -54,7 +54,7 @@ export function Modals() {
 
       activeDelete = true;
 
-      activeComponent = <ModalsViewTask key={modal.columnId + modal.taskId} />;
+      activeComponent = <ModalsViewTask key={modal.id} />;
 
       break;
     default:
@@ -64,12 +64,12 @@ export function Modals() {
   const handleOnClickDelete = () => {
     switch (modal.variant) {
       case "ColumnEdit":
-        deleteColumn(modal.columnId);
+        deleteColumn(modal.id);
 
         break;
       case "TaskEdit":
       case "TaskView":
-        deleteTask(modal.columnId, modal.taskId);
+        deleteTask(modal.id);
 
         break;
       default:
