@@ -71,11 +71,11 @@ export function Search({
 
   const [isChanged, setIsChanged] = useState(false);
 
-  function handleOnChange() {
+  const handleOnChange = () => {
     setIsChanged(true);
-  }
+  };
 
-  function handleOnSubmit(e: FormEvent<HTMLFormElement>) {
+  const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!isChanged) return;
@@ -107,9 +107,9 @@ export function Search({
         priority: searchKeys.priority ?? DEFAULT_VALUES.priority,
       });
     });
-  }
+  };
 
-  function handleOnReset() {
+  const handleOnReset = () => {
     if (!isSearchActive && !isChanged) return;
 
     setIsChanged(false);
@@ -123,7 +123,7 @@ export function Search({
 
       setSearchKeys({ ...DEFAULT_VALUES });
     });
-  }
+  };
 
   return (
     <form

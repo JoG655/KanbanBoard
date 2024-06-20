@@ -11,9 +11,9 @@ export function PopupToggler({
 }: PopupTogglerProps) {
   const { isPopupOpen, setIsPopupOpen } = usePopup();
 
-  function handleOnClick() {
+  const handleOnClick = () => {
     setIsPopupOpen(!isPopupOpen);
-  }
+  };
 
   return (
     <Button type={type} onClick={handleOnClick} {...rest}>

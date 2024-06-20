@@ -39,9 +39,9 @@ export function TextArea({
     ref,
   );
 
-  function handleOnClickLabel(e: MouseEvent<HTMLLabelElement>) {
+  const handleOnClickLabel = (e: MouseEvent<HTMLLabelElement>) => {
     rippleCallback(e);
-  }
+  };
 
   return (
     <label

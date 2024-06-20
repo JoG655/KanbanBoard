@@ -5,11 +5,15 @@ import { Modal } from "../../components/Modal";
 export function DemoModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleOnClick = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <>
       <h1 className="text-2xl font-bold uppercase tracking-wide">Modal</h1>
       <div className="flex justify-center">
-        <Button onClick={() => setIsModalOpen(true)}>
+        <Button onClick={handleOnClick}>
           <span>Open Modal</span>
           <span>&rarr;</span>
         </Button>

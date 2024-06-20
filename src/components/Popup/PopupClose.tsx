@@ -10,9 +10,9 @@ export function PopupClose({
 }: PopupCloseProps) {
   const { setIsPopupOpen } = usePopup();
 
-  function handleOnClick() {
+  const handleOnClick = () => {
     setIsPopupOpen(false);
-  }
+  };
 
   return (
     <Button type={type} onClick={handleOnClick} {...rest}>

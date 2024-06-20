@@ -24,13 +24,13 @@ export function Navigation() {
     }
   }, [theme]);
 
-  function handleOnChangeTheme() {
+  const handleOnChangeTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
-  }
+  };
 
-  function handleOnClickReset() {
+  const handleOnClickReset = () => {
     initializeBoardStoreDummyData();
-  }
+  };
 
   return (
     <>

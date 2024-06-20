@@ -20,6 +20,12 @@ const DEFAULT_VALUES: BoardModalsEditColumnKeysType = {
 export function ModalsEditColumn() {
   const { modal, isOpen, setIsOpen } = useModalStore();
 
+  if (modal.variant !== "ColumnEdit") {
+    throw new Error(
+      "ModalsEditColumn must be used within a ColumnEdit variant",
+    );
+  }
+
   const { editColumn } = useBoardStore();
 
   const [errors, setErrors] = useState<BoardModalsEditColumnKeysType>({
@@ -32,13 +38,7 @@ export function ModalsEditColumn() {
     setErrors(DEFAULT_VALUES);
   }, [isOpen]);
 
-  function handleOnSubmit(e: FormEvent<HTMLFormElement>) {
-    if (modal.variant !== "ColumnEdit") {
-      throw new Error(
-        "ModalsEditColumn must be used within a ColumnEdit variant",
-      );
-    }
-
+  const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let isError = false;
@@ -59,12 +59,6 @@ export function ModalsEditColumn() {
 
     if (isError) return;
 
-    if (modal.variant !== "ColumnEdit") {
-      throw new Error(
-        "ModalsEditColumn must be used within a ColumnEdit variant",
-      );
-    }
-
     editColumn(modal.columnId, {
       title: title ?? modal.title,
       tasks: modal.tasks,
@@ -73,23 +67,17 @@ export function ModalsEditColumn() {
     setIsOpen(false);
 
     target.reset();
-  }
+  };
 
-  function handleOnReset() {
+  const handleOnReset = () => {
     setErrors(DEFAULT_VALUES);
-  }
+  };
 
-  function handleOnChangeTitle() {
+  const handleOnChangeTitle = () => {
     setErrors((previousErrors) => {
       return { ...previousErrors, title: "" };
     });
-  }
-
-  if (modal.variant !== "ColumnEdit") {
-    throw new Error(
-      "ModalsEditColumn must be used within a ColumnEdit variant",
-    );
-  }
+  };
 
   return (
     <form

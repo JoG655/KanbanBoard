@@ -39,13 +39,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ref,
     );
 
-    function handleOnClick(e: MouseEvent<HTMLButtonElement>) {
+    const handleOnClick = (e: MouseEvent<HTMLButtonElement>) => {
       if (onClick) {
         onClick(e);
       }
 
       rippleCallback(e);
-    }
+    };
 
     return (
       <button

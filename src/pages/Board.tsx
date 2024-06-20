@@ -1,7 +1,7 @@
+import { useModalStore } from "../stores/modalStore.ts";
 import { useBoardStore } from "../stores/boardStore.ts";
 import { useDragStore } from "../stores/dragStore.ts";
 import { useViewStore } from "../stores/viewStore.ts";
-import { useModalStore } from "../stores/modalStore.ts";
 import { type DragEvent, useRef, useState, useMemo } from "react";
 import {
   type BoardSearchKeysType,
@@ -18,13 +18,13 @@ import { Plus } from "lucide-react";
 import { Modals } from "../layouts/board/Modals";
 
 export function Board() {
+  const { setModal } = useModalStore();
+
   const { board } = useBoardStore();
 
   const { isDragging } = useDragStore();
 
   const { view } = useViewStore();
-
-  const { setModal } = useModalStore();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -70,13 +70,13 @@ export function Board() {
     { step: 350 },
   );
 
-  function handleOnDrag(e: DragEvent<HTMLDivElement>) {
+  const handleOnDrag = (e: DragEvent<HTMLDivElement>) => {
     dragAutoScrollCallback(e);
-  }
+  };
 
-  function handleOnClickAdd() {
+  const handleOnClickAdd = () => {
     setModal({ variant: "ColumnAdd" });
-  }
+  };
 
   return (
     <>

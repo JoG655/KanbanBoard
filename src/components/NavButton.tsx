@@ -10,9 +10,9 @@ export function NavButton({ to, ...rest }: NavButtonProps) {
 
   const location = useLocation();
 
-  function handleClick() {
+  const handleClick = () => {
     navigate(to);
-  }
+  };
 
   return (
     <Button

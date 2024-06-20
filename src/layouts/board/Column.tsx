@@ -1,7 +1,7 @@
 import { type BoardColumnType } from "../../types/boardType.ts";
+import { useModalStore } from "../../stores/modalStore.ts";
 import { useBoardStore } from "../../stores/boardStore.ts";
 import { useDragStore } from "../../stores/dragStore.ts";
-import { useModalStore } from "../../stores/modalStore.ts";
 import { useViewStore } from "../../stores/viewStore.ts";
 import { type DragEvent, useRef, Fragment } from "react";
 import { useDragAutoScroll } from "../../hooks/useDragAutoScroll.ts";
@@ -22,14 +22,14 @@ export const Column = ({
   tasks,
   columnIndex,
 }: ColumnProps) => {
+  const { setModal } = useModalStore();
+
   const { deleteColumn } = useBoardStore();
 
   const { drag, setDrag, isDragging, isDragEnabled, setIsDragging } =
     useDragStore();
 
   const { view, setView } = useViewStore();
-
-  const { setModal } = useModalStore();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -39,37 +39,37 @@ export const Column = ({
     { step: 100 },
   );
 
-  function handleOnDrag(e: DragEvent<HTMLDivElement>) {
+  const handleOnDrag = (e: DragEvent<HTMLDivElement>) => {
     dragAutoScrollCallback(e);
-  }
+  };
 
-  function handleDragStart(e: DragEvent<HTMLDivElement>) {
+  const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
     setDrag({ variant: "column", columnId, columnIndex: columnIndex });
 
     setIsDragging(true);
-  }
+  };
 
-  function handleDragEnd() {
+  const handleDragEnd = () => {
     setIsDragging(false);
-  }
+  };
 
-  function handleOnClickEdit() {
+  const handleOnClickEdit = () => {
     setModal({ variant: "ColumnEdit", columnId, title, tasks });
-  }
+  };
 
-  function handleOnClickDelete() {
+  const handleOnClickDelete = () => {
     setView("columns");
 
     elementTransition(() => {
       deleteColumn(columnId);
     });
-  }
+  };
 
-  function handleOnClickAdd() {
+  const handleOnClickAdd = () => {
     setModal({ variant: "TaskAdd", columnId });
-  }
+  };
 
   return (
     <>

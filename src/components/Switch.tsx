@@ -48,17 +48,17 @@ export function Switch({
 
   const [isChecked, setIsChecked] = useState(defaultChecked);
 
-  function handleOnClickLabel(e: MouseEvent<HTMLLabelElement>) {
+  const handleOnClickLabel = (e: MouseEvent<HTMLLabelElement>) => {
     rippleCallback(e);
-  }
+  };
 
-  function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
       onChange(e);
     }
 
     setIsChecked(e.target.checked);
-  }
+  };
 
   return (
     <label

@@ -20,6 +20,10 @@ const DEFAULT_VALUES: BoardModalsAddColumnKeysType = {
 export function ModalsAddColumn() {
   const { modal, isOpen, setIsOpen } = useModalStore();
 
+  if (modal.variant !== "ColumnAdd") {
+    throw new Error("ModalsAddColumn must be used within a ColumnAdd variant");
+  }
+
   const { addColumn } = useBoardStore();
 
   const [errors, setErrors] = useState<BoardModalsAddColumnKeysType>({
@@ -32,13 +36,7 @@ export function ModalsAddColumn() {
     setErrors(DEFAULT_VALUES);
   }, [isOpen]);
 
-  function handleOnSubmit(e: FormEvent<HTMLFormElement>) {
-    if (modal.variant !== "ColumnAdd") {
-      throw new Error(
-        "ModalsAddColumn must be used within a ColumnAdd variant",
-      );
-    }
-
+  const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let isError = false;
@@ -67,21 +65,17 @@ export function ModalsAddColumn() {
     setIsOpen(false);
 
     target.reset();
-  }
+  };
 
-  function handleOnReset() {
+  const handleOnReset = () => {
     setErrors(DEFAULT_VALUES);
-  }
+  };
 
-  function handleOnChangeTitle() {
+  const handleOnChangeTitle = () => {
     setErrors((previousErrors) => {
       return { ...previousErrors, title: "" };
     });
-  }
-
-  if (modal.variant !== "ColumnAdd") {
-    throw new Error("ModalsAddColumn must be used within a ColumnAdd variant");
-  }
+  };
 
   return (
     <form

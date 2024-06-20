@@ -42,7 +42,7 @@ export function Modal({
     element.showModal();
   }, [isOpen]);
 
-  function handleOnMouseDown(e: MouseEvent<HTMLDialogElement>) {
+  const handleOnMouseDown = (e: MouseEvent<HTMLDialogElement>) => {
     if (onMouseDown) {
       onMouseDown(e);
     }
@@ -52,9 +52,9 @@ export function Modal({
     if (!element || e.target !== element) return;
 
     setIsOpen(false);
-  }
+  };
 
-  function handleOnTouchStart(e: TouchEvent<HTMLDialogElement>) {
+  const handleOnTouchStart = (e: TouchEvent<HTMLDialogElement>) => {
     if (onTouchStart) {
       onTouchStart(e);
     }
@@ -64,9 +64,9 @@ export function Modal({
     if (!element || e.target !== element) return;
 
     setIsOpen(false);
-  }
+  };
 
-  function handleOnCancel(e: SyntheticEvent<HTMLDialogElement, Event>) {
+  const handleOnCancel = (e: SyntheticEvent<HTMLDialogElement, Event>) => {
     if (onCancel) {
       onCancel(e);
     }
@@ -76,7 +76,7 @@ export function Modal({
     if (!element || e.target !== element) return;
 
     setIsOpen(false);
-  }
+  };
 
   const root = document.querySelector("#root");
 

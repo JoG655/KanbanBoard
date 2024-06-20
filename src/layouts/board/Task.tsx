@@ -1,8 +1,8 @@
 import { type BoardTaskType } from "../../types/boardType";
+import { useModalStore } from "../../stores/modalStore";
 import { useBoardStore } from "../../stores/boardStore";
 import { useDragStore } from "../../stores/dragStore";
 import { useViewStore } from "../../stores/viewStore";
-import { useModalStore } from "../../stores/modalStore";
 import { type DragEvent } from "react";
 import { elementTransition } from "../../utils/elementTransition";
 import { twMerge } from "tailwind-merge";
@@ -15,8 +15,8 @@ type TaskProps = BoardTaskType & {
 };
 
 export function Task({
-  taskId,
   columnId,
+  taskId,
   title,
   description,
   priority,
@@ -24,6 +24,8 @@ export function Task({
   columnIndex,
   taskIndex,
 }: TaskProps) {
+  const { setModal } = useModalStore();
+
   const { deleteTask } = useBoardStore();
 
   const { isDragEnabled, drag, setDrag, isDragging, setIsDragging } =
@@ -31,13 +33,11 @@ export function Task({
 
   const { view, setView } = useViewStore();
 
-  const { setModal } = useModalStore();
-
   const subtasksCompleted = subtasks.filter(
     (subtask) => subtask.isCompleted,
   ).length;
 
-  function handleDragStart(e: DragEvent<HTMLDivElement>) {
+  const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
     setDrag({
@@ -49,13 +49,13 @@ export function Task({
     });
 
     setIsDragging(true);
-  }
+  };
 
-  function handleDragEnd() {
+  const handleDragEnd = () => {
     setIsDragging(false);
-  }
+  };
 
-  function handleOnClickView() {
+  const handleOnClickView = () => {
     setModal({
       variant: "TaskView",
       taskId,
@@ -65,9 +65,9 @@ export function Task({
       priority,
       subtasks,
     });
-  }
+  };
 
-  function handleOnClickEdit() {
+  const handleOnClickEdit = () => {
     setModal({
       variant: "TaskEdit",
       taskId,
@@ -77,15 +77,15 @@ export function Task({
       priority,
       subtasks,
     });
-  }
+  };
 
-  function handleOnClickDelete() {
+  const handleOnClickDelete = () => {
     setView("tasks");
 
     elementTransition(() => {
       deleteTask(columnId, taskId);
     });
-  }
+  };
 
   return (
     <div

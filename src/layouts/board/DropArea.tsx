@@ -34,20 +34,20 @@ export const DropArea = ({
 
   const [isVisible, setIsVisible] = useState(false);
 
-  function handleDragEnter(e: DragEvent<HTMLDivElement>) {
+  const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
     if (!validateDrag(variant, columnIndex, taskIndex, isDragEnabled, drag))
       return;
 
     e.preventDefault();
 
     setIsVisible(true);
-  }
+  };
 
-  function handleDragLeave() {
+  const handleDragLeave = () => {
     setIsVisible(false);
-  }
+  };
 
-  function handleDrop(e: DragEvent<HTMLDivElement>) {
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     if (!validateDrag(variant, columnIndex, taskIndex, isDragEnabled, drag)) {
       e.preventDefault();
 
@@ -75,14 +75,14 @@ export const DropArea = ({
         moveTask(drag.columnId, drag.taskId, columnIndex, taskIndex);
       }
     });
-  }
+  };
 
-  function handleDragOver(e: DragEvent<HTMLDivElement>) {
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     if (!validateDrag(variant, columnIndex, taskIndex, isDragEnabled, drag))
       return;
 
     e.preventDefault();
-  }
+  };
 
   return (
     <div

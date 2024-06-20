@@ -24,7 +24,7 @@ export type PopupProps = Omit<
 export function Popup({ className, children, ...rest }: PopupProps) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  function handleClickEvent(e: MouseEvent) {
+  const handleClickEvent = (e: MouseEvent) => {
     const element = ref.current;
 
     if (!element) return;
@@ -39,7 +39,7 @@ export function Popup({ className, children, ...rest }: PopupProps) {
       return;
 
     setIsPopupOpen(false);
-  }
+  };
 
   const ref = useRef<HTMLDivElement>(null);
 

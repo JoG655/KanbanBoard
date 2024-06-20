@@ -33,9 +33,9 @@ export function Select({
 
   const rippleCallback = useRipple<HTMLDivElement>(ripple && !disabled, ref);
 
-  function handleOnClickLabel(e: MouseEvent<HTMLLabelElement>) {
+  const handleOnClickLabel = (e: MouseEvent<HTMLLabelElement>) => {
     rippleCallback(e);
-  }
+  };
 
   return (
     <label

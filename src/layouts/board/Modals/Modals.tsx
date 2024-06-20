@@ -61,7 +61,7 @@ export function Modals() {
       break;
   }
 
-  function handleOnClickDelete() {
+  const handleOnClickDelete = () => {
     switch (modal.variant) {
       case "ColumnEdit":
         deleteColumn(modal.columnId);
@@ -77,11 +77,11 @@ export function Modals() {
     }
 
     setIsOpen(false);
-  }
+  };
 
-  function handleOnClickClose() {
+  const handleOnClickClose = () => {
     setIsOpen(false);
-  }
+  };
 
   return (
     <Modal uuid="modals" isOpen={isOpen} setIsOpen={setIsOpen}>

@@ -51,4 +51,5 @@ export type BoardModalsKeysType = {
   title: string;
   description: string;
   priority: string;
+  subtasks: string[];
 };
