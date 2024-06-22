@@ -10,12 +10,12 @@ import { getUUID } from "../utils/getUUID";
 
 export const BOARD_STORE_KEY = "board";
 
-function getColumnIndex(id: string) {
+function getColumnCoordinates(id: string) {
   const board = useBoardStore.getState().board;
 
-  const columnIndex = board.findIndex((column) => column.id === id);
+  const matchedColumnIndex = board.findIndex((column) => column.id === id);
 
-  if (columnIndex === -1) {
+  if (matchedColumnIndex === -1) {
     console.warn("Column not found");
 
     return {
@@ -24,25 +24,25 @@ function getColumnIndex(id: string) {
     };
   }
 
-  return { valid: true, columnIndex };
+  return { valid: true, columnIndex: matchedColumnIndex };
 }
 
-function getTaskIndex(id: string) {
+function getTaskCoordinates(id: string) {
   const board = useBoardStore.getState().board;
 
-  let taskIndex = -1;
+  let matchedTaskIndex = -1;
 
-  const columnIndex = board.findIndex((column) =>
+  const matchedColumnIndex = board.findIndex((column) =>
     column.tasks.some((task, index) => {
       if (task.id === id) {
-        taskIndex = index;
+        matchedTaskIndex = index;
       }
 
       return task.id === id;
     }),
   );
 
-  if (columnIndex === -1 || taskIndex === -1) {
+  if (matchedColumnIndex === -1 || matchedTaskIndex === -1) {
     console.warn("Task not found");
 
     return {
@@ -52,7 +52,53 @@ function getTaskIndex(id: string) {
     };
   }
 
-  return { valid: true, columnIndex, taskIndex };
+  return {
+    valid: true,
+    columnIndex: matchedColumnIndex,
+    taskIndex: matchedTaskIndex,
+  };
+}
+
+function getSubtaskCoordinates(id: string) {
+  const board = useBoardStore.getState().board;
+
+  let matchedTaskIndex = -1;
+  let matchedSubtaskIndex = -1;
+
+  const matchedColumnIndex = board.findIndex((column) =>
+    column.tasks.some((task, taskIndex) => {
+      return task.subtasks.some((subtask, subtaskIndex) => {
+        if (subtask.id === id) {
+          matchedTaskIndex = taskIndex;
+          matchedSubtaskIndex = subtaskIndex;
+        }
+
+        return subtask.id === id;
+      });
+    }),
+  );
+
+  if (
+    matchedColumnIndex === -1 ||
+    matchedTaskIndex === -1 ||
+    matchedSubtaskIndex === -1
+  ) {
+    console.warn("Subtask not found");
+
+    return {
+      valid: false,
+      columnIndex: -1,
+      taskIndex: -1,
+      subtaskIndex: -1,
+    };
+  }
+
+  return {
+    valid: true,
+    columnIndex: matchedColumnIndex,
+    taskIndex: matchedTaskIndex,
+    subtaskIndex: matchedSubtaskIndex,
+  };
 }
 
 type BoardStoreProps = {
@@ -72,7 +118,7 @@ type BoardStoreProps = {
     destinationTaskIndex: number,
   ) => void;
 
-  toggleSubtask: (id: string, subtaskIndex: number) => void;
+  toggleSubtask: (id: string) => void;
 };
 
 export const useBoardStore = create<BoardStoreProps>()(
@@ -86,7 +132,7 @@ export const useBoardStore = create<BoardStoreProps>()(
         }),
       editColumn: (id, data) =>
         set((state) => {
-          const { valid, columnIndex } = getColumnIndex(id);
+          const { valid, columnIndex } = getColumnCoordinates(id);
 
           if (!valid) return;
 
@@ -94,7 +140,7 @@ export const useBoardStore = create<BoardStoreProps>()(
         }),
       deleteColumn: (id) =>
         set((state) => {
-          const { valid, columnIndex } = getColumnIndex(id);
+          const { valid, columnIndex } = getColumnCoordinates(id);
 
           if (!valid) return;
 
@@ -102,7 +148,7 @@ export const useBoardStore = create<BoardStoreProps>()(
         }),
       moveColumn: (id, destinationColumnIndex) =>
         set((state) => {
-          const { valid, columnIndex } = getColumnIndex(id);
+          const { valid, columnIndex } = getColumnCoordinates(id);
 
           if (!valid) return;
 
@@ -117,7 +163,7 @@ export const useBoardStore = create<BoardStoreProps>()(
 
       addTask: (id, data) =>
         set((state) => {
-          const { valid, columnIndex } = getColumnIndex(id);
+          const { valid, columnIndex } = getColumnCoordinates(id);
 
           if (!valid) return;
 
@@ -128,7 +174,7 @@ export const useBoardStore = create<BoardStoreProps>()(
         }),
       editTask: (id, data) =>
         set((state) => {
-          const { valid, columnIndex, taskIndex } = getTaskIndex(id);
+          const { valid, columnIndex, taskIndex } = getTaskCoordinates(id);
 
           if (!valid) return;
 
@@ -139,7 +185,7 @@ export const useBoardStore = create<BoardStoreProps>()(
         }),
       deleteTask: (id) =>
         set((state) => {
-          const { valid, columnIndex, taskIndex } = getTaskIndex(id);
+          const { valid, columnIndex, taskIndex } = getTaskCoordinates(id);
 
           if (!valid) return;
 
@@ -147,7 +193,7 @@ export const useBoardStore = create<BoardStoreProps>()(
         }),
       moveTask: (id, destinationColumnIndex, destinationTaskIndex) =>
         set((state) => {
-          const { valid, columnIndex, taskIndex } = getTaskIndex(id);
+          const { valid, columnIndex, taskIndex } = getTaskCoordinates(id);
 
           if (!valid) return;
 
@@ -162,9 +208,10 @@ export const useBoardStore = create<BoardStoreProps>()(
           );
         }),
 
-      toggleSubtask: (id, subtaskIndex) =>
+      toggleSubtask: (id) =>
         set((state) => {
-          const { valid, columnIndex, taskIndex } = getTaskIndex(id);
+          const { valid, columnIndex, taskIndex, subtaskIndex } =
+            getSubtaskCoordinates(id);
 
           if (!valid) return;
 

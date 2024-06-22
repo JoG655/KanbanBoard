@@ -2,6 +2,8 @@ import { getUUID } from "./getUUID";
 import { type BoardType } from "../types/boardType";
 import { useBoardStore } from "../stores/boardStore";
 
+const TIMESTAMP = Date.now();
+
 const BOARD_STORE_DUMMY_DATA: BoardType = [
   {
     id: getUUID(),
@@ -12,6 +14,7 @@ const BOARD_STORE_DUMMY_DATA: BoardType = [
         title: "Throw the trash",
         description: "The trash can is very far away",
         priority: "Low",
+        createdDate: TIMESTAMP,
         subtasks: [
           {
             id: getUUID(),
@@ -40,6 +43,7 @@ const BOARD_STORE_DUMMY_DATA: BoardType = [
         title: "Walk the dog",
         description: "The dog is very old",
         priority: "Low",
+        createdDate: TIMESTAMP,
         subtasks: [
           {
             id: getUUID(),
@@ -75,6 +79,8 @@ const BOARD_STORE_DUMMY_DATA: BoardType = [
         title: "Workout",
         description: "10",
         priority: "Low",
+        createdDate: TIMESTAMP,
+        dueDate: TIMESTAMP + 200000,
         subtasks: [
           {
             id: getUUID(),
@@ -103,6 +109,8 @@ const BOARD_STORE_DUMMY_DATA: BoardType = [
         title: "Walk the dog",
         description: "The dog is very old",
         priority: "Low",
+        createdDate: TIMESTAMP,
+        dueDate: TIMESTAMP + 400000,
         subtasks: [
           {
             id: getUUID(),

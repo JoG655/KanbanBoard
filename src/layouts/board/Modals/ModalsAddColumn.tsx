@@ -2,18 +2,26 @@ import { type BoardModalsKeysType } from "../../../types/boardType";
 import { useModalStore } from "../../../stores/modalStore";
 import { useBoardStore } from "../../../stores/boardStore";
 import { type FormEvent, useState, useEffect } from "react";
-import { Button } from "../../../components/Button";
 import { BookType, Check, RotateCcw } from "lucide-react";
 import { Input } from "../../../components/Input";
 import { ErrorDisplay } from "../../../components/ErrorDisplay";
+import { Button } from "../../../components/Button";
 
-type BoardModalsAddColumnKeysType = Pick<BoardModalsKeysType, "title">;
+type KeysType = Pick<BoardModalsKeysType, "title">;
 
-const NAMES: BoardModalsAddColumnKeysType = {
+const NAMES: KeysType = {
   title: "title",
 };
 
-const DEFAULT_VALUES: BoardModalsAddColumnKeysType = {
+const DEFAULT_VALUES: KeysType = {
+  title: "",
+};
+
+type ErrorsType = {
+  title: string;
+};
+
+const DEFAULT_ERRORS: ErrorsType = {
   title: "",
 };
 
@@ -26,14 +34,12 @@ export function ModalsAddColumn() {
 
   const { addColumn } = useBoardStore();
 
-  const [errors, setErrors] = useState<BoardModalsAddColumnKeysType>({
-    title: "",
-  });
+  const [errors, setErrors] = useState<ErrorsType>(DEFAULT_ERRORS);
 
   useEffect(() => {
     if (isOpen) return;
 
-    setErrors(DEFAULT_VALUES);
+    setErrors(DEFAULT_ERRORS);
   }, [isOpen]);
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -68,7 +74,7 @@ export function ModalsAddColumn() {
   };
 
   const handleOnReset = () => {
-    setErrors(DEFAULT_VALUES);
+    setErrors(DEFAULT_ERRORS);
   };
 
   const handleOnChangeTitle = () => {

@@ -3,9 +3,12 @@ import { useModalStore } from "../../stores/modalStore";
 import { useBoardStore } from "../../stores/boardStore";
 import { useDragStore } from "../../stores/dragStore";
 import { useViewStore } from "../../stores/viewStore";
+import useCurrentTime from "../../hooks/useCurrentTime";
 import { type DragEvent } from "react";
 import { elementTransition } from "../../utils/elementTransition";
 import { twMerge } from "tailwind-merge";
+import { Notification } from "../../components/Notification";
+import { dateMilisecondsToString } from "../../utils/convertDate";
 import { Button } from "../../components/Button";
 import { Edit, List, Trash } from "lucide-react";
 
@@ -20,6 +23,8 @@ export function Task({
   description,
   priority,
   subtasks,
+  createdDate,
+  dueDate,
   columnIndex,
   taskIndex,
 }: TaskProps) {
@@ -31,6 +36,8 @@ export function Task({
     useDragStore();
 
   const { view, setView } = useViewStore();
+
+  const currentTime = useCurrentTime();
 
   const subtasksCompleted = subtasks.filter(
     (subtask) => subtask.isCompleted,
@@ -60,6 +67,8 @@ export function Task({
       title,
       description,
       priority,
+      createdDate,
+      dueDate,
       subtasks,
     });
   };
@@ -71,6 +80,8 @@ export function Task({
       title,
       description,
       priority,
+      createdDate,
+      dueDate,
       subtasks,
     });
   };
@@ -101,9 +112,21 @@ export function Task({
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <h4 className="overflow-hidden text-balance break-words text-base">
-        {title}
-      </h4>
+      <div className="flex justify-between">
+        <h4 className="overflow-hidden text-balance break-words text-base">
+          {title}
+        </h4>
+        {dueDate ? (
+          <Notification
+            className="shrink-0"
+            text={dueDate <= currentTime ? "!" : null}
+          >
+            <h2 className="px-2">
+              {dateMilisecondsToString(dueDate, "short")}
+            </h2>
+          </Notification>
+        ) : null}
+      </div>
       <div className="flex items-baseline justify-between">
         <p className="text-sm">
           {subtasks.length

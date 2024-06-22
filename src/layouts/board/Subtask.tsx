@@ -1,38 +1,30 @@
-import { type BoardSubtaskDataType } from "../../types/boardType";
+import { type BoardSubtaskType } from "../../types/boardType";
 import { useBoardStore } from "../../stores/boardStore";
 import { Button } from "../../components/Button";
 import { twMerge } from "tailwind-merge";
 import { useState } from "react";
 
-type SubtaskProps = BoardSubtaskDataType & {
-  taskId: string;
-  subtaskIndex: number;
-};
+type SubtaskProps = BoardSubtaskType;
 
-export function Subtask({
-  title,
-  isCompleted,
-  taskId,
-  subtaskIndex,
-}: SubtaskProps) {
+export function Subtask({ id, title, isCompleted }: SubtaskProps) {
   const { toggleSubtask } = useBoardStore();
 
-  const [isInternalCompleted, setIsInternalCompleted] = useState(isCompleted);
+  const [isCompletedInternal, setIsCompletedInternal] = useState(isCompleted);
 
   const handleOnClick = () => {
-    setIsInternalCompleted((previousIsInternalCompleted) => {
-      return !previousIsInternalCompleted;
+    setIsCompletedInternal((previousIsCompletedInternal) => {
+      return !previousIsCompletedInternal;
     });
 
-    toggleSubtask(taskId, subtaskIndex);
+    toggleSubtask(id);
   };
 
   return (
     <Button
-      styleVariant={isInternalCompleted ? "secondary" : "primary"}
+      styleVariant={isCompletedInternal ? "secondary" : "primary"}
       className={twMerge(
         "snap-start",
-        isInternalCompleted ? "line-through" : null,
+        isCompletedInternal ? "line-through" : null,
       )}
       onClick={handleOnClick}
     >

@@ -145,6 +145,7 @@ export function Search({
         >
           <Input
             styleStack={true}
+            type="search"
             name={NAMES.title}
             defaultValue={DEFAULT_VALUES.title}
             onChange={handleOnChange}
@@ -153,6 +154,7 @@ export function Search({
           </Input>
           <Input
             styleStack={true}
+            type="search"
             name={NAMES.description}
             defaultValue={DEFAULT_VALUES.description}
             onChange={handleOnChange}

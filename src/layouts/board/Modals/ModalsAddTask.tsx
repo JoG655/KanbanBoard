@@ -12,14 +12,15 @@ import {
   useEffect,
   Fragment,
 } from "react";
+import { dateISOToMiliseconds } from "../../../utils/convertDate";
 import { getUUID } from "../../../utils/getUUID";
-import { Button } from "../../../components/Button";
 import {
   BookType,
   NotebookText,
   ListOrdered,
+  CalendarCheck,
   CopyMinus,
-  X,
+  Trash,
   Plus,
   Check,
   RotateCcw,
@@ -28,24 +29,26 @@ import { Input } from "../../../components/Input";
 import { ErrorDisplay } from "../../../components/ErrorDisplay";
 import { TextArea } from "../../../components/TextArea";
 import { Select } from "../../../components/Select";
+import { Button } from "../../../components/Button";
 
-type BoardModalsAddTaskKeysType = Pick<
+type KeysType = Pick<
   BoardModalsKeysType,
-  "title" | "description" | "priority" | "subtasks"
+  "title" | "description" | "priority" | "dueDate" | "subtasks"
 >;
 
-const NAMES: BoardModalsAddTaskKeysType = {
+const NAMES: Omit<KeysType, "subtasks"> = {
   title: "title",
   description: "description",
   priority: "priority",
-  subtasks: [],
+  dueDate: "dueDate",
 };
 
-const DEFAULT_VALUES: BoardModalsAddTaskKeysType = {
+const DEFAULT_VALUES: KeysType = {
   title: "",
   description: "",
   priority: "Very low",
-  subtasks: [],
+  dueDate: "",
+  subtasks: "",
 };
 
 const PRIORITY_OPTIONS: Record<BoardTaskDataPriorityType, string> = {
@@ -54,6 +57,16 @@ const PRIORITY_OPTIONS: Record<BoardTaskDataPriorityType, string> = {
   Medium: "Medium",
   High: "High",
   "Very high": "Very high",
+};
+
+type ErrorsType = {
+  title: string;
+  subtasks: string[];
+};
+
+const DEFAULT_ERRORS: ErrorsType = {
+  title: "",
+  subtasks: [],
 };
 
 export function ModalsAddTask() {
@@ -67,17 +80,15 @@ export function ModalsAddTask() {
 
   const [subtasks, setSubtasks] = useState<BoardSubtaskType[]>([]);
 
-  const [errors, setErrors] = useState<BoardModalsAddTaskKeysType>({
+  const [errors, setErrors] = useState<ErrorsType>({
     title: "",
-    description: "",
-    priority: "",
     subtasks: new Array(subtasks.length).fill(""),
   });
 
   useEffect(() => {
     if (isOpen) return;
 
-    setErrors(DEFAULT_VALUES);
+    setErrors(DEFAULT_ERRORS);
   }, [isOpen]);
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -103,6 +114,8 @@ export function ModalsAddTask() {
 
     const priority = formData.get(NAMES.priority)?.toString().trim();
 
+    const dueDate = formData.get(NAMES.dueDate)?.toString().trim();
+
     subtasks.forEach((subtask, index) => {
       if (!subtask.title) {
         setErrors((previousErrors) => {
@@ -127,6 +140,8 @@ export function ModalsAddTask() {
       description: description ?? DEFAULT_VALUES.description,
       priority: (priority ??
         DEFAULT_VALUES.priority) as BoardTaskDataPriorityType,
+      createdDate: Date.now(),
+      dueDate: dueDate ? dateISOToMiliseconds(dueDate) : undefined,
       subtasks,
     });
 
@@ -136,7 +151,7 @@ export function ModalsAddTask() {
   };
 
   const handleOnReset = () => {
-    setErrors(DEFAULT_VALUES);
+    setErrors(DEFAULT_ERRORS);
   };
 
   const handleOnChangeTitle = () => {
@@ -232,6 +247,14 @@ export function ModalsAddTask() {
       >
         <ListOrdered />
       </Select>
+      <Input
+        type="datetime-local"
+        name={NAMES.dueDate}
+        placeholder="Due Date"
+        defaultValue={DEFAULT_VALUES.dueDate}
+      >
+        <CalendarCheck />
+      </Input>
       <div className="flex">
         <CopyMinus className="mt-4" />
         <div className="flex max-h-[45dvh] grow snap-y snap-mandatory snap-center flex-col overflow-auto overscroll-contain scroll-smooth px-3">
@@ -239,9 +262,8 @@ export function ModalsAddTask() {
             <Fragment key={subtask.id}>
               <div className="flex snap-start justify-between">
                 <Input
-                  name={[NAMES.subtasks, index].join("-")}
                   placeholder="Subtask"
-                  defaultValue={subtask.title}
+                  defaultValue={DEFAULT_VALUES.subtasks}
                   onChange={(e) => handleOnChangeSubtaskTitle(e, index)}
                 />
                 <Button
@@ -250,7 +272,7 @@ export function ModalsAddTask() {
                   type="button"
                   onClick={() => handleOnClickDelete(index)}
                 >
-                  <X />
+                  <Trash className="text-red-600" />
                 </Button>
               </div>
               <ErrorDisplay error={errors.subtasks[index]} />

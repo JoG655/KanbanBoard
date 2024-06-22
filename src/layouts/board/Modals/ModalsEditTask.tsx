@@ -5,6 +5,7 @@ import {
 } from "../../../types/boardType";
 import { useModalStore } from "../../../stores/modalStore";
 import { useBoardStore } from "../../../stores/boardStore";
+import useCurrentTime from "../../../hooks/useCurrentTime";
 import {
   type FormEvent,
   type ChangeEvent,
@@ -12,14 +13,18 @@ import {
   useEffect,
   Fragment,
 } from "react";
+import {
+  dateISOToMiliseconds,
+  dateMilisecondsToISO,
+} from "../../../utils/convertDate";
 import { getUUID } from "../../../utils/getUUID";
-import { Button } from "../../../components/Button";
 import {
   BookType,
   NotebookText,
   ListOrdered,
+  CalendarCheck,
   CopyMinus,
-  X,
+  Trash,
   Plus,
   Check,
   RotateCcw,
@@ -28,24 +33,19 @@ import { Input } from "../../../components/Input";
 import { ErrorDisplay } from "../../../components/ErrorDisplay";
 import { TextArea } from "../../../components/TextArea";
 import { Select } from "../../../components/Select";
+import { Notification } from "../../../components/Notification";
+import { Button } from "../../../components/Button";
 
-type BoardModalsEditTaskKeysType = Pick<
+type KeysType = Pick<
   BoardModalsKeysType,
-  "title" | "description" | "priority" | "subtasks"
+  "title" | "description" | "priority" | "dueDate" | "subtasks"
 >;
 
-const NAMES: BoardModalsEditTaskKeysType = {
+const NAMES: Omit<KeysType, "subtasks"> = {
   title: "title",
   description: "description",
   priority: "priority",
-  subtasks: [],
-};
-
-const DEFAULT_VALUES: BoardModalsEditTaskKeysType = {
-  title: "",
-  description: "",
-  priority: "Very low",
-  subtasks: [],
+  dueDate: "dueDate",
 };
 
 const PRIORITY_OPTIONS: Record<BoardTaskDataPriorityType, string> = {
@@ -54,6 +54,16 @@ const PRIORITY_OPTIONS: Record<BoardTaskDataPriorityType, string> = {
   Medium: "Medium",
   High: "High",
   "Very high": "Very high",
+};
+
+type ErrorsType = {
+  title: string;
+  subtasks: string[];
+};
+
+const DEFAULT_ERRORS: ErrorsType = {
+  title: "",
+  subtasks: [],
 };
 
 export function ModalsEditTask() {
@@ -65,19 +75,19 @@ export function ModalsEditTask() {
 
   const { editTask } = useBoardStore();
 
+  const currentTime = useCurrentTime();
+
   const [subtasks, setSubtasks] = useState<BoardSubtaskType[]>(modal.subtasks);
 
-  const [errors, setErrors] = useState<BoardModalsEditTaskKeysType>({
+  const [errors, setErrors] = useState<ErrorsType>({
     title: "",
-    description: "",
-    priority: "",
     subtasks: new Array(subtasks.length).fill(""),
   });
 
   useEffect(() => {
     if (isOpen) return;
 
-    setErrors(DEFAULT_VALUES);
+    setErrors(DEFAULT_ERRORS);
   }, [isOpen]);
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -103,6 +113,8 @@ export function ModalsEditTask() {
 
     const priority = formData.get(NAMES.priority)?.toString().trim();
 
+    const dueDate = formData.get(NAMES.dueDate)?.toString().trim();
+
     subtasks.forEach((subtask, index) => {
       if (!subtask.title) {
         setErrors((previousErrors) => {
@@ -123,10 +135,11 @@ export function ModalsEditTask() {
     if (isError) return;
 
     editTask(modal.id, {
-      title: title ?? DEFAULT_VALUES.title,
-      description: description ?? DEFAULT_VALUES.description,
-      priority: (priority ??
-        DEFAULT_VALUES.priority) as BoardTaskDataPriorityType,
+      title: title ?? modal.title,
+      description: description ?? modal.description,
+      priority: (priority ?? modal.priority) as BoardTaskDataPriorityType,
+      createdDate: modal.createdDate,
+      dueDate: dueDate ? dateISOToMiliseconds(dueDate) : undefined,
       subtasks,
     });
 
@@ -136,7 +149,7 @@ export function ModalsEditTask() {
   };
 
   const handleOnReset = () => {
-    setErrors(DEFAULT_VALUES);
+    setErrors(DEFAULT_ERRORS);
   };
 
   const handleOnChangeTitle = () => {
@@ -232,6 +245,20 @@ export function ModalsEditTask() {
       >
         <ListOrdered />
       </Select>
+      <Input
+        type="datetime-local"
+        name={NAMES.dueDate}
+        placeholder="Due Date"
+        defaultValue={dateMilisecondsToISO(modal.dueDate)}
+      >
+        {modal.dueDate ? (
+          <Notification text={modal.dueDate <= currentTime ? "!" : null}>
+            <CalendarCheck />
+          </Notification>
+        ) : (
+          <CalendarCheck />
+        )}
+      </Input>
       <div className="flex">
         <CopyMinus className="mt-4" />
         <div className="flex max-h-[45dvh] grow snap-y snap-mandatory snap-center flex-col overflow-auto overscroll-contain scroll-smooth px-3">
@@ -239,7 +266,6 @@ export function ModalsEditTask() {
             <Fragment key={subtask.id}>
               <div className="flex snap-start justify-between">
                 <Input
-                  name={[NAMES.subtasks, index].join("-")}
                   placeholder="Subtask"
                   defaultValue={subtask.title}
                   onChange={(e) => handleOnChangeSubtaskTitle(e, index)}
@@ -250,7 +276,7 @@ export function ModalsEditTask() {
                   type="button"
                   onClick={() => handleOnClickDelete(index)}
                 >
-                  <X />
+                  <Trash className="text-red-600" />
                 </Button>
               </div>
               <ErrorDisplay error={errors.subtasks[index]} />

@@ -18,6 +18,8 @@ export type BoardTaskDataType = {
   title: string;
   description: string;
   priority: BoardTaskDataPriorityType;
+  createdDate: number;
+  dueDate?: number;
   subtasks: BoardSubtaskType[];
 };
 
@@ -44,9 +46,7 @@ export type BoardSearchKeysType = {
 
 export type BoardIsSearchActiveType = boolean;
 
-export type BoardModalsKeysType = {
-  title: string;
-  description: string;
-  priority: string;
-  subtasks: string[];
-};
+export type BoardModalsKeysType = Record<
+  keyof BoardColumnDataType | keyof BoardTaskDataType,
+  string
+>;
