@@ -67,83 +67,81 @@ export const Column = ({ id, title, tasks, columnIndex }: ColumnProps) => {
   };
 
   return (
-    <>
-      <div
-        className={twMerge(
-          "flex w-80 flex-shrink-0 flex-col gap-1 rounded-lg bg-primary-200 sm:w-96 dark:bg-primary-700",
-          isDragEnabled ? "cursor-grab" : null,
-          isDragEnabled &&
-            isDragging &&
-            drag.variant === "column" &&
-            drag.id === id
-            ? "animate-pulse"
-            : null,
-        )}
-        style={
-          view === "columns&tasks" || view === "columns"
-            ? { viewTransitionName: `Column-${id}` }
-            : {}
-        }
-        draggable={isDragEnabled}
-        onDrag={handleOnDrag}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <div className="flex items-baseline justify-between px-3">
-          <h2 className="overflow-hidden text-balance break-words text-xl">{`${title} (${tasks.length})`}</h2>
-          <div className="flex items-center">
-            <Button
-              styleVariant={"outline"}
-              styleSize={"sm"}
-              styleType={"icon"}
-              onClick={handleOnClickEdit}
-            >
-              <Edit />
-            </Button>
-            <Button
-              styleVariant={"outline"}
-              styleSize={"sm"}
-              styleType={"icon"}
-              onClick={handleOnClickDelete}
-            >
-              <Trash className="text-red-600" />
-            </Button>
-          </div>
-        </div>
-        <div
-          ref={ref}
-          className={twMerge(
-            "flex max-h-[70dvh] min-h-48 snap-center flex-col overflow-auto overscroll-contain scroll-smooth px-3",
-            !isDragging ? "snap-y snap-mandatory" : null,
-          )}
-        >
-          <DropArea variant="task" columnIndex={columnIndex} taskIndex={0} />
-          {tasks.map((task, index) => (
-            <Fragment key={task.id}>
-              <Task {...task} columnIndex={columnIndex} taskIndex={index} />
-              <DropArea
-                variant="task"
-                columnIndex={columnIndex}
-                taskIndex={index + 1}
-              />
-            </Fragment>
-          ))}
+    <div
+      className={twMerge(
+        "flex w-80 flex-shrink-0 flex-col gap-1 rounded-lg bg-primary-200 sm:w-96 dark:bg-primary-700",
+        isDragEnabled ? "cursor-grab" : null,
+        isDragEnabled &&
+          isDragging &&
+          drag.variant === "column" &&
+          drag.id === id
+          ? "animate-pulse"
+          : null,
+      )}
+      style={
+        view === "columns&tasks" || view === "columns"
+          ? { viewTransitionName: `Column-${id}` }
+          : {}
+      }
+      draggable={isDragEnabled}
+      onDrag={handleOnDrag}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <div className="flex items-baseline justify-between px-3">
+        <h2 className="overflow-hidden text-balance break-words text-xl">{`${title} (${tasks.length})`}</h2>
+        <div className="flex items-center">
           <Button
             styleVariant={"outline"}
-            styleSize={"xl"}
-            className="snap-start"
-            onClick={handleOnClickAdd}
-            style={
-              view === "columns&tasks" || view === "tasks"
-                ? { viewTransitionName: `AddTask-${id}` }
-                : {}
-            }
+            styleSize={"sm"}
+            styleType={"icon"}
+            onClick={handleOnClickEdit}
           >
-            <Plus />
-            <span>Add Task</span>
+            <Edit />
+          </Button>
+          <Button
+            styleVariant={"outline"}
+            styleSize={"sm"}
+            styleType={"icon"}
+            onClick={handleOnClickDelete}
+          >
+            <Trash className="text-red-600" />
           </Button>
         </div>
       </div>
-    </>
+      <div
+        ref={ref}
+        className={twMerge(
+          "flex max-h-[70dvh] min-h-48 snap-center flex-col overflow-auto overscroll-contain scroll-smooth px-3",
+          !isDragging ? "snap-y snap-mandatory" : null,
+        )}
+      >
+        <DropArea variant="task" columnIndex={columnIndex} taskIndex={0} />
+        {tasks.map((task, index) => (
+          <Fragment key={task.id}>
+            <Task {...task} columnIndex={columnIndex} taskIndex={index} />
+            <DropArea
+              variant="task"
+              columnIndex={columnIndex}
+              taskIndex={index + 1}
+            />
+          </Fragment>
+        ))}
+        <Button
+          styleVariant={"outline"}
+          styleSize={"xl"}
+          className="snap-start"
+          onClick={handleOnClickAdd}
+          style={
+            view === "columns&tasks" || view === "tasks"
+              ? { viewTransitionName: `AddTask-${id}` }
+              : {}
+          }
+        >
+          <Plus />
+          <span>Add Task</span>
+        </Button>
+      </div>
+    </div>
   );
 };

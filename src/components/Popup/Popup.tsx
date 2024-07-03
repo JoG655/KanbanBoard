@@ -31,12 +31,9 @@ export function Popup({ className, children, ...rest }: PopupProps) {
 
     const target = e.target;
 
-    if (
-      !(target instanceof Node) ||
-      !target.isConnected ||
-      element.contains(target)
-    )
-      return;
+    if (!target) return;
+
+    if (element.contains(target as Node)) return;
 
     setIsPopupOpen(false);
   };
@@ -44,13 +41,9 @@ export function Popup({ className, children, ...rest }: PopupProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isPopupOpen) {
-      document.addEventListener("click", handleClickEvent);
+    if (!isPopupOpen) return;
 
-      return;
-    }
-
-    document.removeEventListener("click", handleClickEvent);
+    document.addEventListener("click", handleClickEvent);
 
     return () => {
       document.removeEventListener("click", handleClickEvent);

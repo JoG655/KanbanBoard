@@ -33,33 +33,31 @@ export function Navigation() {
   };
 
   return (
-    <>
-      <nav className="border-b-2 border-primary-700 bg-primary-200 p-1 text-primary-800 dark:border-primary-300 dark:bg-primary-700 dark:text-primary-50">
-        <ul className="flex list-none flex-wrap items-center justify-end">
-          <li>
-            <NavButton to="/">Board</NavButton>
-          </li>
-          <li>
-            <NavButton to="/bonus">Bonus</NavButton>
-          </li>
-          <li>
-            <Button styleVariant={"secondary"} onClick={handleOnClickReset}>
-              Reset
-            </Button>
-          </li>
-          <li>
-            <Switch
-              styleVariant={"secondary"}
-              styleSize={"xl"}
-              styleType={"icon"}
-              checkedIcon={<Moon />}
-              uncheckedIcon={<Sun />}
-              defaultChecked={theme === "dark"}
-              onChange={handleOnChangeTheme}
-            />
-          </li>
-        </ul>
-      </nav>
-    </>
+    <nav className="border-b-2 border-primary-700 bg-primary-200 p-1 text-primary-800 dark:border-primary-300 dark:bg-primary-700 dark:text-primary-50">
+      <ul className="flex list-none flex-wrap items-center justify-end">
+        <li>
+          <NavButton to="/">Board</NavButton>
+        </li>
+        <li>
+          <NavButton to="/bonus">Bonus</NavButton>
+        </li>
+        <li>
+          <Button styleVariant={"secondary"} onClick={handleOnClickReset}>
+            Reset
+          </Button>
+        </li>
+        <li>
+          <Switch
+            styleVariant={"secondary"}
+            styleSize={"xl"}
+            styleType={"icon"}
+            checkedIcon={<Moon />}
+            uncheckedIcon={<Sun />}
+            defaultChecked={theme === "dark"}
+            onChange={handleOnChangeTheme}
+          />
+        </li>
+      </ul>
+    </nav>
   );
 }
